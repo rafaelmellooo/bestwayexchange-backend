@@ -1,24 +1,11 @@
 const User = require('../models/User')
-const bcrypt = require('bcryptjs')
 // const jwt = require('jsonwebtoken')
 // const authConfig = require('../../config/auth')
 
 module.exports = {
   async register (req, res) {
-    // const { password, ...data } = req.body
-
-    // const hash = await bcrypt.hash(password, 10)
-
     try {
-      const user = await User.create({
-        name: 'Rafael de Mello e Sousa',
-        email: 'rafael@outlook.com',
-        password: 123,
-        token: 'n8904en44h5h4h945',
-        expirationDate: '2019-09-29 03:43:08',
-        dateOfBirth: '2001-07-15',
-        type: 1
-      })
+      const user = await User.create(req.body)
 
       return res.status(200).json(user)
     } catch (err) {
