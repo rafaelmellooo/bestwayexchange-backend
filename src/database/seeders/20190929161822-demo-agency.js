@@ -4,6 +4,7 @@ const faker = require('faker')
 const data = []
 for (let i = 0; i < 10; i++) {
   data.push({
+    id: i + 1,
     name: faker.company.companyName()
   })
 }

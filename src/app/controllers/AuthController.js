@@ -1,6 +1,7 @@
-const User = require('../models/User')
-// const jwt = require('jsonwebtoken')
-// const authConfig = require('../../config/auth')
+const { User } = require('../models')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const authConfig = require('../../config/auth')
 
 module.exports = {
   async register (req, res) {
@@ -13,29 +14,26 @@ module.exports = {
     }
   },
 
-  authenticate (req, res) {
-    // const { email, password } = req.body
+  async authenticate (req, res) {
+    const { email, password } = req.body
 
-    // mysql.query(
-    //   'SELECT cd_usuario, nm_senha FROM usuario WHERE nm_email = ?',
-    //   [email],
-    //   async (err, data) => {
-    //     if (err) return res.status(500).json(err)
+    const user = await User.findOne({
+      where: {
+        email
+      },
+      attributes: ['id', 'password']
+    })
 
-    //     if (data.length === 0) {
-    //       return res.status(400).json({ error: 'User not found' })
-    //     }
+    if (!user) return res.status(400).json({ error: 'E-mail inválido' })
 
-    //     if (!(await bcrypt.compare(password, data[0].nm_senha))) {
-    //       return res.status(400).json({ error: 'Invalid password' })
-    //     }
+    if (!(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ error: 'Senha inválida' })
+    }
 
-    //     const token = jwt.sign({ id: data[0].cd_usuario }, authConfig.secret, {
-    //       expiresIn: 86400
-    //     })
+    const token = jwt.sign({ id: user.id }, authConfig.secret, {
+      expiresIn: 86400
+    })
 
-    //     return res.json({ token })
-    //   }
-    // )
+    return res.status(200).json({ token })
   }
 }

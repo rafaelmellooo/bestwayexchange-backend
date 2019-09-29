@@ -1,5 +1,5 @@
 'use strict'
-const bcrypt = require('bcryptjs/hash')
+const bcrypt = require('bcryptjs')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -12,16 +12,27 @@ module.exports = (sequelize, DataTypes) => {
     isVerified: {
       type: DataTypes.BOOLEAN,
       defaultValue: 0
-    }
+    },
+    typeId: DataTypes.INTEGER,
+    agencyId: DataTypes.INTEGER
   }, {
+    timestamps: false,
     hooks: {
-      beforeCreate: user => {
-        user.password = bcrypt.hash(user.password, 10)
+      beforeCreate: async user => {
+        user.password = await bcrypt.hash(user.password, 10)
       }
     }
   })
   User.associate = models => {
-    // associations can be defined here
+    User.belongsTo(models.UserType, {
+      foreignKey: 'typeId',
+      as: 'type'
+    })
+
+    User.belongsTo(models.Agency, {
+      foreignKey: 'agencyId',
+      as: 'agency'
+    })
   }
 
   return User

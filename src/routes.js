@@ -11,8 +11,8 @@ const routes = express.Router()
 routes.post('/auth/register', AuthController.register)
 routes.post('/auth/authenticate', AuthController.authenticate)
 
-routes.use(AuthMiddleware)
 routes.get('/users', UserController.index)
+routes.use(AuthMiddleware)
 routes.get('/users/:id', UserController.show)
 
 module.exports = routes

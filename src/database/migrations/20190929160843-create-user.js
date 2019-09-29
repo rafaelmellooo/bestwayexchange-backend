@@ -34,14 +34,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATEONLY
       },
-      type: {
+      typeId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'usertypes',
           key: 'id'
         }
       },
-      agency: {
+      agencyId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'agencies',
