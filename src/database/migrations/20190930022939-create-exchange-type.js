@@ -1,7 +1,7 @@
 'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Agencies', {
+    return queryInterface.createTable('ExchangeTypes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,10 +11,14 @@ module.exports = {
       name: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      description: {
+        allowNull: false,
+        type: Sequelize.TEXT
       }
     })
   },
   down: queryInterface => {
-    return queryInterface.dropTable('Agencies')
+    return queryInterface.dropTable('ExchangeTypes')
   }
 }
