@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: false
   })
   Exchange.associate = models => {
-    // associations can be defined here
+    Exchange.belongsToMany(models.User, {
+      through: models.Favorite,
+      as: 'users',
+      foreignKey: 'exchangeId'
+    })
   }
   return Exchange
 }

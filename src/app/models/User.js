@@ -33,6 +33,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'agencyId',
       as: 'agency'
     })
+
+    User.belongsToMany(models.Exchange, {
+      through: models.Favorite,
+      as: 'exchanges',
+      foreignKey: 'userId'
+    })
   }
 
   return User

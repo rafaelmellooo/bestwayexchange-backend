@@ -7,7 +7,15 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: false
   })
   Favorite.associate = models => {
-    // associations can be defined here
+    Favorite.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'users'
+    })
+
+    Favorite.belongsTo(models.Exchange, {
+      foreignKey: 'exchangeId',
+      as: 'exchanges'
+    })
   }
   return Favorite
 }
