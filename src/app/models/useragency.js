@@ -1,14 +1,12 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
-  const GradeAgency = sequelize.define('GradeAgency', {
+  const UserAgency = sequelize.define('UserAgency', {
     gradeId: DataTypes.INTEGER,
     agencyId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
-  }, {
-    updatedAt: false
-  })
-  GradeAgency.associate = models => {
+  }, {})
+  UserAgency.associate = models => {
     // associations can be defined here
   }
-  return GradeAgency
+  return UserAgency
 }

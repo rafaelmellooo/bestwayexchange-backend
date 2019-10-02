@@ -1,22 +1,7 @@
 'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('GradeAgencies', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      gradeId: {
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'grades',
-          key: 'id'
-        }
-      },
+    return queryInterface.createTable('UserAgencies', {
       agencyId: {
         allowNull: false,
         primaryKey: true,
@@ -27,9 +12,18 @@ module.exports = {
         }
       },
       userId: {
+        allowNull: false,
+        primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
+          key: 'id'
+        }
+      },
+      gradeId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'grades',
           key: 'id'
         }
       },
@@ -40,6 +34,6 @@ module.exports = {
     })
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('GradeAgencies')
+    return queryInterface.dropTable('UserAgencies')
   }
 }
