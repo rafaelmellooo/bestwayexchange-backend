@@ -28,6 +28,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       isVerified: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       dateOfBirth: {

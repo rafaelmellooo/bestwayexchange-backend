@@ -2,6 +2,8 @@ const { User } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../../config/auth')
+const crypto = require('crypto')
+const mailer = require('../../modules/mailer')
 
 module.exports = {
   async register (req, res) {
@@ -22,7 +24,7 @@ module.exports = {
       where: {
         email
       },
-      attributes: ['id', 'password']
+      attributes: ['id', 'password', 'isVerified']
     })
 
     if (!user) return res.status(400).json({ error: 'E-mail inválido' })
@@ -31,10 +33,42 @@ module.exports = {
       return res.status(400).json({ error: 'Senha inválida' })
     }
 
+    if (!user.isVerified) return res.status(401).json()
+
     const token = jwt.sign({ id: user.id }, authConfig.secret, {
       expiresIn: 86400
     })
 
     return res.status(200).json({ token })
+  },
+
+  async checkEmail (req, res) {
+    try {
+      const { email } = req.body
+
+      const token = crypto.randomBytes(20).toString('hex')
+
+      const expiresIn = new Date()
+      expiresIn.setHours(expiresIn.getHours() + 1)
+
+      await User.update({ token, expiresIn }, {
+        where: { email }
+      })
+
+      mailer.sendMail({
+        to: email,
+        from: 'rafaelmello0715@outlook.com',
+        template: 'auth/check_email',
+        context: { token }
+      }, (err) => {
+        console.log(err)
+        if (err) return res.status(400).json(err)
+
+        return res.status(200).json()
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(400).json(err)
+    }
   }
 }

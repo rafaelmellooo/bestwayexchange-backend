@@ -12,6 +12,7 @@ const routes = express.Router()
 // routes.post('/auth/register', multer(multerConfig).single('file'), AuthController.register)
 routes.post('/auth/register', AuthController.register)
 routes.post('/auth/authenticate', AuthController.authenticate)
+routes.post('/auth/check_email', AuthController.checkEmail)
 
 routes.use(AuthMiddleware)
 
