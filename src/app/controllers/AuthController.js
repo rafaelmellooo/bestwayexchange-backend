@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../../config/auth')
 const crypto = require('crypto')
-const mailer = require('../../modules/mailer')
+const mailer = require('../../services/mailer')
 
 module.exports = {
   async register (req, res) {
@@ -58,7 +58,7 @@ module.exports = {
       mailer.sendMail({
         to: email,
         from: 'rafaelmello0715@outlook.com',
-        template: 'auth/check_email',
+        template: 'check_email',
         context: { token }
       }, (err) => {
         console.log(err)
