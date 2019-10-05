@@ -10,7 +10,7 @@ module.exports = {
       let userId = Math.floor((Math.random() * 20) + 1)
 
       while (
-        useragencies.some(([agency, user]) => agency === agencyId && user === userId)
+        useragencies.some(([_agencyId, _userId]) => _agencyId === agencyId && _userId === userId)
       ) {
         agencyId = Math.floor((Math.random() * 10) + 1)
         userId = Math.floor((Math.random() * 20) + 1)

@@ -18,16 +18,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
-      sender: {
+      from: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
           key: 'id'
         }
       },
-      receiver: {
+      to: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
@@ -36,6 +38,7 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.DATE
       }
     })

@@ -10,7 +10,7 @@ module.exports = {
       let userId = Math.floor((Math.random() * 20) + 1)
 
       while (
-        favorites.some(([exchange, user]) => exchange === exchangeId && user === userId)
+        favorites.some(([_exchangeId, _userId]) => _exchangeId === exchangeId && _userId === userId)
       ) {
         exchangeId = Math.floor((Math.random() * 30) + 1)
         userId = Math.floor((Math.random() * 20) + 1)

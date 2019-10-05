@@ -2,13 +2,22 @@
 module.exports = (sequelize, DataTypes) => {
   const Rate = sequelize.define('Rate', {
     exchangeId: DataTypes.INTEGER,
-    description: DataTypes.TEXT,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    description: DataTypes.TEXT('long')
   }, {
     updatedAt: false
   })
   Rate.associate = models => {
-    // associations can be defined here
+    Rate.belongsTo(models.Exchange, {
+      foreignKey: 'exchangeId',
+      as: 'exchanges'
+    })
+
+    Rate.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'users'
+    })
   }
+
   return Rate
 }

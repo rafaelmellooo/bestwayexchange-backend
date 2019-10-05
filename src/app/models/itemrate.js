@@ -2,7 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   const ItemRate = sequelize.define('ItemRate', {
     itemId: DataTypes.INTEGER,
-    rateId: DataTypes.INTEGER,
+    exchangeId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     gradeId: DataTypes.INTEGER
   }, {
     timestamps: false

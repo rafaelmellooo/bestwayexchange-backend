@@ -16,10 +16,6 @@ module.exports = {
           key: 'id'
         }
       },
-      description: {
-        allowNull: false,
-        type: Sequelize.TEXT('long')
-      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -27,6 +23,10 @@ module.exports = {
           model: 'users',
           key: 'id'
         }
+      },
+      description: {
+        allowNull: false,
+        type: Sequelize.TEXT('long')
       },
       createdAt: {
         allowNull: false,

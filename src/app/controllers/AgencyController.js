@@ -1,9 +1,18 @@
-const { Agency } = require('../models')
+const { Agency, User } = require('../models')
 
 module.exports = {
   async show (req, res) {
     try {
-      const agency = Agency.findByPk(req.params.id)
+      const agency = await Agency.findByPk(req.params.id, {
+        attributes: ['name'],
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'name', 'email'],
+            as: 'users'
+          }
+        ]
+      })
 
       res.status(200).json(agency)
     } catch (err) {

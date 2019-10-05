@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     message: DataTypes.TEXT,
     exchangeId: DataTypes.INTEGER,
     hasViewed: DataTypes.BOOLEAN,
-    sender: DataTypes.INTEGER,
-    receiver: DataTypes.INTEGER
+    from: DataTypes.INTEGER,
+    to: DataTypes.INTEGER
   }, {
     updatedAt: false
   })
