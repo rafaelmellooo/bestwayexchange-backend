@@ -17,9 +17,9 @@ module.exports = {
         password: '$2a$10$yKB089r0SlA8tl6iXxVHb.abrHpKdCwADgzIt7J7i9dN6I2a0vzBi',
         typeId,
         agencyId,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTY5NTUyMjIzLCJleHAiOjE1Njk2Mzg2MjN9.YcvUFK-WzI_4s2a2Q2rgCxUOBnESNyIrGRXtGzDN1YQ',
-        expiresIn: '2019-09-29 13:31:04',
-        isVerified: 1,
+        token: '6d9081ed2a66869ee7351495bcb4b8c760628648',
+        expiresIn: '2019-10-05 00:49:52',
+        isVerified: true,
         dateOfBirth: '2001-07-15'
       })
     }

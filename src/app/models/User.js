@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     dateOfBirth: DataTypes.DATEONLY,
     isVerified: {
       type: DataTypes.BOOLEAN,
-      defaultValue: 0
+      defaultValue: false
     },
     typeId: DataTypes.INTEGER,
     agencyId: DataTypes.INTEGER

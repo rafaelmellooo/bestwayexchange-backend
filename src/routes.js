@@ -12,7 +12,8 @@ const routes = express.Router()
 // routes.post('/auth/register', multer(multerConfig).single('file'), AuthController.register)
 routes.post('/auth/register', AuthController.register)
 routes.post('/auth/authenticate', AuthController.authenticate)
-routes.post('/auth/check_email', AuthController.checkEmail)
+routes.post('/auth/send_email', AuthController.sendEmail)
+routes.post('/auth/confirm_email', AuthController.confirmEmail)
 
 routes.use(AuthMiddleware)
 
@@ -22,7 +23,7 @@ routes.delete('/users/:id', UserController.destroy)
 
 routes.get('/favorites', FavoriteController.index)
 routes.post('/favorites', FavoriteController.store)
-routes.delete('/favorites/:exchange_id', FavoriteController.destroy)
+routes.delete('/favorites/:exchangeId', FavoriteController.destroy)
 
 routes.get('/exchanges/:id', ExchangeController.show)
 routes.post('/exchanges', ExchangeController.store)

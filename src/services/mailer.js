@@ -15,13 +15,13 @@ const viewPath = resolve(__dirname, '..', 'templates', 'mail')
 
 transport.use('compile', nodemailerhbs({
   viewEngine: exphbs.create({
-    extname: '.hbs',
+    extname: '.html',
     partialsDir: resolve(viewPath, 'partials'),
     defaultLayout: 'default',
     layoutsDir: resolve(viewPath, 'layouts')
   }),
   viewPath,
-  extName: '.hbs'
+  extName: '.html'
 }))
 
 module.exports = transport

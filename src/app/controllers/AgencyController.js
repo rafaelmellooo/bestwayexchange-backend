@@ -5,9 +5,9 @@ module.exports = {
     try {
       const agency = Agency.findByPk(req.params.id)
 
-      return res.status(200).json(agency)
+      res.status(200).json(agency)
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   },
 

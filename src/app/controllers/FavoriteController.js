@@ -17,9 +17,9 @@ module.exports = {
         ]
       })
 
-      return res.status(200).json(exchanges)
+      res.status(200).json(exchanges)
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   },
 
@@ -30,9 +30,9 @@ module.exports = {
         exchangeId: req.body.exchangeId
       })
 
-      return res.status(200).json()
+      res.status(200).json()
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   },
 
@@ -41,13 +41,13 @@ module.exports = {
       await Favorite.destroy({
         where: {
           userId: req.userId,
-          exchangeId: req.params.exchange_id
+          exchangeId: req.params.exchangeId
         }
       })
 
-      return res.status(200).json()
+      res.status(200).json()
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   }
 }

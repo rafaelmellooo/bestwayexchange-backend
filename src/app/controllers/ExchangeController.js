@@ -7,9 +7,9 @@ module.exports = {
         attributes: ['name', 'description']
       })
 
-      return res.status(200).json(exchange)
+      res.status(200).json(exchange)
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   },
 
@@ -17,9 +17,9 @@ module.exports = {
     try {
       await Exchange.create(req.body)
 
-      return res.status(200).json()
+      res.status(200).json()
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   },
 
@@ -31,9 +31,9 @@ module.exports = {
         }
       })
 
-      return res.status(200).json()
+      res.status(200).json()
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   },
 
@@ -45,9 +45,9 @@ module.exports = {
         }
       })
 
-      return res.status(200).json()
+      res.status(200).json()
     } catch (err) {
-      return res.status(400).json(err)
+      res.status(400).json(err)
     }
   }
 }
