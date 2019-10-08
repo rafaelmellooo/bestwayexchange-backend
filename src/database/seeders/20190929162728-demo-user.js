@@ -12,7 +12,7 @@ module.exports = {
 
       data.push({
         id: i + 1,
-        email: faker.internet.email(),
+        email: faker.internet.exampleEmail(),
         name: faker.name.findName(),
         password: '$2a$10$yKB089r0SlA8tl6iXxVHb.abrHpKdCwADgzIt7J7i9dN6I2a0vzBi',
         typeId,

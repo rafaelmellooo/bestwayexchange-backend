@@ -25,8 +25,9 @@ module.exports = {
 
   async store (req, res) {
     try {
-      const { userId, body } = req
-      const { exchangeId, description } = body
+      const { userId, params, body } = req
+      const { description } = body
+      const { exchangeId } = params
 
       await Rate.create({
         userId, exchangeId, description

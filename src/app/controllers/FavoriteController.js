@@ -11,6 +11,8 @@ module.exports = {
             attributes: ['id', 'name', 'description'],
             as: 'exchanges',
             through: {
+              model: Favorite,
+              as: 'favorite',
               attributes: ['createdAt']
             }
           }
@@ -25,9 +27,12 @@ module.exports = {
 
   async store (req, res) {
     try {
+      const { userId, params } = req
+      const { exchangeId } = params
+
       await Favorite.create({
-        userId: req.userId,
-        exchangeId: req.body.exchangeId
+        userId,
+        exchangeId
       })
 
       res.status(200).json()
@@ -38,10 +43,13 @@ module.exports = {
 
   async destroy (req, res) {
     try {
+      const { userId, params } = req
+      const { exchangeId } = params
+
       await Favorite.destroy({
         where: {
-          userId: req.userId,
-          exchangeId: req.params.exchangeId
+          userId,
+          exchangeId
         }
       })
 

@@ -44,6 +44,12 @@ module.exports = (sequelize, DataTypes) => {
       as: 'rates',
       foreignKey: 'userId'
     })
+
+    User.hasMany(models.Chat, {
+      as: 'messages',
+      foreignKey: 'from',
+      otherKey: 'to'
+    })
   }
 
   return User
