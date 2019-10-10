@@ -2,7 +2,7 @@
 
 module.exports = {
   up: queryInterface => {
-    const housingtypes = [
+    const housingTypes = [
       [
         'Host Family',
         'Optando pela Host Family (ou homestay, como é conhecido no exterior) o intercambista se hospedará na casa de uma família nativa. Essas famílias são escritas em um programa do governo local e são rigorosamente avaliadas e selecionadas, para atender aos padrões exigidos, requerimentos e as regras da escola. Normalmente para que o intercambista faça sua escolha, são enviadas todas as informações sobre a família.'
@@ -26,8 +26,8 @@ module.exports = {
     ]
     const data = []
 
-    for (let i = 0; i < housingtypes.length; i++) {
-      const [name, description] = housingtypes[i]
+    for (let i = 0; i < housingTypes.length; i++) {
+      const [name, description] = housingTypes[i]
       data.push({ id: i + 1, name, description })
     }
 

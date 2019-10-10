@@ -3,20 +3,20 @@
 module.exports = {
   up: queryInterface => {
     const data = []
-    const itemrates = []
+    const itemRates = []
 
     for (let i = 0; i < 180; i++) {
       let itemId = Math.floor((Math.random() * 3) + 1)
       let rateId = Math.floor((Math.random() * 90) + 1)
 
       while (
-        itemrates.some(([item, rate]) => item === itemId && rate === rateId)
+        itemRates.some(([item, rate]) => item === itemId && rate === rateId)
       ) {
         itemId = Math.floor((Math.random() * 3) + 1)
         rateId = Math.floor((Math.random() * 90) + 1)
       }
 
-      itemrates.push([
+      itemRates.push([
         itemId, rateId
       ])
 

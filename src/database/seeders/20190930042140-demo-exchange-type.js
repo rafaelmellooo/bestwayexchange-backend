@@ -2,7 +2,7 @@
 
 module.exports = {
   up: queryInterface => {
-    const exchangetypes = [
+    const exchangeTypes = [
       [
         'Estudo de Idiomas',
         'Essa modalidade de intercâmbio tem como objetivo o aprendizado de uma nova língua. Tanto pode ser feia por pessoas que têm um nível inicial na língua estrangeira quanto por pessoas que já possuem um nível mais avançados e desejam evoluir ainda mais.'
@@ -30,8 +30,8 @@ module.exports = {
     ]
     const data = []
 
-    for (let i = 0; i < exchangetypes.length; i++) {
-      const [name, description] = exchangetypes[i]
+    for (let i = 0; i < exchangeTypes.length; i++) {
+      const [name, description] = exchangeTypes[i]
       data.push({ id: i + 1, name, description })
     }
 

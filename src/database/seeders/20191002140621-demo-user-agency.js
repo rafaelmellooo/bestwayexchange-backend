@@ -3,20 +3,20 @@
 module.exports = {
   up: queryInterface => {
     const data = []
-    const useragencies = []
+    const userAgencies = []
 
     for (let i = 0; i < 60; i++) {
       let agencyId = Math.floor((Math.random() * 10) + 1)
       let userId = Math.floor((Math.random() * 20) + 1)
 
       while (
-        useragencies.some(([_agencyId, _userId]) => _agencyId === agencyId && _userId === userId)
+        userAgencies.some(([_agencyId, _userId]) => _agencyId === agencyId && _userId === userId)
       ) {
         agencyId = Math.floor((Math.random() * 10) + 1)
         userId = Math.floor((Math.random() * 20) + 1)
       }
 
-      useragencies.push([
+      userAgencies.push([
         agencyId, userId
       ])
 
