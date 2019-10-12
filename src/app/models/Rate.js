@@ -19,5 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     })
   }
 
+  Rate.removeAttribute('id')
   return Rate
 }

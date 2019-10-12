@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
   Favorite.associate = models => {
     Favorite.belongsTo(models.User, {
       foreignKey: 'userId',
-      as: 'users'
+      as: 'user'
     })
 
     Favorite.belongsTo(models.Exchange, {
       foreignKey: 'exchangeId',
-      as: 'exchanges'
+      as: 'exchange'
     })
   }
   return Favorite

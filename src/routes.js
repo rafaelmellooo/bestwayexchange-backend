@@ -12,6 +12,7 @@ const ExchangeTypeController = require('./app/controllers/ExchangeTypeController
 const HousingTypeController = require('./app/controllers/HousingTypeController')
 const CountryController = require('./app/controllers/CountryController')
 const CityController = require('./app/controllers/CityController')
+const UserAgencyController = require('./app/controllers/UserAgencyController')
 // const multer = require('multer')
 // const multerConfig = require('./config/multer')
 
@@ -34,6 +35,8 @@ routes.get('/housing_types', HousingTypeController.index)
 routes.get('/countries', CountryController.index)
 
 routes.get('/countries/:id/cities', CityController.index)
+
+routes.get('/agencies/:id/grades', UserAgencyController.index)
 
 routes.use(AuthMiddleware)
 
@@ -60,5 +63,8 @@ routes.delete('/exchanges/:exchangeId/rate', RateController.destroy)
 
 routes.get('/exchanges/:exchangeId/chat/:userId', ChatController.index)
 routes.post('/exchanges/:exchangeId/chat/:userId', ChatController.store)
+
+routes.post('/agencies/:id/grade', UserAgencyController.store)
+routes.delete('/agencies/:id/grade', UserAgencyController.destroy)
 
 module.exports = routes

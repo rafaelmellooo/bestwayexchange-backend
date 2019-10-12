@@ -50,6 +50,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'from',
       otherKey: 'to'
     })
+
+    User.hasMany(models.UserAgency, {
+      foreignKey: 'userId',
+      as: 'agencies'
+    })
   }
 
   return User

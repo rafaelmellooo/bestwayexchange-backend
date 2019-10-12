@@ -1,4 +1,5 @@
-const { Agency, User } = require('../models')
+const { Agency, UserAgency } = require('../models')
+const sequelize = require('sequelize')
 
 module.exports = {
   async show (req, res) {
@@ -7,15 +8,18 @@ module.exports = {
         attributes: ['name'],
         include: [
           {
-            model: User,
-            attributes: ['id', 'name', 'email'],
-            as: 'users'
+            model: UserAgency,
+            as: 'grades',
+            attributes: [[
+              sequelize.fn('AVG', sequelize.col('gradeId')), 'avg'
+            ]]
           }
         ]
       })
 
       res.status(200).json(agency)
     } catch (err) {
+      console.log(err)
       res.status(400).json(err)
     }
   },
