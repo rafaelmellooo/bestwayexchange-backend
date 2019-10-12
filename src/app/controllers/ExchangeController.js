@@ -1,10 +1,21 @@
-const { Exchange } = require('../models')
+const { Exchange, HousingType, ExchangeHousingType } = require('../models')
 
 module.exports = {
   async show (req, res) {
     try {
       const exchange = await Exchange.findByPk(req.params.id, {
-        attributes: ['name', 'description']
+        attributes: ['name', 'description'],
+        include: [
+          {
+            model: HousingType,
+            as: 'housingTypes',
+            attributes: ['name', 'description'],
+            through: {
+              model: ExchangeHousingType,
+              attributes: []
+            }
+          }
+        ]
       })
 
       res.status(200).json(exchange)

@@ -7,7 +7,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   HousingType.associate = models => {
-    // associations can be defined here
+    HousingType.belongsToMany(models.Exchange, {
+      through: models.ExchangeHousingType,
+      as: 'exchanges',
+      foreignKey: 'housingTypeId'
+    })
   }
   return HousingType
 }

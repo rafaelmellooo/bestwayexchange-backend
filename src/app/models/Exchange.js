@@ -23,6 +23,28 @@ module.exports = (sequelize, DataTypes) => {
       as: 'rates',
       foreignKey: 'exchangeId'
     })
+
+    Exchange.belongsTo(models.Language, {
+      as: 'language',
+      foreignKey: 'languageId'
+    })
+
+    Exchange.belongsTo(models.ExchangeType, {
+      as: 'exchangeType',
+      foreignKey: 'exchangeTypeId'
+    })
+
+    Exchange.belongsTo(models.City, {
+      as: 'city',
+      foreignKey: 'cityId',
+      otherKey: 'countryId'
+    })
+
+    Exchange.belongsToMany(models.HousingType, {
+      through: models.ExchangeHousingType,
+      as: 'housingTypes',
+      foreignKey: 'exchangeId'
+    })
   }
   return Exchange
 }

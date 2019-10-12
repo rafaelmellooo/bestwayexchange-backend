@@ -6,7 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   Language.associate = models => {
-    // associations can be defined here
+    Language.hasMany(models.Exchange, {
+      as: 'exchanges'
+    })
   }
   return Language
 }

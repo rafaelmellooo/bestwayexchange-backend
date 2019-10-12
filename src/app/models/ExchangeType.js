@@ -7,7 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   ExchangeType.associate = models => {
-    // associations can be defined here
+    ExchangeType.hasMany(models.Exchange, {
+      as: 'exchanges',
+      foreignKey: 'exchangeTypeId'
+    })
   }
   return ExchangeType
 }
