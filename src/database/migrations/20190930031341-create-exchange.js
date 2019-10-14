@@ -16,13 +16,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      languageId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'languages',
-          key: 'id'
-        }
-      },
       exchangeTypeId: {
         type: Sequelize.INTEGER,
         references: {

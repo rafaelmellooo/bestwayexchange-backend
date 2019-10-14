@@ -6,8 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   Language.associate = models => {
-    Language.hasMany(models.Exchange, {
-      as: 'exchanges'
+    Language.belongsToMany(models.Exchange, {
+      through: models.ExchangeLanguage,
+      as: 'exchanges',
+      foreignKey: 'languageId'
     })
   }
   return Language

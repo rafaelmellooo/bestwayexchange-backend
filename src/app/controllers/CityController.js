@@ -4,6 +4,9 @@ module.exports = {
   async index (req, res) {
     try {
       const cities = await City.findAll({
+        order: [
+          'name'
+        ],
         where: {
           countryId: req.params.id
         },

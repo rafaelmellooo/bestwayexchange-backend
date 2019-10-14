@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   const Exchange = sequelize.define('Exchange', {
     description: DataTypes.TEXT,
     name: DataTypes.STRING,
-    languageId: DataTypes.INTEGER,
     exchangeTypeId: DataTypes.INTEGER,
     cityId: DataTypes.INTEGER,
     countryId: DataTypes.INTEGER,
@@ -24,11 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'exchangeId'
     })
 
-    Exchange.belongsTo(models.Language, {
-      as: 'language',
-      foreignKey: 'languageId'
-    })
-
     Exchange.belongsTo(models.ExchangeType, {
       as: 'exchangeType',
       foreignKey: 'exchangeTypeId'
@@ -43,6 +37,12 @@ module.exports = (sequelize, DataTypes) => {
     Exchange.belongsToMany(models.HousingType, {
       through: models.ExchangeHousingType,
       as: 'housingTypes',
+      foreignKey: 'exchangeId'
+    })
+
+    Exchange.belongsToMany(models.Language, {
+      through: models.ExchangeLanguage,
+      as: 'languages',
       foreignKey: 'exchangeId'
     })
   }

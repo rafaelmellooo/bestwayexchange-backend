@@ -3,16 +3,26 @@
 module.exports = {
   up: queryInterface => {
     const data = []
+    const exchangeHousingTypes = []
 
-    for (let i = 0; i < 30; i++) {
-      const exchangeId = i + 1
-      for (let j = 0; j < 5; j++) {
-        const housingTypeId = j + 1
+    for (let i = 0; i < 90; i++) {
+      let exchangeId = Math.floor((Math.random() * 30) + 1)
+      let housingTypeId = Math.floor((Math.random() * 5) + 1)
 
-        data.push({
-          exchangeId, housingTypeId
-        })
+      while (
+        exchangeHousingTypes.some(([_exchangeId, _housingTypeId]) => _exchangeId === exchangeId && _housingTypeId === housingTypeId)
+      ) {
+        exchangeId = Math.floor((Math.random() * 30) + 1)
+        housingTypeId = Math.floor((Math.random() * 5) + 1)
       }
+
+      exchangeHousingTypes.push([
+        exchangeId, housingTypeId
+      ])
+
+      data.push({
+        exchangeId, housingTypeId
+      })
     }
 
     return queryInterface.bulkInsert('ExchangeHousingTypes', data, {})

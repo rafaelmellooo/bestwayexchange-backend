@@ -10,7 +10,6 @@ module.exports = {
         id: i + 1,
         description: faker.lorem.paragraph(),
         name: faker.commerce.productName(),
-        languageId: Math.floor((Math.random() * 10) + 1),
         exchangeTypeId: Math.floor((Math.random() * 6) + 1),
         cityId: Math.floor((Math.random() * 60) + 1),
         countryId: Math.floor((Math.random() * 15) + 1),

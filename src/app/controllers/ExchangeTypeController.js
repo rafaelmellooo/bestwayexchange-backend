@@ -3,7 +3,11 @@ const { ExchangeType } = require('../models')
 module.exports = {
   async index (req, res) {
     try {
-      const exchangeTypes = await ExchangeType.findAll()
+      const exchangeTypes = await ExchangeType.findAll({
+        order: [
+          'name'
+        ]
+      })
 
       res.status(200).json(exchangeTypes)
     } catch (err) {

@@ -48,6 +48,7 @@ routes.get('/favorites', FavoriteController.index)
 routes.post('/exchanges/:exchangeId/favorite', FavoriteController.store)
 routes.delete('/exchanges/:exchangeId/favorite', FavoriteController.destroy)
 
+routes.get('/exchanges', ExchangeController.index)
 routes.get('/exchanges/:id', ExchangeController.show)
 routes.post('/exchanges', ExchangeController.store)
 routes.put('/exchanges/:id', ExchangeController.update)

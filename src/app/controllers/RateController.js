@@ -4,6 +4,9 @@ module.exports = {
   async index (req, res) {
     try {
       const rates = await Rate.findAll({
+        order: [
+          ['cretedAt', 'DESC']
+        ],
         where: {
           exchangeId: req.params.exchangeId
         },

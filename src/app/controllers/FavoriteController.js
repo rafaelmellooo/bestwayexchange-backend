@@ -4,6 +4,9 @@ module.exports = {
   async index (req, res) {
     try {
       const exchanges = await User.findByPk(req.userId, {
+        order: [
+          ['createdAt', 'DESC']
+        ],
         attributes: ['email', 'name'],
         include: [
           {
@@ -11,7 +14,6 @@ module.exports = {
             attributes: ['id', 'name', 'description'],
             as: 'exchanges',
             through: {
-              model: Favorite,
               as: 'favorite',
               attributes: ['createdAt']
             }

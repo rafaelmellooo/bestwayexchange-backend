@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'cityId',
       otherKey: 'countryId'
     })
+
+    City.belongsTo(models.Country, {
+      as: 'country',
+      foreignKey: 'countryId'
+    })
   }
   return City
 }

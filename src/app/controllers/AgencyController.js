@@ -5,6 +5,9 @@ module.exports = {
   async show (req, res) {
     try {
       const agency = await Agency.findByPk(req.params.id, {
+        order: [
+          'name'
+        ],
         attributes: ['name'],
         include: [
           {

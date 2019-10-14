@@ -4,6 +4,9 @@ module.exports = {
   async index (req, res) {
     try {
       const grades = await UserAgency.findAll({
+        order: [
+          ['createdAt', 'DESC']
+        ],
         where: {
           agencyId: req.params.id
         },
