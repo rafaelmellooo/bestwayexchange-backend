@@ -1,21 +1,30 @@
-const { Rate, User } = require('../models')
+const { Rate, User, Item } = require('../models')
 
 module.exports = {
   async index (req, res) {
     try {
       const rates = await Rate.findAll({
         order: [
-          ['cretedAt', 'DESC']
+          ['createdAt', 'DESC']
         ],
         where: {
           exchangeId: req.params.exchangeId
         },
-        attributes: ['description', 'createdAt'],
+        attributes: ['id', 'description', 'createdAt'],
         include: [
           {
             model: User,
             as: 'users',
             attributes: ['name']
+          },
+          {
+            model: Item,
+            as: 'items',
+            attributes: ['name'],
+            through: {
+              as: 'pivot',
+              attributes: ['gradeId']
+            }
           }
         ]
       })
@@ -37,6 +46,29 @@ module.exports = {
       })
 
       res.status(200).json()
+    } catch (err) {
+      res.status(400).json(err)
+    }
+  },
+
+  async update (req, res) {
+    try {
+      const { userId, params, body } = req
+      const { exchangeId } = params
+
+      const rate = await Rate.findOne({
+        where: {
+          userId, exchangeId
+        }
+      })
+
+      body.map(({ itemId, gradeId }) => {
+        rate.addItem(itemId, {
+          through: { gradeId }
+        })
+      })
+
+      res.status(200).json(rate)
     } catch (err) {
       res.status(400).json(err)
     }

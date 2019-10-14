@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'gradeId',
       as: 'agencies'
     })
+
+    Grade.hasMany(models.ItemRate, {
+      foreignKey: 'gradeId',
+      as: 'rates'
+    })
   }
   return Grade
 }

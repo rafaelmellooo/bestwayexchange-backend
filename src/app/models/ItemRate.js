@@ -1,15 +1,29 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
   const ItemRate = sequelize.define('ItemRate', {
+    rateId: DataTypes.INTEGER,
     itemId: DataTypes.INTEGER,
-    exchangeId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
     gradeId: DataTypes.INTEGER
   }, {
     timestamps: false
   })
   ItemRate.associate = models => {
-    // associations can be defined here
+    ItemRate.belongsTo(models.Rate, {
+      as: 'rate',
+      foreignKey: 'rateId'
+    })
+
+    ItemRate.belongsTo(models.Item, {
+      as: 'item',
+      foreignKey: 'itemId'
+    })
+
+    ItemRate.belongsTo(models.Grade, {
+      as: 'grade',
+      foreignKey: 'gradeId'
+    })
   }
+
+  ItemRate.removeAttribute('id')
   return ItemRate
 }

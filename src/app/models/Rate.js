@@ -17,8 +17,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'users'
     })
+
+    Rate.belongsToMany(models.Item, {
+      through: models.ItemRate,
+      as: 'items',
+      foreignKey: 'rateId'
+    })
   }
 
-  Rate.removeAttribute('id')
   return Rate
 }

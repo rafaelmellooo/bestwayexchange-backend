@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   Item.associate = models => {
-    // associations can be defined here
+    Item.belongsToMany(models.Rate, {
+      through: models.ItemRate,
+      foreignKey: 'itemId',
+      as: 'rates'
+    })
   }
   return Item
 }

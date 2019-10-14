@@ -5,18 +5,29 @@ module.exports = {
     const faker = require('faker')
 
     const data = []
-    for (let i = 0; i < 30; i++) {
-      const exchangeId = i + 1
-      for (let j = 0; j < 4; j++) {
-        const userId = j + 1
+    const rates = []
+    for (let i = 0; i < 160; i++) {
+      let userId = Math.floor((Math.random() * 20) + 1)
+      let exchangeId = Math.floor((Math.random() * 30) + 1)
 
-        data.push({
-          userId,
-          exchangeId,
-          description: faker.lorem.paragraph(),
-          createdAt: new Date()
-        })
+      while (
+        rates.some(([_userId, _exchangeId]) => _userId === userId && _exchangeId === exchangeId)
+      ) {
+        userId = Math.floor((Math.random() * 20) + 1)
+        exchangeId = Math.floor((Math.random() * 30) + 1)
       }
+
+      rates.push([
+        userId, exchangeId
+      ])
+
+      data.push({
+        id: i + 1,
+        userId,
+        exchangeId,
+        description: faker.lorem.paragraph(),
+        createdAt: new Date()
+      })
     }
 
     return queryInterface.bulkInsert('Rates', data, {})

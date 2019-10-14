@@ -13,6 +13,8 @@ const HousingTypeController = require('./app/controllers/HousingTypeController')
 const CountryController = require('./app/controllers/CountryController')
 const CityController = require('./app/controllers/CityController')
 const UserAgencyController = require('./app/controllers/UserAgencyController')
+const GradeController = require('./app/controllers/GradeController')
+const ItemController = require('./app/controllers/ItemController')
 // const multer = require('multer')
 // const multerConfig = require('./config/multer')
 
@@ -60,6 +62,7 @@ routes.put('/agencies/:id', AgencyController.update)
 routes.delete('/agencies/:id', AgencyController.destroy)
 
 routes.post('/exchanges/:exchangeId/rate', RateController.store)
+routes.put('/exchanges/:exchangeId/rate', RateController.update)
 routes.delete('/exchanges/:exchangeId/rate', RateController.destroy)
 
 routes.get('/exchanges/:exchangeId/chat/:userId', ChatController.index)
@@ -67,5 +70,9 @@ routes.post('/exchanges/:exchangeId/chat/:userId', ChatController.store)
 
 routes.post('/agencies/:id/grade', UserAgencyController.store)
 routes.delete('/agencies/:id/grade', UserAgencyController.destroy)
+
+routes.get('/grades', GradeController.index)
+
+routes.get('/items/:id', ItemController.show)
 
 module.exports = routes
