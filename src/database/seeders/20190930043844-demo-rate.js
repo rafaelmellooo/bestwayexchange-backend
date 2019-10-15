@@ -26,7 +26,8 @@ module.exports = {
         userId,
         exchangeId,
         description: faker.lorem.paragraph(),
-        createdAt: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       })
     }
 

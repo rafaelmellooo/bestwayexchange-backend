@@ -4,9 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     exchangeId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     description: DataTypes.TEXT('long')
-  }, {
-    updatedAt: false
-  })
+  }, {})
   Rate.associate = models => {
     Rate.belongsTo(models.Exchange, {
       foreignKey: 'exchangeId',

@@ -1,4 +1,6 @@
 'use strict'
+const sequelizePaginate = require('sequelize-paginate')
+
 module.exports = (sequelize, DataTypes) => {
   const Exchange = sequelize.define('Exchange', {
     description: DataTypes.TEXT,
@@ -46,5 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'exchangeId'
     })
   }
+
+  sequelizePaginate.paginate(Exchange)
   return Exchange
 }

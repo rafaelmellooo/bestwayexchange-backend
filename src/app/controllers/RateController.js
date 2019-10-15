@@ -10,7 +10,7 @@ module.exports = {
         where: {
           exchangeId: req.params.exchangeId
         },
-        attributes: ['id', 'description', 'createdAt'],
+        attributes: ['id', 'description', 'createdAt', 'updatedAt'],
         include: [
           {
             model: User,
@@ -37,12 +37,11 @@ module.exports = {
 
   async store (req, res) {
     try {
-      const { userId, params, body } = req
-      const { description } = body
+      const { userId, params } = req
       const { exchangeId } = params
 
       await Rate.create({
-        userId, exchangeId, description
+        userId, exchangeId
       })
 
       res.status(200).json()
@@ -55,6 +54,7 @@ module.exports = {
     try {
       const { userId, params, body } = req
       const { exchangeId } = params
+      const { description, items } = body
 
       const rate = await Rate.findOne({
         where: {
@@ -62,14 +62,17 @@ module.exports = {
         }
       })
 
-      body.map(({ itemId, gradeId }) => {
-        rate.addItem(itemId, {
+      await rate.update({ description })
+
+      await Promise.all(items.map(async ({ itemId, gradeId }) => {
+        await rate.addItem(itemId, {
           through: { gradeId }
         })
-      })
+      }))
 
-      res.status(200).json(rate)
+      res.status(200).json()
     } catch (err) {
+      console.log(err)
       res.status(400).json(err)
     }
   },

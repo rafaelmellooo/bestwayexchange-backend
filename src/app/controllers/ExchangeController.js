@@ -3,15 +3,17 @@ const { Exchange, HousingType, City, Country, ExchangeType, Language } = require
 module.exports = {
   async index (req, res) {
     try {
-      let { languageId, housingTypeId, ...query } = req.query
+      let { page = 1, languageId, housingTypeId, ...query } = req.query
 
       languageId = languageId ? { id: languageId } : {}
 
       housingTypeId = housingTypeId ? { id: housingTypeId } : {}
 
-      const exchanges = await Exchange.findAll({
+      const exchanges = await Exchange.paginate({
+        page,
+        paginate: 10,
         order: [
-          'name'
+          'id'
         ],
         where: query,
         attributes: ['id', 'name', 'description', 'price'],
@@ -37,6 +39,7 @@ module.exports = {
         ]
       })
 
+      console.log(exchanges.length)
       res.status(200).json(exchanges)
     } catch (err) {
       res.status(400).json(err)
@@ -92,7 +95,13 @@ module.exports = {
 
   async store (req, res) {
     try {
-      await Exchange.create(req.body)
+      const { languagesId, housingTypesId, ...data } = req.body
+
+      const exchange = await Exchange.create(data)
+
+      await exchange.setLanguages(languagesId)
+
+      await exchange.setHousingTypes(housingTypesId)
 
       res.status(200).json()
     } catch (err) {
