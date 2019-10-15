@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'users'
     })
 
-    Agency.hasMany(models.UserAgency, {
+    Agency.hasMany(models.AgencyGrade, {
       foreignKey: 'agencyId',
       as: 'grades'
     })

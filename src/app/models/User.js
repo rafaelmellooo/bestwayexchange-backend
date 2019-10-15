@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     token: DataTypes.STRING,
     expiresIn: DataTypes.DATE,
     dateOfBirth: DataTypes.DATEONLY,
-    isVerified: {
+    isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'to'
     })
 
-    User.hasMany(models.UserAgency, {
+    User.hasMany(models.AgencyGrade, {
       foreignKey: 'userId',
       as: 'agencies'
     })

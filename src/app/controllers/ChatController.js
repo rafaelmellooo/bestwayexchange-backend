@@ -5,10 +5,13 @@ const { Op } = sequelize
 module.exports = {
   async index (req, res) {
     try {
-      const { userId: from, params } = req
+      const { userId: from, params, query } = req
       const { userId: to, exchangeId } = params
+      const { page = 1 } = query
 
-      const chat = await Chat.findAll({
+      const chat = await Chat.paginate({
+        page,
+        paginate: 10,
         where: {
           [Op.and]: [
             {

@@ -1,29 +1,29 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
-  const UserAgency = sequelize.define('UserAgency', {
+  const AgencyGrade = sequelize.define('AgencyGrade', {
     gradeId: DataTypes.INTEGER,
     agencyId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   }, {
     updatedAt: false
   })
-  UserAgency.associate = models => {
-    UserAgency.belongsTo(models.Agency, {
+  AgencyGrade.associate = function (models) {
+    AgencyGrade.belongsTo(models.Agency, {
       foreignKey: 'agencyId',
       as: 'agency'
     })
 
-    UserAgency.belongsTo(models.User, {
+    AgencyGrade.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user'
     })
 
-    UserAgency.belongsTo(models.Grade, {
+    AgencyGrade.belongsTo(models.Grade, {
       foreignKey: 'gradeId',
       as: 'grade'
     })
   }
 
-  UserAgency.removeAttribute('id')
-  return UserAgency
+  AgencyGrade.removeAttribute('id')
+  return AgencyGrade
 }

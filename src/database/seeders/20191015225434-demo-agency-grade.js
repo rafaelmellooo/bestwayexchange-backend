@@ -28,10 +28,10 @@ module.exports = {
       })
     }
 
-    return queryInterface.bulkInsert('UserAgencies', data, {})
+    return queryInterface.bulkInsert('AgencyGrades', data, {})
   },
 
   down: queryInterface => {
-    return queryInterface.bulkDelete('UserAgencies', null, {})
+    return queryInterface.bulkDelete('AgencyGrades', null, {})
   }
 }

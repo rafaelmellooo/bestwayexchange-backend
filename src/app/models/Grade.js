@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   Grade.associate = models => {
-    Grade.hasMany(models.UserAgency, {
+    Grade.hasMany(models.AgencyGrade, {
       foreignKey: 'gradeId',
       as: 'agencies'
     })

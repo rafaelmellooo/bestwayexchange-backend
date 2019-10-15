@@ -27,9 +27,9 @@ module.exports = {
       description: {
         type: Sequelize.TEXT('long')
       },
-      createdAt: {
+      hasRated: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.BOOLEAN
       },
       updatedAt: {
         allowNull: false,

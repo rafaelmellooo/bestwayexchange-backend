@@ -19,7 +19,7 @@ module.exports = {
         agencyId,
         token: '6d9081ed2a66869ee7351495bcb4b8c760628648',
         expiresIn: '2019-10-05 00:49:52',
-        isVerified: true,
+        isActive: true,
         dateOfBirth: '2001-07-15'
       })
     }

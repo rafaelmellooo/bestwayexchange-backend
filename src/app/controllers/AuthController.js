@@ -25,7 +25,7 @@ module.exports = {
       where: {
         email
       },
-      attributes: ['id', 'password', 'isVerified']
+      attributes: ['id', 'password', 'isActive']
     })
 
     if (!user) return res.status(400).json({ error: 'E-mail inválido' })
@@ -34,7 +34,7 @@ module.exports = {
       return res.status(400).json({ error: 'Senha inválida' })
     }
 
-    if (!user.isVerified) return res.status(401).json()
+    if (!user.isActive) return res.status(401).json()
 
     const token = jwt.sign({ id: user.id }, authConfig.secret, {
       expiresIn: 86400
@@ -114,7 +114,7 @@ module.exports = {
 
       if (now > user.expiresIn) return res.status(400).json({ error: 'Token expired, generate a new one' })
 
-      await user.update({ isVerified: true })
+      await user.update({ isActive: true })
 
       res.status(200).json()
     } catch (err) {

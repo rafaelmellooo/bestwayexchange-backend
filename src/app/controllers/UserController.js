@@ -26,7 +26,7 @@ module.exports = {
     try {
       if (req.userId !== parseInt(req.params.id)) return res.status(401).json()
 
-      if (req.body.typeId || req.body.agencyId || req.body.isVerified) return res.status(401).json()
+      if (req.body.typeId || req.body.agencyId || req.body.isActive) return res.status(401).json()
 
       await User.update(req.body, {
         where: {

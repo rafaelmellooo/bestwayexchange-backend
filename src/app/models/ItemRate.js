@@ -24,6 +24,5 @@ module.exports = (sequelize, DataTypes) => {
     })
   }
 
-  ItemRate.removeAttribute('id')
   return ItemRate
 }

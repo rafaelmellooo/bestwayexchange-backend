@@ -13,7 +13,7 @@ module.exports = {
         page,
         paginate: 10,
         order: [
-          'id'
+          'name'
         ],
         where: query,
         attributes: ['id', 'name', 'description', 'price'],

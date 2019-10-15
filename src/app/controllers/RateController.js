@@ -3,14 +3,18 @@ const { Rate, User, Item } = require('../models')
 module.exports = {
   async index (req, res) {
     try {
-      const rates = await Rate.findAll({
+      const { page = 1 } = req.query
+
+      const rates = await Rate.paginate({
+        page,
+        paginate: 10,
         order: [
-          ['createdAt', 'DESC']
+          ['updatedAt', 'DESC']
         ],
         where: {
           exchangeId: req.params.exchangeId
         },
-        attributes: ['id', 'description', 'createdAt', 'updatedAt'],
+        attributes: ['id', 'description', 'updatedAt'],
         include: [
           {
             model: User,
@@ -19,6 +23,7 @@ module.exports = {
           },
           {
             model: Item,
+            required: true,
             as: 'items',
             attributes: ['name'],
             through: {

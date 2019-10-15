@@ -1,4 +1,6 @@
 'use strict'
+const sequelizePaginate = require('sequelize-paginate')
+
 module.exports = (sequelize, DataTypes) => {
   const Chat = sequelize.define('Chat', {
     message: DataTypes.TEXT,
@@ -24,5 +26,6 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   Chat.removeAttribute('id')
+  sequelizePaginate.paginate(Chat)
   return Chat
 }

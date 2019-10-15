@@ -1,9 +1,9 @@
-const { User, UserAgency, Grade } = require('../models')
+const { User, AgencyGrade, Grade } = require('../models')
 
 module.exports = {
   async index (req, res) {
     try {
-      const grades = await UserAgency.findAll({
+      const grades = await AgencyGrade.findAll({
         order: [
           ['createdAt', 'DESC']
         ],
@@ -38,7 +38,7 @@ module.exports = {
       const { gradeId } = body
       const { id: agencyId } = params
 
-      await UserAgency.create({
+      await AgencyGrade.create({
         agencyId, userId, gradeId
       })
 
@@ -53,7 +53,7 @@ module.exports = {
       const { params, userId } = req
       const { id: agencyId } = params
 
-      await UserAgency.destroy({
+      await AgencyGrade.destroy({
         where: {
           agencyId, userId
         }

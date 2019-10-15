@@ -27,7 +27,7 @@ module.exports = {
       expiresIn: {
         type: Sequelize.DATE
       },
-      isVerified: {
+      isActive: {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
