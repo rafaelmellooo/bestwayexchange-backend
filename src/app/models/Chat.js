@@ -4,10 +4,7 @@ const sequelizePaginate = require('sequelize-paginate')
 module.exports = (sequelize, DataTypes) => {
   const Chat = sequelize.define('Chat', {
     message: DataTypes.TEXT,
-    exchangeId: {
-      type: DataTypes.INTEGER,
-      defaultValue: Math.floor((Math.random() * 30) + 1)
-    },
+    exchangeId: DataTypes.INTEGER,
     hasViewed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false

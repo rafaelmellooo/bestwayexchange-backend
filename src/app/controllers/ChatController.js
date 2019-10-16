@@ -9,6 +9,16 @@ module.exports = {
       const { userId: to, exchangeId } = params
       const { page = 1 } = query
 
+      await Chat.update({ hasViewed: true }, {
+        where: {
+          [Op.and]: [
+            { from: to },
+            { to: from },
+            { hasViewed: false }
+          ]
+        }
+      })
+
       const chat = await Chat.paginate({
         page,
         paginate: 10,
@@ -52,6 +62,8 @@ module.exports = {
       const message = await Chat.create({
         from, to, message: body.message, exchangeId
       })
+
+      delete message.hasViewed
 
       res.status(200).json(message)
     } catch (err) {

@@ -6,7 +6,7 @@ module.exports = {
 
     const chats = []
     const data = []
-    for (let i = 0; i < 4096; i++) {
+    for (let i = 0; i < 16384; i++) {
       let from = Math.floor((Math.random() * 20) + 1)
       let to = Math.floor((Math.random() * 20) + 1)
       let createdAt = faker.date.between('2018-01-01', new Date())

@@ -12,7 +12,8 @@ module.exports = {
           ['updatedAt', 'DESC']
         ],
         where: {
-          exchangeId: req.params.exchangeId
+          exchangeId: req.params.exchangeId,
+          hasRated: true
         },
         attributes: ['id', 'description', 'updatedAt'],
         include: [
@@ -23,7 +24,6 @@ module.exports = {
           },
           {
             model: Item,
-            required: true,
             as: 'items',
             attributes: ['name'],
             through: {
@@ -64,10 +64,13 @@ module.exports = {
       const rate = await Rate.findOne({
         where: {
           userId, exchangeId
-        }
+        },
+        attributes: ['id', 'hasRated']
       })
 
-      await rate.update({ description })
+      if (rate.hasRated) return res.status(401).json()
+
+      await rate.update({ description, hasRated: true })
 
       await Promise.all(items.map(async ({ itemId, gradeId }) => {
         await rate.addItem(itemId, {
