@@ -1,4 +1,4 @@
-const { Rate, User, Item } = require('../models')
+const Rate = require('../models/Rate')
 
 module.exports = {
   async index (req, res) {
@@ -18,13 +18,11 @@ module.exports = {
         attributes: ['id', 'description', 'updatedAt'],
         include: [
           {
-            model: User,
-            as: 'users',
+            association: 'users',
             attributes: ['name']
           },
           {
-            model: Item,
-            as: 'items',
+            association: 'items',
             attributes: ['name'],
             through: {
               as: 'pivot',
@@ -80,7 +78,6 @@ module.exports = {
 
       res.status(200).json()
     } catch (err) {
-      console.log(err)
       res.status(400).json(err)
     }
   },

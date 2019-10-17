@@ -1,4 +1,4 @@
-const { ExchangeType } = require('../models')
+const ExchangeType = require('../models/ExchangeType')
 
 module.exports = {
   async index (req, res) {

@@ -1,22 +1,20 @@
-const { User, Exchange, Favorite } = require('../models')
+const Favorite = require('../models/Favorite')
 
 module.exports = {
   async index (req, res) {
     try {
-      const exchanges = await User.findByPk(req.userId, {
+      const exchanges = await Favorite.findAll({
         order: [
           ['createdAt', 'DESC']
         ],
-        attributes: ['email', 'name'],
+        where: {
+          userId: req.userId
+        },
+        attributes: ['createdAt'],
         include: [
           {
-            model: Exchange,
-            attributes: ['id', 'name', 'description'],
-            as: 'exchanges',
-            through: {
-              as: 'favorite',
-              attributes: ['createdAt']
-            }
+            association: 'exchange',
+            attributes: ['id', 'name', 'description']
           }
         ]
       })

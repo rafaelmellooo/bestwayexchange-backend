@@ -1,16 +1,21 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const UserType = sequelize.define('UserType', {
-    name: DataTypes.STRING
-  }, {
-    timestamps: false
-  })
-  UserType.associate = models => {
-    UserType.hasMany(models.User, {
+const { Model, DataTypes } = require('sequelize')
+
+class UserType extends Model {
+  static init (sequelize) {
+    super.init({
+      name: DataTypes.STRING
+    }, {
+      sequelize,
+      timestamps: false
+    })
+  }
+
+  static associate (models) {
+    this.hasMany(models.User, {
       foreignKey: 'typeId',
       as: 'users'
     })
   }
-
-  return UserType
 }
+
+module.exports = UserType

@@ -1,29 +1,31 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const AgencyGrade = sequelize.define('AgencyGrade', {
-    gradeId: DataTypes.INTEGER,
-    agencyId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER
-  }, {
-    updatedAt: false
-  })
-  AgencyGrade.associate = function (models) {
-    AgencyGrade.belongsTo(models.Agency, {
+const { Model } = require('sequelize')
+
+class AgencyGrade extends Model {
+  static init (sequelize) {
+    super.init({ }, {
+      sequelize,
+      updatedAt: false
+    })
+
+    this.removeAttribute('id')
+  }
+
+  static associate (models) {
+    this.belongsTo(models.Agency, {
       foreignKey: 'agencyId',
       as: 'agency'
     })
 
-    AgencyGrade.belongsTo(models.User, {
+    this.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user'
     })
 
-    AgencyGrade.belongsTo(models.Grade, {
+    this.belongsTo(models.Grade, {
       foreignKey: 'gradeId',
       as: 'grade'
     })
   }
-
-  AgencyGrade.removeAttribute('id')
-  return AgencyGrade
 }
+
+module.exports = AgencyGrade

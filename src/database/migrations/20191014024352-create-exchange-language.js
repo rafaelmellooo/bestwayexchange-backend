@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('ExchangeLanguages', {
@@ -9,7 +10,8 @@ module.exports = {
         references: {
           model: 'exchanges',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       languageId: {
         allowNull: false,
@@ -18,10 +20,12 @@ module.exports = {
         references: {
           model: 'languages',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       }
     })
   },
+
   down: queryInterface => {
     return queryInterface.dropTable('ExchangeLanguages')
   }

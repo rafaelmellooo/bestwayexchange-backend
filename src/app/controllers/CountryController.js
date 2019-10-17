@@ -1,4 +1,4 @@
-const { Country } = require('../models')
+const Country = require('../models/Country')
 
 module.exports = {
   async index (req, res) {

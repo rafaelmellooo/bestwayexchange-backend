@@ -1,4 +1,4 @@
-const { Agency, AgencyGrade } = require('../models')
+const Agency = require('../models/Agency')
 const sequelize = require('sequelize')
 
 module.exports = {
@@ -11,8 +11,7 @@ module.exports = {
         attributes: ['name'],
         include: [
           {
-            model: AgencyGrade,
-            as: 'grades',
+            association: 'grades',
             attributes: [[
               sequelize.fn('AVG', sequelize.col('gradeId')), 'avg'
             ]]

@@ -1,16 +1,22 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const Language = sequelize.define('Language', {
-    name: DataTypes.STRING
-  }, {
-    timestamps: false
-  })
-  Language.associate = models => {
-    Language.belongsToMany(models.Exchange, {
+const { Model, DataTypes } = require('sequelize')
+
+class Language extends Model {
+  static init (sequelize) {
+    super.init({
+      name: DataTypes.STRING
+    }, {
+      sequelize,
+      timestamps: false
+    })
+  }
+
+  static associate (models) {
+    this.belongsToMany(models.Exchange, {
       through: models.ExchangeLanguage,
       as: 'exchanges',
       foreignKey: 'languageId'
     })
   }
-  return Language
 }
+
+module.exports = Language

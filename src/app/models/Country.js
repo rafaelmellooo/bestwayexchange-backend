@@ -1,16 +1,22 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const Country = sequelize.define('Country', {
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT
-  }, {
-    timestamps: false
-  })
-  Country.associate = models => {
-    Country.hasMany(models.City, {
+const { Model, DataTypes } = require('sequelize')
+
+class Country extends Model {
+  static init (sequelize) {
+    super.init({
+      name: DataTypes.STRING,
+      description: DataTypes.TEXT
+    }, {
+      sequelize,
+      timestamps: false
+    })
+  }
+
+  static associate (models) {
+    this.hasMany(models.City, {
       as: 'cities',
       foreignKey: 'countryId'
     })
   }
-  return Country
 }
+
+module.exports = Country

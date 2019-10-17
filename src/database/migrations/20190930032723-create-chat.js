@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Chats', {
@@ -25,7 +26,8 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       to: {
         allowNull: false,
@@ -34,7 +36,8 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -43,7 +46,8 @@ module.exports = {
       }
     })
   },
-  down: (queryInterface, Sequelize) => {
+
+  down: queryInterface => {
     return queryInterface.dropTable('Chats')
   }
 }

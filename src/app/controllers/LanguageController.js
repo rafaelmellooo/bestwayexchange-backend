@@ -1,4 +1,4 @@
-const { Language } = require('../models')
+const Language = require('../models/Language')
 
 module.exports = {
   async index (req, res) {

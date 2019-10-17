@@ -1,4 +1,4 @@
-const { Item } = require('../models')
+const Item = require('../models/Item')
 
 module.exports = {
   async show (req, res) {

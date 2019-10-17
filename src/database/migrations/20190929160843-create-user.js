@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Users', {
@@ -37,20 +38,24 @@ module.exports = {
       },
       typeId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'usertypes',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       agencyId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'agencies',
           key: 'id'
-        }
+        },
+        onDelete: 'SET NULL'
       }
     })
   },
+
   down: queryInterface => {
     return queryInterface.dropTable('Users')
   }

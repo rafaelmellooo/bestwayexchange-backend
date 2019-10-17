@@ -12,7 +12,6 @@ module.exports = {
         name: faker.commerce.productName(),
         exchangeTypeId: Math.floor((Math.random() * 6) + 1),
         cityId: Math.floor((Math.random() * 60) + 1),
-        countryId: Math.floor((Math.random() * 15) + 1),
         agencyId: Math.floor((Math.random() * 10) + 1),
         price: faker.commerce.price(),
         createdAt: new Date()

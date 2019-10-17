@@ -1,4 +1,4 @@
-const { User, UserType } = require('../models')
+const User = require('../models/User')
 
 module.exports = {
   async show (req, res) {
@@ -9,8 +9,7 @@ module.exports = {
         attributes: ['email', 'name'],
         include: [
           {
-            model: UserType,
-            as: 'type',
+            association: 'type',
             attributes: ['name']
           }
         ]
@@ -18,6 +17,7 @@ module.exports = {
 
       res.status(200).json(user)
     } catch (err) {
+      console.log(err)
       res.status(400).json(err)
     }
   },
@@ -47,7 +47,8 @@ module.exports = {
       await User.destroy({
         where: {
           id: req.params.id
-        }
+        },
+        force: true
       })
 
       res.status(200).json()

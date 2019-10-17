@@ -1,15 +1,18 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const Address = sequelize.define('Address', {
-    description: DataTypes.TEXT,
-    agencyId: DataTypes.INTEGER,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING(2)
-  }, {
-    timestamps: false
-  })
-  Address.associate = models => {
-    // associations can be defined here
+const { Model, DataTypes } = require('sequelize')
+
+class Address extends Model {
+  static init (sequelize) {
+    super.init({
+      description: DataTypes.TEXT,
+      city: DataTypes.STRING,
+      state: DataTypes.STRING(2)
+    }, {
+      sequelize,
+      timestamps: false
+    })
   }
-  return Address
+
+  static associate (models) { }
 }
+
+module.exports = Address

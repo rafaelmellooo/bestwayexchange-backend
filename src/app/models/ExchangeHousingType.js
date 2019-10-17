@@ -1,21 +1,12 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const ExchangeHousingType = sequelize.define('ExchangeHousingType', {
-    exchangeId: DataTypes.INTEGER,
-    housingTypeId: DataTypes.INTEGER
-  }, {
-    timestamps: false
-  })
-  ExchangeHousingType.associate = models => {
-    ExchangeHousingType.belongsTo(models.Exchange, {
-      as: 'exchange',
-      foreignKey: 'exchangeId'
-    })
+const { Model } = require('sequelize')
 
-    ExchangeHousingType.belongsTo(models.HousingType, {
-      as: 'housingType',
-      foreignKey: 'housingTypeId'
+class ExchangeHousingType extends Model {
+  static init (sequelize) {
+    super.init({ }, {
+      sequelize,
+      timestamps: false
     })
   }
-  return ExchangeHousingType
 }
+
+module.exports = ExchangeHousingType

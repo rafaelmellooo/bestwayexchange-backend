@@ -1,61 +1,62 @@
-'use strict'
+const { Model, DataTypes } = require('sequelize')
 const bcrypt = require('bcryptjs')
 
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    email: DataTypes.STRING,
-    name: DataTypes.STRING,
-    password: DataTypes.STRING,
-    token: DataTypes.STRING,
-    expiresIn: DataTypes.DATE,
-    dateOfBirth: DataTypes.DATEONLY,
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    typeId: DataTypes.INTEGER,
-    agencyId: DataTypes.INTEGER
-  }, {
-    timestamps: false,
-    hooks: {
-      beforeCreate: async user => {
-        user.password = await bcrypt.hash(user.password, 10)
+class User extends Model {
+  static init (sequelize) {
+    super.init({
+      email: DataTypes.STRING,
+      name: DataTypes.STRING,
+      password: DataTypes.STRING,
+      token: DataTypes.STRING,
+      expiresIn: DataTypes.DATE,
+      dateOfBirth: DataTypes.DATEONLY,
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }
-    }
-  })
-  User.associate = models => {
-    User.belongsTo(models.UserType, {
+    }, {
+      sequelize,
+      timestamps: false,
+      hooks: {
+        beforeCreate: async user => {
+          user.password = await bcrypt.hash(user.password, 10)
+        }
+      }
+    })
+  }
+
+  static associate (models) {
+    this.belongsTo(models.UserType, {
       foreignKey: 'typeId',
       as: 'type'
     })
 
-    User.belongsTo(models.Agency, {
+    this.belongsTo(models.Agency, {
       foreignKey: 'agencyId',
       as: 'agency'
     })
 
-    User.belongsToMany(models.Exchange, {
-      through: models.Favorite,
-      as: 'exchanges',
+    this.hasMany(models.Favorite, {
+      as: 'favorites',
       foreignKey: 'userId'
     })
 
-    User.hasMany(models.Rate, {
+    this.hasMany(models.Rate, {
       as: 'rates',
       foreignKey: 'userId'
     })
 
-    User.hasMany(models.Chat, {
+    this.hasMany(models.Chat, {
       as: 'messages',
       foreignKey: 'from',
       otherKey: 'to'
     })
 
-    User.hasMany(models.AgencyGrade, {
+    this.hasMany(models.AgencyGrade, {
       foreignKey: 'userId',
       as: 'agencies'
     })
   }
-
-  return User
 }
+
+module.exports = User

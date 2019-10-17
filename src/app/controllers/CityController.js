@@ -1,4 +1,4 @@
-const { City } = require('../models')
+const City = require('../models/City')
 
 module.exports = {
   async index (req, res) {

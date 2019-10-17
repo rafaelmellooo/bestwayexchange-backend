@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Favorites', {
@@ -9,7 +10,8 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       exchangeId: {
         allowNull: false,
@@ -18,7 +20,8 @@ module.exports = {
         references: {
           model: 'exchanges',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -26,6 +29,7 @@ module.exports = {
       }
     })
   },
+
   down: queryInterface => {
     return queryInterface.dropTable('Favorites')
   }

@@ -1,36 +1,38 @@
-'use strict'
-const sequelizePaginate = require('sequelize-paginate')
+const { Model, DataTypes } = require('sequelize')
 
-module.exports = (sequelize, DataTypes) => {
-  const Rate = sequelize.define('Rate', {
-    exchangeId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
-    description: DataTypes.TEXT('long'),
-    hasRated: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    }
-  }, {
-    createdAt: false
-  })
-  Rate.associate = models => {
-    Rate.belongsTo(models.Exchange, {
+class Rate extends Model {
+  static init (sequelize) {
+    super.init({
+      description: DataTypes.TEXT('long'),
+      hasRated: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }
+    }, {
+      sequelize,
+      createdAt: false
+    })
+
+    require('sequelize-paginate').paginate(this)
+  }
+
+  static associate (models) {
+    this.belongsTo(models.Exchange, {
       foreignKey: 'exchangeId',
       as: 'exchanges'
     })
 
-    Rate.belongsTo(models.User, {
+    this.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'users'
     })
 
-    Rate.belongsToMany(models.Item, {
+    this.belongsToMany(models.Item, {
       through: models.ItemRate,
       as: 'items',
       foreignKey: 'rateId'
     })
   }
-
-  sequelizePaginate.paginate(Rate)
-  return Rate
 }
+
+module.exports = Rate

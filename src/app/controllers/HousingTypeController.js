@@ -1,4 +1,4 @@
-const { HousingType } = require('../models')
+const HousingType = require('../models/HousingType')
 
 module.exports = {
   async index (req, res) {

@@ -1,4 +1,4 @@
-const { User, AgencyGrade, Grade } = require('../models')
+const AgencyGrade = require('../models/AgencyGrade')
 
 module.exports = {
   async index (req, res) {
@@ -13,13 +13,11 @@ module.exports = {
         attributes: ['createdAt'],
         include: [
           {
-            model: User,
-            as: 'user',
+            association: 'user',
             attributes: ['email', 'name']
           },
           {
-            model: Grade,
-            as: 'grade',
+            association: 'grade',
             attributes: ['id', 'name']
           }
         ]

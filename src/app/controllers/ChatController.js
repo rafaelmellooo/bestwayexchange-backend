@@ -1,4 +1,4 @@
-const { Chat } = require('../models')
+const Chat = require('../models/Chat')
 const sequelize = require('sequelize')
 const { Op } = sequelize
 
@@ -49,7 +49,6 @@ module.exports = {
 
       res.status(200).json(chat)
     } catch (err) {
-      console.log(err)
       res.status(400).json(err)
     }
   },
@@ -62,8 +61,6 @@ module.exports = {
       const message = await Chat.create({
         from, to, message: body.message, exchangeId
       })
-
-      delete message.hasViewed
 
       res.status(200).json(message)
     } catch (err) {

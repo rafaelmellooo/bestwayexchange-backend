@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('ItemRates', {
@@ -9,7 +10,8 @@ module.exports = {
         references: {
           model: 'rates',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       itemId: {
         allowNull: false,
@@ -18,17 +20,20 @@ module.exports = {
         references: {
           model: 'items',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       gradeId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'grades',
           key: 'id'
-        }
+        },
+        onDelete: 'SET NULL'
       }
     })
   },
+
   down: queryInterface => {
     return queryInterface.dropTable('ItemRates')
   }

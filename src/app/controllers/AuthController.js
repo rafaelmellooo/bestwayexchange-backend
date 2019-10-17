@@ -1,4 +1,4 @@
-const { User, UserType } = require('../models')
+const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../../config/auth')
@@ -53,9 +53,8 @@ module.exports = {
         ]],
         include: [
           {
-            model: UserType,
             attributes: ['name'],
-            as: 'type'
+            association: 'type'
           }
         ],
         where: { email }

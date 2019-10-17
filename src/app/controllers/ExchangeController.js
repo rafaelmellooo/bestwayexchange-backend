@@ -1,36 +1,34 @@
-const { Exchange, HousingType, City, Country, ExchangeType, Language } = require('../models')
+const Exchange = require('../models/Exchange')
 
 module.exports = {
   async index (req, res) {
     try {
-      let { page = 1, languageId, housingTypeId, ...query } = req.query
+      let { page = 1, languagesId, housingTypesId, ...query } = req.query
 
-      languageId = languageId ? { id: languageId } : {}
+      languagesId = languagesId ? { id: languagesId } : {}
 
-      housingTypeId = housingTypeId ? { id: housingTypeId } : {}
+      housingTypesId = housingTypesId ? { id: housingTypesId } : {}
 
       const exchanges = await Exchange.paginate({
         page,
         paginate: 10,
         order: [
-          'name'
+          'id'
         ],
         where: query,
         attributes: ['id', 'name', 'description', 'price'],
         include: [
           {
-            model: HousingType,
-            where: housingTypeId,
-            as: 'housingTypes',
+            where: housingTypesId,
+            association: 'housingTypes',
             attributes: [],
             through: {
               attributes: []
             }
           },
           {
-            model: Language,
-            where: languageId,
-            as: 'languages',
+            where: languagesId,
+            association: 'languages',
             attributes: [],
             through: {
               attributes: []
@@ -39,7 +37,6 @@ module.exports = {
         ]
       })
 
-      console.log(exchanges.length)
       res.status(200).json(exchanges)
     } catch (err) {
       res.status(400).json(err)
@@ -52,33 +49,26 @@ module.exports = {
         attributes: ['name', 'description'],
         include: [
           {
-            model: HousingType,
-            as: 'housingTypes',
+            association: 'housingTypes',
             attributes: ['name', 'description'],
             through: {
               attributes: []
             }
           },
           {
-            model: City,
-            as: 'city',
+            association: 'city',
             attributes: ['name'],
-            include: [
-              {
-                model: Country,
-                as: 'country',
-                attributes: ['name', 'description']
-              }
-            ]
+            include: {
+              association: 'country',
+              attributes: ['name', 'description']
+            }
           },
           {
-            model: ExchangeType,
-            as: 'exchangeType',
+            association: 'exchangeType',
             attributes: ['name', 'description']
           },
           {
-            model: Language,
-            as: 'languages',
+            association: 'languages',
             attributes: ['name'],
             through: {
               attributes: []

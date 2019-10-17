@@ -1,21 +1,26 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const Favorite = sequelize.define('Favorite', {
-    userId: DataTypes.INTEGER,
-    exchangeId: DataTypes.INTEGER
-  }, {
-    updatedAt: false
-  })
-  Favorite.associate = models => {
-    Favorite.belongsTo(models.User, {
+const { Model } = require('sequelize')
+
+class Favorite extends Model {
+  static init (sequelize) {
+    super.init({ }, {
+      sequelize,
+      updatedAt: false
+    })
+
+    this.removeAttribute('id')
+  }
+
+  static associate (models) {
+    this.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user'
     })
 
-    Favorite.belongsTo(models.Exchange, {
+    this.belongsTo(models.Exchange, {
       foreignKey: 'exchangeId',
       as: 'exchange'
     })
   }
-  return Favorite
 }
+
+module.exports = Favorite

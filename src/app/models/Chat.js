@@ -1,28 +1,34 @@
-'use strict'
-const sequelizePaginate = require('sequelize-paginate')
+const { Model, DataTypes } = require('sequelize')
 
-module.exports = (sequelize, DataTypes) => {
-  const Chat = sequelize.define('Chat', {
-    message: DataTypes.TEXT,
-    exchangeId: DataTypes.INTEGER,
-    hasViewed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    from: DataTypes.INTEGER,
-    to: DataTypes.INTEGER
-  }, {
-    updatedAt: false
-  })
-  Chat.associate = models => {
-    Chat.belongsTo(models.User, {
+class Chat extends Model {
+  static init (sequelize) {
+    super.init({
+      message: DataTypes.TEXT,
+      hasViewed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }
+    }, {
+      sequelize,
+      updatedAt: false
+    })
+
+    this.removeAttribute('id')
+    require('sequelize-paginate').paginate(this)
+  }
+
+  static associate (models) {
+    this.belongsTo(models.User, {
       as: 'user',
       foreignKey: 'from',
       otherKey: 'to'
     })
-  }
 
-  Chat.removeAttribute('id')
-  sequelizePaginate.paginate(Chat)
-  return Chat
+    this.belongsTo(models.Exchange, {
+      as: 'exchange',
+      foreignKey: 'exchangeId'
+    })
+  }
 }
+
+module.exports = Chat

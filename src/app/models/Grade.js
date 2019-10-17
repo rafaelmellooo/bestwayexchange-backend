@@ -1,20 +1,26 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
-  const Grade = sequelize.define('Grade', {
-    name: DataTypes.STRING
-  }, {
-    timestamps: false
-  })
-  Grade.associate = models => {
-    Grade.hasMany(models.AgencyGrade, {
+const { Model, DataTypes } = require('sequelize')
+
+class Grade extends Model {
+  static init (sequelize) {
+    super.init({
+      name: DataTypes.STRING
+    }, {
+      sequelize,
+      timestamps: false
+    })
+  }
+
+  static associate (models) {
+    this.hasMany(models.AgencyGrade, {
       foreignKey: 'gradeId',
       as: 'agencies'
     })
 
-    Grade.hasMany(models.ItemRate, {
+    this.hasMany(models.ItemRate, {
       foreignKey: 'gradeId',
       as: 'rates'
     })
   }
-  return Grade
 }
+
+module.exports = Grade
