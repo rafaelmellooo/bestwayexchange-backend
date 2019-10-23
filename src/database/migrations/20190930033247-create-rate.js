@@ -27,12 +27,16 @@ module.exports = {
         },
         onDelete: 'CASCADE'
       },
-      description: {
+      comment: {
         type: Sequelize.TEXT('long')
       },
-      hasRated: {
+      isRated: {
         allowNull: false,
         type: Sequelize.BOOLEAN
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,

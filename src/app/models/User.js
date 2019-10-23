@@ -52,7 +52,8 @@ class User extends Model {
       otherKey: 'to'
     })
 
-    this.hasMany(models.AgencyGrade, {
+    this.belongsToMany(models.Agency, {
+      through: models.AgencyGrade,
       foreignKey: 'userId',
       as: 'agencies'
     })

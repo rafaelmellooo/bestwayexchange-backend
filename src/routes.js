@@ -15,6 +15,9 @@ const CityController = require('./app/controllers/CityController')
 const AgencyGradeController = require('./app/controllers/AgencyGradeController')
 const GradeController = require('./app/controllers/GradeController')
 const ItemController = require('./app/controllers/ItemController')
+const AddressController = require('./app/controllers/AddressController')
+const NotificationController = require('./app/controllers/NotificationController')
+const LogController = require('./app/controllers/LogController')
 // const multer = require('multer')
 // const multerConfig = require('./config/multer')
 
@@ -39,6 +42,10 @@ routes.get('/countries', CountryController.index)
 routes.get('/countries/:id/cities', CityController.index)
 
 routes.get('/agencies/:id/grades', AgencyGradeController.index)
+
+routes.get('/grades', GradeController.index)
+
+routes.get('/items/:id', ItemController.show)
 
 routes.use(AuthMiddleware)
 
@@ -71,8 +78,12 @@ routes.post('/exchanges/:exchangeId/chat/:userId', ChatController.store)
 routes.post('/agencies/:id/grade', AgencyGradeController.store)
 routes.delete('/agencies/:id/grade', AgencyGradeController.destroy)
 
-routes.get('/grades', GradeController.index)
+routes.post('/agencies/:agencyId/adresses', AddressController.store)
+routes.put('/agencies/:agencyId/adresses/:addressId', AddressController.update)
+routes.delete('/agencies/:agencyId/adresses/:addressId', AddressController.destroy)
 
-routes.get('/items/:id', ItemController.show)
+routes.get('/users/:userId/notifications', NotificationController.index)
+
+routes.get('/logs', LogController.index)
 
 module.exports = routes

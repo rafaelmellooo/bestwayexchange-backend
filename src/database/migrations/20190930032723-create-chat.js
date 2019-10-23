@@ -15,7 +15,7 @@ module.exports = {
           key: 'id'
         }
       },
-      hasViewed: {
+      isVisualized: {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },

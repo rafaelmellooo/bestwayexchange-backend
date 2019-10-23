@@ -1,4 +1,5 @@
 const Agency = require('../models/Agency')
+const AgencyGrade = require('../models/AgencyGrade')
 const sequelize = require('sequelize')
 
 module.exports = {
@@ -11,17 +12,21 @@ module.exports = {
         attributes: ['name'],
         include: [
           {
-            association: 'grades',
-            attributes: [[
-              sequelize.fn('AVG', sequelize.col('gradeId')), 'avg'
-            ]]
+            association: 'adresses',
+            attributes: ['zipCode', 'street', 'neighborhood', 'number', 'complement', 'city', 'state']
           }
         ]
       })
 
-      res.status(200).json(agency)
+      const grades = await AgencyGrade.findAll({
+        where: {
+          agencyId: req.params.id
+        },
+        attributes: [[sequelize.fn('AVG', sequelize.col('gradeId')), 'avg']]
+      })
+
+      res.status(200).json({ agency, grades })
     } catch (err) {
-      console.log(err)
       res.status(400).json(err)
     }
   },

@@ -3,14 +3,13 @@ const { Model, DataTypes } = require('sequelize')
 class Rate extends Model {
   static init (sequelize) {
     super.init({
-      description: DataTypes.TEXT('long'),
-      hasRated: {
+      comment: DataTypes.TEXT('long'),
+      isRated: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       }
     }, {
-      sequelize,
-      createdAt: false
+      sequelize
     })
 
     require('sequelize-paginate').paginate(this)

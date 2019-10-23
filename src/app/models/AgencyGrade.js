@@ -6,21 +6,9 @@ class AgencyGrade extends Model {
       sequelize,
       updatedAt: false
     })
-
-    this.removeAttribute('id')
   }
 
   static associate (models) {
-    this.belongsTo(models.Agency, {
-      foreignKey: 'agencyId',
-      as: 'agency'
-    })
-
-    this.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user'
-    })
-
     this.belongsTo(models.Grade, {
       foreignKey: 'gradeId',
       as: 'grade'

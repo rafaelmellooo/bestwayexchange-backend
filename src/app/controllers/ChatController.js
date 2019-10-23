@@ -9,12 +9,12 @@ module.exports = {
       const { userId: to, exchangeId } = params
       const { page = 1 } = query
 
-      await Chat.update({ hasViewed: true }, {
+      await Chat.update({ isVisualized: true }, {
         where: {
           [Op.and]: [
             { from: to },
             { to: from },
-            { hasViewed: false }
+            { isVisualized: false }
           ]
         }
       })

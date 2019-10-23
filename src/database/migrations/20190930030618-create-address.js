@@ -9,9 +9,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      description: {
+      zipCode: {
         allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.STRING(8)
+      },
+      street: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      neighborhood: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      number: {
+        type: Sequelize.INTEGER
+      },
+      complement: {
+        type: Sequelize.STRING
       },
       agencyId: {
         allowNull: false,
@@ -28,7 +42,7 @@ module.exports = {
       },
       state: {
         allowNull: false,
-        type: Sequelize.STRING(2)
+        type: Sequelize.STRING
       }
     })
   },

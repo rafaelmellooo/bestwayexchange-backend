@@ -13,7 +13,7 @@ module.exports = {
         ],
         where: {
           exchangeId: req.params.exchangeId,
-          hasRated: true
+          isRated: true
         },
         attributes: ['id', 'description', 'updatedAt'],
         include: [
@@ -63,12 +63,12 @@ module.exports = {
         where: {
           userId, exchangeId
         },
-        attributes: ['id', 'hasRated']
+        attributes: ['id', 'isRated']
       })
 
-      if (rate.hasRated) return res.status(401).json()
+      if (rate.isRated) return res.status(401).json()
 
-      await rate.update({ description, hasRated: true })
+      await rate.update({ description, isRated: true })
 
       await Promise.all(items.map(async ({ itemId, gradeId }) => {
         await rate.addItem(itemId, {

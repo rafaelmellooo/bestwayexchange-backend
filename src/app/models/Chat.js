@@ -4,7 +4,7 @@ class Chat extends Model {
   static init (sequelize) {
     super.init({
       message: DataTypes.TEXT,
-      hasViewed: {
+      isVisualized: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       }

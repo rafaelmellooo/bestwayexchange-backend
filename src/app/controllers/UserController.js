@@ -47,8 +47,7 @@ module.exports = {
       await User.destroy({
         where: {
           id: req.params.id
-        },
-        force: true
+        }
       })
 
       res.status(200).json()

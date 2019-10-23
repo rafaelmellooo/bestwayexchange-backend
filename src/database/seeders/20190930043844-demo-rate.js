@@ -25,8 +25,9 @@ module.exports = {
         id: i + 1,
         userId,
         exchangeId,
-        description: faker.lorem.paragraph(),
-        hasRated: true,
+        comment: faker.lorem.paragraph(),
+        isRated: faker.random.boolean(),
+        createdAt: new Date(),
         updatedAt: new Date()
       })
     }
