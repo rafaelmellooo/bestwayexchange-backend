@@ -8,7 +8,11 @@ module.exports = {
     if (req.userId !== parseInt(userId)) return res.status(401).json()
 
     try {
-      const messages = await Chat.findAll({
+      const { page = 1 } = req.query
+
+      const messages = await Chat.paginate({
+        page,
+        paginate: 5,
         order: [
           ['createdAt', 'desc']
         ],
@@ -19,7 +23,9 @@ module.exports = {
         attributes: ['message', 'from', 'createdAt', 'exchangeId']
       })
 
-      const rates = await Rate.findAll({
+      const rates = await Rate.paginate({
+        page,
+        paginate: 5,
         order: [
           ['createdAt', 'desc']
         ],
@@ -32,7 +38,6 @@ module.exports = {
 
       res.status(200).json({ messages, rates })
     } catch (err) {
-      console.log(err)
       res.status(400).json(err)
     }
   }
