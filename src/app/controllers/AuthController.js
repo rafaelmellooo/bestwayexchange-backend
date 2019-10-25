@@ -10,7 +10,15 @@ const sequelize = require('sequelize')
 module.exports = {
   async register (req, res) {
     try {
-      const user = await User.create(req.body)
+      const { typeId, agencyId, ...data } = req.body
+
+      if (typeId === 2) {
+        if (req.user.typeId !== 3) return res.status(401).json()
+
+        if (agencyId !== req.user.agencyId) return res.status(401).json()
+      }
+
+      const user = await User.create(data)
 
       res.status(200).json(user)
     } catch (err) {
@@ -25,7 +33,7 @@ module.exports = {
       where: {
         email
       },
-      attributes: ['id', 'password', 'isActive']
+      attributes: ['id', 'typeId', 'agencyId', 'password', 'isActive']
     })
 
     if (!user) return res.status(400).json({ error: 'E-mail inválido' })
@@ -36,7 +44,13 @@ module.exports = {
 
     if (!user.isActive) return res.status(401).json()
 
-    const token = jwt.sign({ id: user.id }, authConfig.secret, {
+    const { id, typeId, agencyId } = user
+
+    const token = jwt.sign({
+      user: {
+        id, typeId, agencyId
+      }
+    }, authConfig.secret, {
       expiresIn: 86400
     })
 

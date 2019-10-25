@@ -25,16 +25,16 @@ module.exports = {
 
       res.status(200).json(grades)
     } catch (err) {
-      console.log(err)
       res.status(400).json(err)
     }
   },
 
   async store (req, res) {
     try {
-      const { params, userId, body } = req
+      const { params, user, body } = req
       const { gradeId } = body
       const { id: agencyId } = params
+      const { id: userId } = user
 
       await AgencyGrade.create({
         agencyId, userId, gradeId
@@ -48,8 +48,9 @@ module.exports = {
 
   async destroy (req, res) {
     try {
-      const { params, userId } = req
+      const { params, user } = req
       const { id: agencyId } = params
+      const { id: userId } = user
 
       await AgencyGrade.destroy({
         where: {

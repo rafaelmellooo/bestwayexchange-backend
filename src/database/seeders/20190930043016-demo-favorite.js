@@ -5,8 +5,8 @@ module.exports = {
     const data = []
     const favorites = []
 
-    for (let i = 0; i < 60; i++) {
-      let exchangeId = Math.floor((Math.random() * 30) + 1)
+    for (let i = 0; i < 600; i++) {
+      let exchangeId = Math.floor((Math.random() * 150) + 1)
       let userId = Math.floor((Math.random() * 20) + 1)
 
       while (

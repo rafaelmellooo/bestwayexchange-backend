@@ -1,15 +1,18 @@
 const express = require('express')
 
+const AgencyController = require('../app/controllers/AgencyController')
 const AgencyGradeController = require('../app/controllers/AgencyGradeController')
 const AuthController = require('../app/controllers/AuthController')
 const CityController = require('../app/controllers/CityController')
 const CountryController = require('../app/controllers/CountryController')
+const ExchangeController = require('../app/controllers/ExchangeController')
 const ExchangeTypeController = require('../app/controllers/ExchangeTypeController')
 const GradeController = require('../app/controllers/GradeController')
 const HousingTypeController = require('../app/controllers/HousingTypeController')
 const ItemController = require('../app/controllers/ItemController')
 const LanguageController = require('../app/controllers/LanguageController')
 const RateController = require('../app/controllers/RateController')
+const UserController = require('../app/controllers/UserController')
 
 const routes = express.Router()
 
@@ -35,5 +38,13 @@ routes.get('/agencies/:id/grades', AgencyGradeController.index)
 routes.get('/grades', GradeController.index)
 
 routes.get('/items/:id', ItemController.show)
+
+routes.get('/exchanges', ExchangeController.index)
+
+routes.get('/exchanges/:id', ExchangeController.show)
+
+routes.get('/agencies/:id', AgencyController.show)
+
+routes.get('/users/:id', UserController.show)
 
 module.exports = routes

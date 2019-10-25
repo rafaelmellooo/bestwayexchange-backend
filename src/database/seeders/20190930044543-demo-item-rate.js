@@ -4,7 +4,7 @@ module.exports = {
   up: queryInterface => {
     const data = []
 
-    for (let i = 0; i < 480; i++) {
+    for (let i = 0; i < 1500; i++) {
       for (let j = 0; j < 3; j++) {
         data.push({
           rateId: i + 1,

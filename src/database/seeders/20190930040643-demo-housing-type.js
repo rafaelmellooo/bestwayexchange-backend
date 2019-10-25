@@ -25,11 +25,12 @@ module.exports = {
       ]
     ]
     const data = []
+    let id = 0
 
-    for (let i = 0; i < housingTypes.length; i++) {
-      const [name, description] = housingTypes[i]
-      data.push({ id: i + 1, name, description })
-    }
+    housingTypes.map(([name, description]) => {
+      id++
+      data.push({ id, name, description })
+    })
 
     return queryInterface.bulkInsert('HousingTypes', data, {})
   },

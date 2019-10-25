@@ -5,14 +5,14 @@ module.exports = {
     const data = []
     const exchangeHousingTypes = []
 
-    for (let i = 0; i < 90; i++) {
-      let exchangeId = Math.floor((Math.random() * 30) + 1)
+    for (let i = 0; i < 525; i++) {
+      let exchangeId = Math.floor((Math.random() * 150) + 1)
       let housingTypeId = Math.floor((Math.random() * 5) + 1)
 
       while (
         exchangeHousingTypes.some(([_exchangeId, _housingTypeId]) => _exchangeId === exchangeId && _housingTypeId === housingTypeId)
       ) {
-        exchangeId = Math.floor((Math.random() * 30) + 1)
+        exchangeId = Math.floor((Math.random() * 150) + 1)
         housingTypeId = Math.floor((Math.random() * 5) + 1)
       }
 

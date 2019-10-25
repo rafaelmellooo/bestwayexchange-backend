@@ -4,10 +4,12 @@ module.exports = {
   up: queryInterface => {
     const names = ['Chinês', 'Espanhol', 'Inglês', 'Hindi', 'Árabe', 'Português', 'Bengali', 'Russo', 'Japonês', 'Punjabi/Lahnda']
     const data = []
+    let id = 0
 
-    for (let i = 0; i < names.length; i++) {
-      data.push({ id: i + 1, name: names[i] })
-    }
+    names.map(name => {
+      id++
+      data.push({ id, name })
+    })
 
     return queryInterface.bulkInsert('Languages', data, {})
   },

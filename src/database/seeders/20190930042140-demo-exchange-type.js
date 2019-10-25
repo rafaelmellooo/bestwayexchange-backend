@@ -28,12 +28,14 @@ module.exports = {
         'O voluntariado é considerado uma das formas mais generosas de intercâmbio. Nessa modalidade a pessoa viajar para trabalhar voluntariamente em uma ONG ou outro tipo de organização que realiza trabalhos sociais. A partir das vivências vem o aprendizado, assim como no Work and travel, a melhora nas habilidades de fala e compreensão da língua é desenvolvida através do contato com outras pessoas.'
       ]
     ]
-    const data = []
 
-    for (let i = 0; i < exchangeTypes.length; i++) {
-      const [name, description] = exchangeTypes[i]
-      data.push({ id: i + 1, name, description })
-    }
+    const data = []
+    let id = 0
+
+    exchangeTypes.map(([name, description]) => {
+      id++
+      data.push({ id, name, description })
+    })
 
     return queryInterface.bulkInsert('ExchangeTypes', data, {})
   },

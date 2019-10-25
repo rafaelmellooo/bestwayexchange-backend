@@ -8,7 +8,7 @@ module.exports = {
           ['createdAt', 'DESC']
         ],
         where: {
-          userId: req.userId
+          userId: req.user.id
         },
         attributes: ['createdAt'],
         include: [
@@ -27,8 +27,9 @@ module.exports = {
 
   async store (req, res) {
     try {
-      const { userId, params } = req
+      const { user, params } = req
       const { exchangeId } = params
+      const { id: userId } = user
 
       await Favorite.create({
         userId,
@@ -43,8 +44,9 @@ module.exports = {
 
   async destroy (req, res) {
     try {
-      const { userId, params } = req
+      const { user, params } = req
       const { exchangeId } = params
+      const { id: userId } = user
 
       await Favorite.destroy({
         where: {

@@ -34,7 +34,7 @@ module.exports = {
         to,
         createdAt,
         isVisualized: faker.random.boolean(),
-        exchangeId: Math.floor((Math.random() * 30) + 1)
+        exchangeId: Math.floor((Math.random() * 150) + 1)
       })
     }
 

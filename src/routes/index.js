@@ -1,18 +1,14 @@
 const express = require('express')
 
-const admin = require('./admin')
-const all = require('./all')
-const common = require('./common')
-const employee = require('./employee')
+const free = require('./free')
+const logged = require('./logged')
 
 const AuthMiddleware = require('../app/middlewares/AuthMiddleware')
 
 const routes = express.Router()
 
-routes.use(all)
+routes.use(free)
 routes.use(AuthMiddleware)
-routes.use(admin)
-routes.use(common)
-routes.use(employee)
+routes.use(logged)
 
 module.exports = routes

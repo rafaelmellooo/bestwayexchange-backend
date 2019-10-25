@@ -3,8 +3,6 @@ const User = require('../models/User')
 module.exports = {
   async show (req, res) {
     try {
-      if (req.userId !== parseInt(req.params.id)) return res.status(401).json()
-
       const user = await User.findByPk(req.params.id, {
         attributes: ['email', 'name'],
         include: [
@@ -17,14 +15,13 @@ module.exports = {
 
       res.status(200).json(user)
     } catch (err) {
-      console.log(err)
       res.status(400).json(err)
     }
   },
 
   async update (req, res) {
     try {
-      if (req.userId !== parseInt(req.params.id)) return res.status(401).json()
+      if (req.user.id !== parseInt(req.params.id)) return res.status(401).json()
 
       if (req.body.typeId || req.body.agencyId || req.body.isActive) return res.status(401).json()
 
@@ -42,7 +39,17 @@ module.exports = {
 
   async destroy (req, res) {
     try {
-      if (req.userId !== parseInt(req.params.id)) return res.status(401).json()
+      const user = await User.findByPk(req.params.id, {
+        attributes: ['id', 'typeId', 'agencyId']
+      })
+
+      if (user.typeId === 2) {
+        if (req.user.typeId !== 3) return res.status(401).json()
+
+        if (user.agencyId !== req.user.agencyId) return res.status(401).json()
+      } else {
+        if (req.user.id !== parseInt(user.id)) return res.status(401).json()
+      }
 
       await User.destroy({
         where: {

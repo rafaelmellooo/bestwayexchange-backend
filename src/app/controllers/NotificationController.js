@@ -5,7 +5,7 @@ module.exports = {
   async index (req, res) {
     const userId = req.params.userId
 
-    if (req.userId !== parseInt(userId)) return res.status(401).json()
+    if (req.user.id !== parseInt(userId)) return res.status(401).json()
 
     try {
       const { page = 1 } = req.query

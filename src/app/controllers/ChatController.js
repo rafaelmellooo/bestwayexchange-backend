@@ -5,9 +5,10 @@ const { Op } = sequelize
 module.exports = {
   async index (req, res) {
     try {
-      const { userId: from, params, query } = req
+      const { user, params, query } = req
       const { userId: to, exchangeId } = params
       const { page = 1 } = query
+      const { id: from } = user
 
       await Chat.update({ isVisualized: true }, {
         where: {
@@ -55,8 +56,9 @@ module.exports = {
 
   async store (req, res) {
     try {
-      const { userId: from, params, body } = req
+      const { user, params, body } = req
       const { userId: to, exchangeId } = params
+      const { id: from } = user
 
       const message = await Chat.create({
         from, to, message: body.message, exchangeId

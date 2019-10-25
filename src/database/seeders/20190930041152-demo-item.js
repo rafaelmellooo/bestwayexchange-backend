@@ -4,10 +4,12 @@ module.exports = {
   up: queryInterface => {
     const names = ['Qualidade no Atendimento', 'Experiência do Intercâmbio', 'Relação de custo-benefício']
     const data = []
+    let id = 0
 
-    for (let i = 0; i < names.length; i++) {
-      data.push({ id: i + 1, name: names[i] })
-    }
+    names.map(name => {
+      id++
+      data.push({ id, name })
+    })
 
     return queryInterface.bulkInsert('Items', data, {})
   },

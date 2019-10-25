@@ -15,7 +15,7 @@ module.exports = {
           exchangeId: req.params.exchangeId,
           isRated: true
         },
-        attributes: ['id', 'description', 'updatedAt'],
+        attributes: ['id', 'comment', 'updatedAt'],
         include: [
           {
             association: 'users',
@@ -40,8 +40,9 @@ module.exports = {
 
   async store (req, res) {
     try {
-      const { userId, params } = req
+      const { user, params } = req
       const { exchangeId } = params
+      const { id: userId } = user
 
       await Rate.create({
         userId, exchangeId
@@ -55,9 +56,10 @@ module.exports = {
 
   async update (req, res) {
     try {
-      const { userId, params, body } = req
+      const { user, params, body } = req
       const { exchangeId } = params
       const { description, items } = body
+      const { id: userId } = user
 
       const rate = await Rate.findOne({
         where: {
@@ -84,7 +86,8 @@ module.exports = {
 
   async destroy (req, res) {
     try {
-      const { userId, params } = req
+      const { user, params } = req
+      const { id: userId } = user
 
       await Rate.destroy({
         where: {
