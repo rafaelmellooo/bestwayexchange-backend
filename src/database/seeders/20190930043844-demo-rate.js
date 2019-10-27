@@ -6,14 +6,14 @@ module.exports = {
 
     const data = []
     const rates = []
-    for (let i = 0; i < 1500; i++) {
-      let userId = Math.floor((Math.random() * 20) + 1)
+    for (let i = 0; i < 1280; i++) {
+      let userId = Math.floor((Math.random() * 120) + 41)
       let exchangeId = Math.floor((Math.random() * 150) + 1)
 
       while (
         rates.some(([_userId, _exchangeId]) => _userId === userId && _exchangeId === exchangeId)
       ) {
-        userId = Math.floor((Math.random() * 20) + 1)
+        userId = Math.floor((Math.random() * 120) + 41)
         exchangeId = Math.floor((Math.random() * 150) + 1)
       }
 

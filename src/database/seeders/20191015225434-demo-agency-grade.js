@@ -5,15 +5,15 @@ module.exports = {
     const data = []
     const userAgencies = []
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 600; i++) {
       let agencyId = Math.floor((Math.random() * 10) + 1)
-      let userId = Math.floor((Math.random() * 20) + 1)
+      let userId = Math.floor((Math.random() * 120) + 41)
 
       while (
         userAgencies.some(([_agencyId, _userId]) => _agencyId === agencyId && _userId === userId)
       ) {
         agencyId = Math.floor((Math.random() * 10) + 1)
-        userId = Math.floor((Math.random() * 20) + 1)
+        userId = Math.floor((Math.random() * 120) + 41)
       }
 
       userAgencies.push([

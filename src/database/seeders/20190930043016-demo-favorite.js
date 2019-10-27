@@ -5,15 +5,15 @@ module.exports = {
     const data = []
     const favorites = []
 
-    for (let i = 0; i < 600; i++) {
+    for (let i = 0; i < 1920; i++) {
       let exchangeId = Math.floor((Math.random() * 150) + 1)
-      let userId = Math.floor((Math.random() * 20) + 1)
+      let userId = Math.floor((Math.random() * 120) + 41)
 
       while (
         favorites.some(([_exchangeId, _userId]) => _exchangeId === exchangeId && _userId === userId)
       ) {
-        exchangeId = Math.floor((Math.random() * 30) + 1)
-        userId = Math.floor((Math.random() * 20) + 1)
+        exchangeId = Math.floor((Math.random() * 150) + 1)
+        userId = Math.floor((Math.random() * 120) + 41)
       }
 
       favorites.push([
