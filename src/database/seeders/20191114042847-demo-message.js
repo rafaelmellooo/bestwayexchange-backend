@@ -2,7 +2,8 @@
 
 module.exports = {
   up: queryInterface => {
-    const { addSeconds, getMonth, setDate } = require('date-fns')
+    const faker = require('faker')
+    const { addSeconds, getDate, setDate } = require('date-fns')
     const { zonedTimeToUtc } = require('date-fns-tz')
 
     const agencies = []
@@ -34,10 +35,10 @@ module.exports = {
 
     const data = []
 
-    let id = 0
-
     const today = zonedTimeToUtc(new Date(), 'America/Sao_Paulo')
-    let createdAt = setDate(today, getMonth(today) - 1)
+    let createdAt = setDate(today, getDate(today) - 1)
+
+    let chatId = 0
 
     for (let i = 0; i < 120; i++) {
       if (i % 2 === 0) { continue }
@@ -50,28 +51,34 @@ module.exports = {
         for (let k = 0; k < 20; k++) {
           if (k % 2 === 0) { continue }
 
-          const exchangeId = agency.exchanges[k]
-
           const employeeId = k % 2 === 0 ? agency.employees[1] : (k % 3 === 0 ? agency.employees[2] : agency.employees[3])
 
-          createdAt = addSeconds(createdAt, 1)
-          id++
+          chatId++
 
-          data.push({
-            id,
-            userId: i + 41,
-            employeeId,
-            createdAt,
-            exchangeId
-          })
+          for (let l = 0; l < 5; l++) {
+            const from = l % 2 === 0 ? (i + 41) : employeeId
+
+            const filename = l === 3 ? (faker.random.boolean() ? '4decc52ed3bf91366485508cb5cebd26-contract.pdf' : null) : (l === 4 ? (faker.random.boolean() ? '6028ee5d20e6baed985f934c3a887da3-document.png' : null) : null)
+
+            createdAt = addSeconds(createdAt, 1)
+
+            data.push({
+              chatId,
+              body: faker.lorem.paragraph(),
+              from,
+              isVisualized: faker.random.boolean(),
+              createdAt,
+              filename
+            })
+          }
         }
       }
     }
 
-    return queryInterface.bulkInsert('Chats', data, {})
+    return queryInterface.bulkInsert('Messages', data, {})
   },
 
   down: queryInterface => {
-    return queryInterface.bulkDelete('Chats', null, {})
+    return queryInterface.bulkDelete('Messages', null, {})
   }
 }

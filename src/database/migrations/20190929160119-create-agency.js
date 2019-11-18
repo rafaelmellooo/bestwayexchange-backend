@@ -12,6 +12,16 @@ module.exports = {
       name: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      description: {
+        allowNull: false,
+        type: Sequelize.TEXT('long')
+      },
+      filename: {
+        type: Sequelize.STRING
+      },
+      background: {
+        type: Sequelize.STRING
       }
     })
   },

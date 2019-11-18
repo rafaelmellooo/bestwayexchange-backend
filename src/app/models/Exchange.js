@@ -3,9 +3,33 @@ const { Model, DataTypes } = require('sequelize')
 class Exchange extends Model {
   static init (sequelize) {
     super.init({
-      description: DataTypes.TEXT,
-      name: DataTypes.STRING,
-      price: DataTypes.INTEGER
+      description: {
+        type: DataTypes.TEXT,
+        validate: {
+          notEmpty: {
+            msg: 'A descrição não deve ser nula'
+          }
+        }
+      },
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: 'O nome não deve ser nulo'
+          }
+        }
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            msg: 'O preço não deve ser nulo'
+          },
+          isInt: {
+            msg: 'O preço deve ser numérico'
+          }
+        }
+      }
     }, {
       sequelize,
       updatedAt: false

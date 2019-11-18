@@ -18,7 +18,7 @@ module.exports = {
         if (agencyId !== req.user.agencyId) return res.status(401).json()
       }
 
-      const user = await User.create(data)
+      const user = await User.create({ typeId, agencyId, ...data })
 
       res.status(200).json(user)
     } catch (err) {

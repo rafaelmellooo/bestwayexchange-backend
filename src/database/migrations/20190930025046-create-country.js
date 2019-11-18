@@ -16,6 +16,9 @@ module.exports = {
       description: {
         allowNull: false,
         type: Sequelize.TEXT('long')
+      },
+      filename: {
+        type: Sequelize.STRING
       }
     })
   },

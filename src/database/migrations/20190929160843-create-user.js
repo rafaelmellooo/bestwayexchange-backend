@@ -52,6 +52,9 @@ module.exports = {
           key: 'id'
         },
         onDelete: 'SET NULL'
+      },
+      filename: {
+        type: Sequelize.STRING
       }
     })
   },

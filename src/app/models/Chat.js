@@ -3,7 +3,14 @@ const { Model, DataTypes } = require('sequelize')
 class Chat extends Model {
   static init (sequelize) {
     super.init({
-      message: DataTypes.TEXT,
+      message: {
+        type: DataTypes.TEXT,
+        validate: {
+          notEmpty: {
+            msg: 'A mensagem não deve ser nula'
+          }
+        }
+      },
       isVisualized: {
         type: DataTypes.BOOLEAN,
         defaultValue: false

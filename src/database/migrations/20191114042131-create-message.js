@@ -2,23 +2,18 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Chats', {
-      id: {
+    return queryInterface.createTable('Messages', {
+      chatId: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      exchangeId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'exchanges',
+          model: 'chats',
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
-      userId: {
+      from: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -27,14 +22,15 @@ module.exports = {
         },
         onDelete: 'CASCADE'
       },
-      employeeId: {
+      body: {
+        type: Sequelize.TEXT('long')
+      },
+      isVisualized: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+        type: Sequelize.BOOLEAN
+      },
+      filename: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -44,7 +40,7 @@ module.exports = {
     })
   },
 
-  down: queryInterface => {
-    return queryInterface.dropTable('Chats')
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('Messages')
   }
 }

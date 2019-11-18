@@ -3,39 +3,51 @@ const Exchange = require('../models/Exchange')
 module.exports = {
   async index (req, res) {
     try {
-      let { page = 1, languagesId, housingTypesId, ...query } = req.query
+      const { page = 1, exchangeTypes, city, languages, housingTypes } = req.query
 
-      languagesId = languagesId ? { id: languagesId } : {}
-
-      housingTypesId = housingTypesId ? { id: housingTypesId } : {}
-
-      const exchanges = await Exchange.paginate({
+      console.log(languages)
+      const options = {
         page,
         paginate: 10,
         order: [
           'id'
         ],
-        where: query,
+        where: {
+          exchangeTypeId: exchangeTypes ? exchangeTypes.split(',') : undefined,
+          cityId: city
+        },
         attributes: ['id', 'name', 'description', 'price'],
         include: [
           {
-            where: housingTypesId,
-            association: 'housingTypes',
+            where: {
+              id: languages ? languages.split(',') : undefined
+            },
+            association: 'languages',
             attributes: [],
             through: {
               attributes: []
             }
           },
           {
-            where: languagesId,
-            association: 'languages',
+            where: {
+              id: housingTypes ? housingTypes.split(',') : undefined
+            },
+            association: 'housingTypes',
             attributes: [],
             through: {
               attributes: []
             }
           }
         ]
+      }
+
+      Object.keys(options.where).forEach(key => options.where[key] === undefined && delete options.where[key])
+
+      options.include.map(association => {
+        Object.keys(association.where).forEach(key => association.where[key] === undefined && delete association.where[key])
       })
+
+      const exchanges = await Exchange.paginate(options)
 
       res.status(200).json(exchanges)
     } catch (err) {

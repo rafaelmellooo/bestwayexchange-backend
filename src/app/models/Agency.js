@@ -3,7 +3,14 @@ const { Model, DataTypes } = require('sequelize')
 class Agency extends Model {
   static init (sequelize) {
     super.init({
-      name: DataTypes.STRING
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: 'O nome não deve ser nulo'
+          }
+        }
+      }
     }, {
       sequelize,
       timestamps: false

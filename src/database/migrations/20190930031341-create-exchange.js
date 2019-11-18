@@ -24,6 +24,14 @@ module.exports = {
           key: 'id'
         }
       },
+      countryId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'cities',
+          key: 'countryId'
+        },
+        onDelete: 'SET NULL'
+      },
       cityId: {
         type: Sequelize.INTEGER,
         references: {
@@ -46,6 +54,9 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      filename: {
+        type: Sequelize.STRING
       }
     })
   },
