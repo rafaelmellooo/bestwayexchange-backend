@@ -10,7 +10,17 @@ class Agency extends Model {
             msg: 'O nome não deve ser nulo'
           }
         }
-      }
+      },
+      description: {
+        type: DataTypes.TEXT('long'),
+        validate: {
+          notEmpty: {
+            msg: 'A descrição não deve ser nula'
+          }
+        }
+      },
+      filename: DataTypes.STRING,
+      background: DataTypes.STRING
     }, {
       sequelize,
       timestamps: false
@@ -32,6 +42,11 @@ class Agency extends Model {
     this.hasMany(models.Address, {
       foreignKey: 'agencyId',
       as: 'adresses'
+    })
+
+    this.hasMany(models.Exchange, {
+      as: 'exchanges',
+      foreignKey: 'agencyId'
     })
   }
 }

@@ -1,39 +1,34 @@
-const { Model, DataTypes } = require('sequelize')
+const { Model } = require('sequelize')
 
 class Chat extends Model {
   static init (sequelize) {
-    super.init({
-      message: {
-        type: DataTypes.TEXT,
-        validate: {
-          notEmpty: {
-            msg: 'A mensagem não deve ser nula'
-          }
-        }
-      },
-      isVisualized: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }
-    }, {
+    super.init({ }, {
       sequelize,
       updatedAt: false
     })
 
-    this.removeAttribute('id')
     require('sequelize-paginate').paginate(this)
   }
 
   static associate (models) {
     this.belongsTo(models.User, {
       as: 'user',
-      foreignKey: 'from',
-      otherKey: 'to'
+      foreignKey: 'userId'
+    })
+
+    this.belongsTo(models.User, {
+      as: 'employee',
+      foreignKey: 'employeeId'
     })
 
     this.belongsTo(models.Exchange, {
       as: 'exchange',
       foreignKey: 'exchangeId'
+    })
+
+    this.hasMany(models.Message, {
+      as: 'messages',
+      foreignKey: 'chatId'
     })
   }
 }

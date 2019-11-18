@@ -5,11 +5,11 @@ module.exports = {
     const faker = require('faker')
 
     const data = []
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 100; i++) {
       data.push({
         id: i + 1,
         name: faker.address.city(),
-        countryId: Math.floor((Math.random() * 15) + 1)
+        countryId: Math.floor((Math.random() * 10) + 1)
       })
     }
 

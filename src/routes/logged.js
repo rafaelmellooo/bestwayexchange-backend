@@ -67,7 +67,8 @@ routes.route('/exchanges/:exchangeId/rate')
   .put(only.user, RateController.update)
   .delete(RateController.destroy)
 
-routes.get('/users/:userId/chats', only.employeeAndUser, ChatController.index)
+routes.get('/chats', only.employeeAndUser, ChatController.index)
+routes.post('/chats', only.user, ChatController.store)
 
 routes.route('/exchanges/:exchangeId/messages', only.employeeAndUser)
   .get(MessageController.index)

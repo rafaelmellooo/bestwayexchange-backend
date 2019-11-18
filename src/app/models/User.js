@@ -51,7 +51,8 @@ class User extends Model {
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-      }
+      },
+      filename: DataTypes.STRING
     }, {
       sequelize,
       timestamps: false,
@@ -85,15 +86,20 @@ class User extends Model {
     })
 
     this.hasMany(models.Chat, {
-      as: 'messages',
-      foreignKey: 'from',
-      otherKey: 'to'
+      as: 'chats',
+      foreignKey: 'userId',
+      otherKey: 'employeeId'
     })
 
     this.belongsToMany(models.Agency, {
       through: models.AgencyGrade,
       foreignKey: 'userId',
       as: 'agencies'
+    })
+
+    this.hasMany(models.Message, {
+      as: 'messages',
+      foreignKey: 'from'
     })
   }
 }

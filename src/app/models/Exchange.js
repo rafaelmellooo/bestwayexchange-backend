@@ -29,7 +29,8 @@ class Exchange extends Model {
             msg: 'O preço deve ser numérico'
           }
         }
-      }
+      },
+      filename: DataTypes.STRING
     }, {
       sequelize,
       updatedAt: false
@@ -74,6 +75,11 @@ class Exchange extends Model {
     this.hasMany(models.Chat, {
       as: 'chats',
       foreignKey: 'exchangeId'
+    })
+
+    this.belongsTo(models.Agency, {
+      as: 'agency',
+      foreignKey: 'agencyId'
     })
   }
 }
