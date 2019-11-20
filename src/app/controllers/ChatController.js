@@ -7,12 +7,8 @@ module.exports = {
     const chats = await Chat.findAll({
       where: {
         [Op.or]: [
-          {
-            employeeId: req.user.id
-          },
-          {
-            userId: req.user.id
-          }
+          { employeeId: req.user.id },
+          { userId: req.user.id }
         ]
       }
     })

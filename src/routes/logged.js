@@ -69,10 +69,7 @@ routes.route('/exchanges/:exchangeId/rate')
 
 routes.get('/chats', only.employeeAndUser, ChatController.index)
 routes.post('/chats', only.user, ChatController.store)
-
-routes.route('/exchanges/:exchangeId/messages', only.employeeAndUser)
-  .get(MessageController.index)
-  .post(MessageController.store)
+routes.get('/chats/:id', only.employeeAndUser, MessageController.index)
 
 routes.route('/agencies/:id/grade', only.user)
   .post(AgencyGradeController.store)

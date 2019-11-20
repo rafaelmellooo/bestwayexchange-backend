@@ -15,6 +15,7 @@ class Message extends Model {
     })
 
     this.removeAttribute('id')
+    require('sequelize-paginate').paginate(this)
   }
 
   static associate (models) {

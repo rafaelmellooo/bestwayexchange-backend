@@ -20,32 +20,27 @@ module.exports = {
       exchangeTypeId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'exchangetypes',
+          model: 'ExchangeTypes',
           key: 'id'
-        }
-      },
-      countryId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'cities',
-          key: 'countryId'
         },
         onDelete: 'SET NULL'
       },
       cityId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'cities',
+          model: 'Cities',
           key: 'id'
         },
         onDelete: 'SET NULL'
       },
       agencyId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'agencies',
+          model: 'Agencies',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       price: {
         allowNull: false,
@@ -57,6 +52,10 @@ module.exports = {
       },
       filename: {
         type: Sequelize.STRING
+      },
+      time: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       }
     })
   },

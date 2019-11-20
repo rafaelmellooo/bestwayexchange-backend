@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
-          model: 'exchanges',
+          model: 'Exchanges',
           key: 'id'
         },
         onDelete: 'CASCADE'
@@ -18,7 +18,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
-          model: 'languages',
+          model: 'Languages',
           key: 'id'
         },
         onDelete: 'CASCADE'

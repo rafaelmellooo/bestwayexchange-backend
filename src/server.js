@@ -1,4 +1,7 @@
+require('dotenv').config()
+
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const path = require('path')
@@ -9,6 +12,7 @@ require('./database')
 
 const app = express()
 
+app.use(cookieParser('b8c5b48a256d0bba3c2439c5098d8dda'))
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
@@ -20,7 +24,7 @@ app.use(routes)
 // const { google } = require('googleapis')
 // const customSearch = google.customsearch('v1')
 
-// const googleSearchCredentials = require('./config/google-search')
+// const googleSearchCredentials = require('./config/google')
 
 // async function search () {
 //   const { data } = await customSearch.cse.list({

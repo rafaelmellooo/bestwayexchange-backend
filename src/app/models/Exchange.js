@@ -30,7 +30,15 @@ class Exchange extends Model {
           }
         }
       },
-      filename: DataTypes.STRING
+      filename: DataTypes.STRING,
+      time: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            msg: 'A duração não deve ser nula'
+          }
+        }
+      }
     }, {
       sequelize,
       updatedAt: false

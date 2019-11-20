@@ -15,10 +15,9 @@ module.exports = {
       },
       countryId: {
         allowNull: false,
-        primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
-          model: 'countries',
+          model: 'Countries',
           key: 'id'
         },
         onDelete: 'CASCADE'

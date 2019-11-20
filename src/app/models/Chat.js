@@ -6,8 +6,6 @@ class Chat extends Model {
       sequelize,
       updatedAt: false
     })
-
-    require('sequelize-paginate').paginate(this)
   }
 
   static associate (models) {

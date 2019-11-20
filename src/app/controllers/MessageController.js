@@ -1,68 +1,29 @@
+const Message = require('../models/Message')
 const Chat = require('../models/Chat')
-const sequelize = require('sequelize')
-const { Op } = sequelize
+const { Op } = require('sequelize')
 
 module.exports = {
   async index (req, res) {
-    try {
-      const { page = 1 } = req.query
+    const chatId = req.params.id
 
-      const { exchangeId } = req.params
+    console.log(req.chats)
 
-      await Chat.update({ isVisualized: true }, {
-        where: {
-          [Op.and]: [
-            { from: to },
-            { to: from },
-            { isVisualized: false }
-          ]
-        }
-      })
+    if (!req.chats.includes(chatId)) { return res.status(401).json() }
 
-      const messages = await Chat.paginate({
-        page,
-        paginate: 10,
-        where: {
-          [Op.or]: [
-            {
-              [Op.and]: [
-                { from: req.user.id },
-                { exchangeId }
-              ],
-              [Op.and]: [
-                { to: req.user.id },
-                { exchangeId }
-              ]
-            }
-          ]
-        },
-        order: [
-          ['createdAt', 'ASC']
-        ],
-        attributes: ['from', 'to', 'message', 'createdAt', [
-          sequelize.fn('date_format', sequelize.col('createdAt'), '%d/%m/%Y %H:%i:%s'), 'createdAt'
-        ]]
-      })
+    const { page = 1 } = req.query
 
-      res.status(200).json(messages)
-    } catch (err) {
-      res.status(400).json(err)
-    }
+    const messages = await Message.paginate({
+      page,
+      paginate: 10,
+      where: {
+        chatId
+      }
+    })
+
+    res.status(200).json(messages)
   },
 
   async store (req, res) {
-    try {
-      const { user, params, body } = req
-      const { userId: to, exchangeId } = params
-      const { id: from } = user
 
-      const message = await Chat.create({
-        from, to, message: body.message, exchangeId
-      })
-
-      res.status(200).json(message)
-    } catch (err) {
-      res.status(400).json(err)
-    }
   }
 }

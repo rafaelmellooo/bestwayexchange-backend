@@ -15,11 +15,12 @@ module.exports = {
           description: faker.lorem.paragraph(),
           name: faker.commerce.productName(),
           exchangeTypeId: Math.floor((Math.random() * 6) + 1),
-          cityId: Math.floor((Math.random() * 60) + 1),
+          cityId: Math.floor((Math.random() * 100) + 1),
           agencyId: i + 1,
           price: faker.commerce.price(),
           createdAt: new Date(),
-          filename: faker.random.boolean() ? '031e51eacb9e3ee20e12df1f79659ccd-exchange.png' : null
+          filename: faker.random.boolean() ? '031e51eacb9e3ee20e12df1f79659ccd-exchange.png' : null,
+          time: Math.floor((Math.random() * 12) + 1)
         })
       }
     }
