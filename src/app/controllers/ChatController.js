@@ -44,14 +44,10 @@ module.exports = {
 
     const employeeId = response.agency.users[Math.floor(Math.random() * response.agency.users.length)].id
 
-    try {
-      await Chat.create({
-        exchangeId, userId, employeeId
-      })
+    await Chat.create({
+      exchangeId, userId, employeeId
+    })
 
-      res.status(200).json()
-    } catch (err) {
-      console.log(err)
-    }
+    res.status(200).json()
   }
 }

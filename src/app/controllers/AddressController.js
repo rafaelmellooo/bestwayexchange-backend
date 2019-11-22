@@ -3,12 +3,12 @@ const cep = require('cep-promise')
 
 module.exports = {
   async store (req, res) {
-    try {
-      const { zipCode } = req.body
+    const { zipCode } = req.body
 
+    try {
       const { state, city, neighborhood, street } = await cep(zipCode)
 
-      await Address.create({ zipCode, state, city, neighborhood, street, agencyId: req.user.agencyId })
+      await Address.create({ zipCode, state, city, neighborhood, street, agencyId: req.user.agency })
 
       res.status(200).json({ state, city, neighborhood, street })
     } catch (err) {
@@ -17,9 +17,9 @@ module.exports = {
   },
 
   async update (req, res) {
-    try {
-      const { number, complement } = req.body
+    const { number, complement } = req.body
 
+    try {
       await Address.update({ number, complement }, {
         where: {
           id: req.params.id

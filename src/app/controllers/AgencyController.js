@@ -4,38 +4,35 @@ const sequelize = require('sequelize')
 
 module.exports = {
   async show (req, res) {
-    try {
-      const agency = await Agency.findByPk(req.params.id, {
-        order: [
-          'name'
-        ],
-        attributes: ['name'],
-        include: [
-          {
-            association: 'adresses',
-            attributes: ['zipCode', 'street', 'neighborhood', 'number', 'complement', 'city', 'state']
-          }
-        ]
-      })
+    const agency = await Agency.findByPk(req.params.id, {
+      order: [
+        'name'
+      ],
+      attributes: ['name, description, filename, background'],
+      include: [
+        {
+          association: 'adresses',
+          attributes: ['zipCode', 'street', 'neighborhood', 'number', 'complement', 'city', 'state']
+        }
+      ]
+    })
 
-      const grades = await AgencyGrade.findAll({
-        where: {
-          agencyId: req.params.id
-        },
-        attributes: [[sequelize.fn('AVG', sequelize.col('gradeId')), 'avg']]
-      })
+    const rate = await AgencyGrade.findAll({
+      where: {
+        agencyId: req.params.id
+      },
+      attributes: [[sequelize.fn('AVG', sequelize.col('gradeId')), 'avg']]
+    })
 
-      res.status(200).json({ agency, grades })
-    } catch (err) {
-      res.status(400).json(err)
-    }
+    res.status(200).json({ agency, rate })
   },
 
   async store (req, res) {
-    try {
-      const { filename } = req.file
+    const { filename } = req.file
+    const { name, description, background } = req.body
 
-      await Agency.create({ ...req.body, filename })
+    try {
+      await Agency.create({ name, description, background, filename })
 
       res.status(200).json()
     } catch (err) {
@@ -44,8 +41,10 @@ module.exports = {
   },
 
   async update (req, res) {
+    const { name, description } = req.body
+
     try {
-      await Agency.update(req.body, {
+      await Agency.update({ name, description }, {
         where: {
           id: req.params.id
         }
@@ -58,16 +57,12 @@ module.exports = {
   },
 
   async destroy (req, res) {
-    try {
-      await Agency.destroy({
-        where: {
-          id: req.params.id
-        }
-      })
+    await Agency.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
 
-      res.status(200).json()
-    } catch (err) {
-      res.status(400).json(err)
-    }
+    res.status(200).json()
   }
 }

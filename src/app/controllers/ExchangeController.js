@@ -2,105 +2,107 @@ const Exchange = require('../models/Exchange')
 
 module.exports = {
   async index (req, res) {
-    try {
-      const { page = 1, exchangeTypes, city, languages, housingTypes } = req.query
+    const { page = 1, exchangeTypes, city, languages, housingTypes } = req.query
 
-      const options = {
-        page,
-        paginate: 10,
-        order: [
-          'id'
-        ],
-        where: {
-          exchangeTypeId: exchangeTypes ? exchangeTypes.split(',') : undefined,
-          cityId: city
-        },
-        attributes: ['id', 'name', 'description', 'price'],
-        include: [
-          {
-            where: {
-              id: languages ? languages.split(',') : undefined
-            },
-            association: 'languages',
-            attributes: [],
-            through: {
-              attributes: []
-            }
+    const options = {
+      page,
+      paginate: 10,
+      order: [
+        'id'
+      ],
+      where: {
+        exchangeTypeId: exchangeTypes ? exchangeTypes.split(',') : undefined,
+        cityId: city
+      },
+      attributes: ['id', 'name', 'description', 'price'],
+      include: [
+        {
+          where: {
+            id: languages ? languages.split(',') : undefined
           },
-          {
-            where: {
-              id: housingTypes ? housingTypes.split(',') : undefined
-            },
-            association: 'housingTypes',
-            attributes: [],
-            through: {
-              attributes: []
-            }
+          association: 'languages',
+          attributes: [],
+          through: {
+            attributes: []
           }
-        ]
-      }
-
-      Object.keys(options.where).forEach(key => options.where[key] === undefined && delete options.where[key])
-
-      options.include.map(association => {
-        Object.keys(association.where).forEach(key => association.where[key] === undefined && delete association.where[key])
-      })
-
-      const exchanges = await Exchange.paginate(options)
-
-      res.status(200).json(exchanges)
-    } catch (err) {
-      res.status(400).json(err)
+        },
+        {
+          where: {
+            id: housingTypes ? housingTypes.split(',') : undefined
+          },
+          association: 'housingTypes',
+          attributes: [],
+          through: {
+            attributes: []
+          }
+        }
+      ]
     }
+
+    Object.keys(options.where).forEach(key => options.where[key] === undefined && delete options.where[key])
+
+    options.include.map(association => {
+      Object.keys(association.where).forEach(key => association.where[key] === undefined && delete association.where[key])
+    })
+
+    const exchanges = await Exchange.paginate(options)
+
+    res.status(200).json(exchanges)
   },
 
   async show (req, res) {
-    try {
-      const exchange = await Exchange.findByPk(req.params.id, {
-        attributes: ['name', 'description'],
-        include: [
-          {
-            association: 'housingTypes',
-            attributes: ['name', 'description'],
-            through: {
-              attributes: []
-            }
-          },
-          {
-            association: 'city',
-            attributes: ['name'],
-            include: {
-              association: 'country',
-              attributes: ['name', 'description']
-            }
-          },
-          {
-            association: 'exchangeType',
-            attributes: ['name', 'description']
-          },
-          {
-            association: 'languages',
-            attributes: ['name'],
-            through: {
-              attributes: []
-            }
+    const exchange = await Exchange.findByPk(req.params.id, {
+      attributes: ['name', 'description'],
+      include: [
+        {
+          association: 'housingTypes',
+          attributes: ['name', 'description'],
+          through: {
+            attributes: []
           }
-        ]
-      })
+        },
+        {
+          association: 'city',
+          attributes: ['name'],
+          include: {
+            association: 'country',
+            attributes: ['name', 'description']
+          }
+        },
+        {
+          association: 'exchangeType',
+          attributes: ['name', 'description']
+        },
+        {
+          association: 'languages',
+          attributes: ['name'],
+          through: {
+            attributes: []
+          }
+        }
+      ]
+    })
 
-      res.status(200).json(exchange)
-    } catch (err) {
-      res.status(400).json(err)
-    }
+    res.status(200).json(exchange)
   },
 
   async store (req, res) {
+    const { filename } = req.file
+    const agency = req.user.agency
+
+    const { languages, housingTypes, name, description, city, price, time, exchangeType } = req.body
+
     try {
-      const { filename } = req.file
-
-      const { languages, housingTypes, ...data } = req.body
-
-      const exchange = await Exchange.create({ ...data, filename })
+      const exchange = await Exchange.create({
+        name,
+        description,
+        cityId: city,
+        price,
+        time,
+        filename,
+        agencyId: agency,
+        exchangeTypeId: exchangeType
+      })
 
       await exchange.setLanguages(languages)
 
@@ -113,8 +115,20 @@ module.exports = {
   },
 
   async update (req, res) {
+    const agency = req.user.agency
+
+    const { name, description, city, price, time, exchangeType } = req.body
+
     try {
-      await Exchange.update(req.body, {
+      await Exchange.update({
+        name,
+        description,
+        cityId: city,
+        price,
+        time,
+        agencyId: agency,
+        exchangeTypeId: exchangeType
+      }, {
         where: {
           id: req.params.id
         }

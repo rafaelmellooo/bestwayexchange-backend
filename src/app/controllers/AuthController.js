@@ -9,17 +9,19 @@ const sequelize = require('sequelize')
 
 module.exports = {
   async register (req, res) {
+    const { filename } = req.file
+    const { type, agency, name, email, password, dateOfBirth } = req.body
+
+    if (type === 2) {
+      if (req.user.type !== 3) { return res.status(401).json() }
+
+      if (agency !== req.user.agency) { return res.status(401).json() }
+    }
+
     try {
-      const { filename } = req.file
-      const { typeId, agencyId, ...data } = req.body
-
-      if (typeId === 2) {
-        if (req.user.typeId !== 3) return res.status(401).json()
-
-        if (agencyId !== req.user.agencyId) return res.status(401).json()
-      }
-
-      const user = await User.create({ typeId, agencyId, ...data, filename })
+      const user = await User.create({
+        type, agency, filename, name, password, email, dateOfBirth
+      })
 
       res.status(200).json(user)
     } catch (err) {
@@ -45,11 +47,11 @@ module.exports = {
 
     if (!user.isActive) return res.status(401).json()
 
-    const { id, typeId, agencyId } = user
+    const { id, type, agency } = user
 
     const token = jwt.sign({
       user: {
-        id, typeId, agencyId
+        id, type, agency
       }
     }, authConfig.secret, {
       expiresIn: 86400
@@ -59,80 +61,72 @@ module.exports = {
   },
 
   async sendEmail (req, res) {
-    try {
-      const { email } = req.body
+    const { email } = req.body
 
-      const user = await User.findOne({
-        attributes: ['id', 'name', [
-          sequelize.fn('date_format', sequelize.col('dateOfBirth'), '%d/%m/%Y'), 'dateOfBirth'
-        ]],
-        include: [
-          {
-            attributes: ['name'],
-            association: 'type'
-          }
-        ],
-        where: { email }
-      })
+    const user = await User.findOne({
+      attributes: ['id', 'name', [
+        sequelize.fn('date_format', sequelize.col('dateOfBirth'), '%d/%m/%Y'), 'dateOfBirth'
+      ]],
+      include: [
+        {
+          attributes: ['name'],
+          association: 'type'
+        }
+      ],
+      where: { email }
+    })
 
-      if (!user) return res.status(400).json({ error: 'User not found' })
+    if (!user) return res.status(400).json({ error: 'Usuário não encontrado' })
 
-      const token = crypto.randomBytes(20).toString('hex')
+    const token = crypto.randomBytes(20).toString('hex')
 
-      const expiresIn = new Date()
-      expiresIn.setHours(expiresIn.getHours() + 1)
+    const expiresIn = new Date()
+    expiresIn.setHours(expiresIn.getHours() + 1)
 
-      await user.update({ token, expiresIn })
+    await user.update({ token, expiresIn })
 
-      const { name, dateOfBirth, type } = user
+    const { name, dateOfBirth, type } = user
 
-      Mail.sendMail({
-        from: 'Best Way Exchange <admin@bestwayexchange.com.br>',
-        to: `${name} <${email}>`,
-        template: 'send_email',
-        context: {
-          name,
-          dateOfBirth,
-          type: type.name
-        },
-        attachments: [
-          {
-            filename: 'logo.jpg',
-            path: path.resolve(__dirname, '..', 'views', 'emails', 'attachments', 'logo.jpg'),
-            cid: 'logo' // same cid value as in the html img src
-          }
-        ]
-      }, err => {
-        if (err) return res.status(400).json(err)
+    Mail.sendMail({
+      from: 'Best Way Exchange <admin@bestwayexchange.com.br>',
+      to: `${name} <${email}>`,
+      template: 'send_email',
+      context: {
+        name,
+        dateOfBirth,
+        type: type.name
+      },
+      attachments: [
+        {
+          filename: 'logo.jpg',
+          path: path.resolve(__dirname, '..', 'views', 'emails', 'attachments', 'logo.jpg'),
+          cid: 'logo' // same cid value as in the html img src
+        }
+      ]
+    }, err => {
+      if (err) { return res.status(400).json('Erro ao enviar e-mail') }
 
-        res.status(200).json()
-      })
-    } catch (err) {
-      res.status(400).json(err)
-    }
+      res.status(200).json()
+    })
   },
 
   async confirmEmail (req, res) {
-    try {
-      const { email, token } = req.body
+    const { email, token } = req.body
 
-      const user = await User.findOne({
-        where: { email }
-      })
+    const user = await User.findOne({
+      where: { email }
+    })
 
-      if (!user) return res.status(400).json({ error: 'User not found' })
+    if (!user) return res.status(400).json({ error: 'Usuário não encontrado' })
 
-      if (token !== user.token) return res.status(400).json({ error: 'Token invalid' })
+    if (token !== user.token) return res.status(400).json({ error: 'Autenticação inválida' })
 
-      const now = new Date()
+    const now = new Date()
 
-      if (now > user.expiresIn) return res.status(400).json({ error: 'Token expired, generate a new one' })
+    if (now > user.expiresIn) return res.status(400).json({ error: 'Autenticação expirada, envie outro e-mail de confirmação' })
 
-      await user.update({ isActive: true })
+    await user.update({ isActive: true })
 
-      res.status(200).json()
-    } catch (err) {
-      res.status(400).json(err)
-    }
+    res.status(200).json()
   }
 }
