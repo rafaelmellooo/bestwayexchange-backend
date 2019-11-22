@@ -4,11 +4,18 @@ const Chat = require('../models/Chat')
 
 module.exports = {
   async index (req, res) {
+    const userId = req.user.id
+
     const chats = await Chat.findAll({
+      order: [
+        [
+          'createdAt', 'DESC'
+        ]
+      ],
       where: {
         [Op.or]: [
-          { employeeId: req.user.id },
-          { userId: req.user.id }
+          { employeeId: userId },
+          { userId }
         ]
       }
     })

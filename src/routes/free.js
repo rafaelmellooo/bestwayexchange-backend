@@ -1,4 +1,6 @@
 const express = require('express')
+const multer = require('multer')
+const uploadConfig = require('../config/upload')
 
 const AgencyController = require('../app/controllers/AgencyController')
 const AgencyGradeController = require('../app/controllers/AgencyGradeController')
@@ -15,8 +17,9 @@ const RateController = require('../app/controllers/RateController')
 const UserController = require('../app/controllers/UserController')
 
 const routes = express.Router()
+const upload = multer(uploadConfig)
 
-routes.post('/auth/register', AuthController.register)
+routes.post('/auth/register', upload.single('profile'), AuthController.register)
 routes.post('/auth/authenticate', AuthController.authenticate)
 routes.post('/auth/send_email', AuthController.sendEmail)
 routes.post('/auth/confirm_email', AuthController.confirmEmail)

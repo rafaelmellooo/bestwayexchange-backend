@@ -4,7 +4,6 @@ module.exports = {
   up: queryInterface => {
     const faker = require('faker')
     const { addSeconds, getDate, setDate } = require('date-fns')
-    const { zonedTimeToUtc } = require('date-fns-tz')
 
     const agencies = []
 
@@ -35,10 +34,23 @@ module.exports = {
 
     const data = []
 
-    const today = zonedTimeToUtc(new Date(), 'America/Sao_Paulo')
+    const today = new Date()
     let createdAt = setDate(today, getDate(today) - 1)
 
     let chatId = 0
+
+    const create = (body, from, filename) => {
+      createdAt = addSeconds(createdAt, 1)
+
+      data.push({
+        chatId,
+        body,
+        from,
+        isVisualized: faker.random.boolean(),
+        createdAt,
+        filename
+      })
+    }
 
     for (let i = 0; i < 120; i++) {
       if (i % 2 === 0) { continue }
@@ -58,18 +70,13 @@ module.exports = {
           for (let l = 0; l < 5; l++) {
             const from = l % 2 === 0 ? (i + 41) : employeeId
 
-            const filename = l === 3 ? (faker.random.boolean() ? '4decc52ed3bf91366485508cb5cebd26-contract.pdf' : null) : (l === 4 ? (faker.random.boolean() ? '6028ee5d20e6baed985f934c3a887da3-document.png' : null) : null)
-
-            createdAt = addSeconds(createdAt, 1)
-
-            data.push({
-              chatId,
-              body: faker.lorem.paragraph(),
-              from,
-              isVisualized: faker.random.boolean(),
-              createdAt,
-              filename
-            })
+            if (faker.random.boolean()) {
+              const body = faker.lorem.paragraph()
+              create(body, from, null)
+            } else {
+              const filename = faker.random.boolean() ? 'contract-1574404044424.pdf' : 'document-1574404244210.png'
+              create(null, from, filename)
+            }
           }
         }
       }

@@ -3,7 +3,6 @@
 module.exports = {
   up: queryInterface => {
     const { addSeconds, getMonth, setDate } = require('date-fns')
-    const { zonedTimeToUtc } = require('date-fns-tz')
 
     const agencies = []
 
@@ -36,7 +35,7 @@ module.exports = {
 
     let id = 0
 
-    const today = zonedTimeToUtc(new Date(), 'America/Sao_Paulo')
+    const today = new Date()
     let createdAt = setDate(today, getMonth(today) - 1)
 
     for (let i = 0; i < 120; i++) {

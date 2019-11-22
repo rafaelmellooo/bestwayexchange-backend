@@ -33,7 +33,9 @@ module.exports = {
 
   async store (req, res) {
     try {
-      await Agency.create(req.body)
+      const { filename } = req.file
+
+      await Agency.create({ ...req.body, filename })
 
       res.status(200).json()
     } catch (err) {

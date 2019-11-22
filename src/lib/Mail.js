@@ -1,29 +1,27 @@
-const { resolve } = require('path')
+const path = require('path')
 const nodemailer = require('nodemailer')
 const exphbs = require('express-handlebars')
 const nodemailerhbs = require('nodemailer-express-handlebars')
 
 const { host, port, auth } = require('../config/mail')
 
-const { user, pass } = auth
-
 const transport = nodemailer.createTransport({
   host,
   port,
-  auth: { user, pass }
+  auth
 })
 
-const viewPath = resolve(__dirname, '..', 'templates', 'mail')
+const viewPath = path.resolve(__dirname, '..', 'app', 'views', 'emails')
 
 transport.use('compile', nodemailerhbs({
   viewEngine: exphbs.create({
-    extname: '.html',
-    partialsDir: resolve(viewPath, 'partials'),
+    extname: '.hbs',
+    partialsDir: path.resolve(viewPath, 'partials'),
     defaultLayout: 'default',
-    layoutsDir: resolve(viewPath, 'layouts')
+    layoutsDir: path.resolve(viewPath, 'layouts')
   }),
   viewPath,
-  extName: '.html'
+  extName: '.hbs'
 }))
 
 module.exports = transport

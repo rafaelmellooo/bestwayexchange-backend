@@ -20,7 +20,7 @@ module.exports = {
         expiresIn: '2019-10-05 00:49:52',
         isActive: true,
         dateOfBirth: '2001-07-15',
-        filename: faker.random.boolean() ? '77e20b5059451811c29e4cefd825c0b9-user.png' : null
+        filename: faker.random.boolean() ? 'user-1574404044427.png' : null
       })
     }
 

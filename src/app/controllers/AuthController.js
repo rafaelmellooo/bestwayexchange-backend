@@ -3,13 +3,14 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../../config/auth')
 const crypto = require('crypto')
-const mailer = require('../../services/mailer')
-const { resolve } = require('path')
+const Mail = require('../../lib/Mail')
+const path = require('path')
 const sequelize = require('sequelize')
 
 module.exports = {
   async register (req, res) {
     try {
+      const { filename } = req.file
       const { typeId, agencyId, ...data } = req.body
 
       if (typeId === 2) {
@@ -18,7 +19,7 @@ module.exports = {
         if (agencyId !== req.user.agencyId) return res.status(401).json()
       }
 
-      const user = await User.create({ typeId, agencyId, ...data })
+      const user = await User.create({ typeId, agencyId, ...data, filename })
 
       res.status(200).json(user)
     } catch (err) {
@@ -85,9 +86,9 @@ module.exports = {
 
       const { name, dateOfBirth, type } = user
 
-      mailer.sendMail({
-        to: email,
-        from: 'rafaelmello0715@outlook.com',
+      Mail.sendMail({
+        from: 'Best Way Exchange <admin@bestwayexchange.com.br>',
+        to: `${name} <${email}>`,
         template: 'send_email',
         context: {
           name,
@@ -97,7 +98,7 @@ module.exports = {
         attachments: [
           {
             filename: 'logo.jpg',
-            path: resolve(__dirname, '..', '..', 'templates', 'mail', 'attachments', 'logo.jpg'),
+            path: path.resolve(__dirname, '..', 'views', 'emails', 'attachments', 'logo.jpg'),
             cid: 'logo' // same cid value as in the html img src
           }
         ]

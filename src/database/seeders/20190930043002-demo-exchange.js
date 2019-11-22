@@ -19,7 +19,7 @@ module.exports = {
           agencyId: i + 1,
           price: faker.commerce.price(),
           createdAt: new Date(),
-          filename: faker.random.boolean() ? '031e51eacb9e3ee20e12df1f79659ccd-exchange.png' : null,
+          filename: faker.random.boolean() ? 'exchange-1574404044425.png' : null,
           time: Math.floor((Math.random() * 12) + 1)
         })
       }

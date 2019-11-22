@@ -1,4 +1,6 @@
 const express = require('express')
+const multer = require('multer')
+const uploadConfig = require('../config/upload')
 
 const AddressController = require('../app/controllers/AddressController')
 const AgencyController = require('../app/controllers/AgencyController')
@@ -11,8 +13,10 @@ const MessageController = require('../app/controllers/MessageController')
 const NotificationController = require('../app/controllers/NotificationController')
 const RateController = require('../app/controllers/RateController')
 const UserController = require('../app/controllers/UserController')
+const RankingController = require('../app/controllers/RankingController')
 
 const routes = express.Router()
+const upload = multer(uploadConfig)
 
 const only = {
   admin (req, res, next) {
@@ -46,7 +50,7 @@ const only = {
   }
 }
 
-routes.post('/exchanges', only.adminAndEmployee, ExchangeController.store)
+routes.post('/exchanges', only.adminAndEmployee, upload.single('thumbnail'), ExchangeController.store)
 
 routes.route('/exchanges/:id', only.adminAndEmployee)
   .put(ExchangeController.update)
@@ -58,11 +62,11 @@ routes.route('/users/:id')
 
 routes.get('/favorites', only.user, FavoriteController.index)
 
-routes.route('/exchanges/:exchangeId/favorite', only.user)
+routes.route('/exchanges/:exchangeId/favorites', only.user)
   .post(FavoriteController.store)
   .delete(FavoriteController.destroy)
 
-routes.route('/exchanges/:exchangeId/rate')
+routes.route('/exchanges/:exchangeId/rates')
   .post(only.employee, RateController.store)
   .put(only.user, RateController.update)
   .delete(RateController.destroy)
@@ -70,26 +74,27 @@ routes.route('/exchanges/:exchangeId/rate')
 routes.get('/chats', only.employeeAndUser, ChatController.index)
 routes.post('/chats', only.user, ChatController.store)
 routes.get('/chats/:id', only.employeeAndUser, MessageController.index)
+routes.post('/chats/:id', only.employeeAndUser, MessageController.store)
 
-routes.route('/agencies/:id/grade', only.user)
+routes.route('/agencies/:id/grades', only.user)
   .post(AgencyGradeController.store)
   .delete(AgencyGradeController.destroy)
 
-routes.get('/users/:userId/notifications', only.employeeAndUser, NotificationController.index)
+routes.get('/notifications', only.employeeAndUser, NotificationController.index)
 
-routes.post('/agencies', only.admin, AgencyController.store)
+routes.post('/agencies', only.admin, upload.single('logo'), AgencyController.store)
 
 routes.route('/agencies/:id', only.admin)
   .put(AgencyController.update)
   .delete(AgencyController.destroy)
 
-routes.post('/agencies/:agencyId/adresses', only.admin, AddressController.store)
+routes.post('/adresses', only.admin, AddressController.store)
 
-routes.route('/agencies/:agencyId/adresses/:addressId', only.admin)
+routes.route('adresses/:id', only.admin)
   .put(AddressController.update)
   .delete(AddressController.destroy)
 
 routes.get('/agencies/:agencyId/logs', only.admin, LogController.show)
-routes.get('/logs', only.admin, LogController.index)
+routes.get('/rankings', only.admin, RankingController.show)
 
 module.exports = routes

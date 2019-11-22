@@ -8,7 +8,7 @@ module.exports = {
 
       const { state, city, neighborhood, street } = await cep(zipCode)
 
-      await Address.create({ zipCode, state, city, neighborhood, street, agencyId: req.params.agencyId })
+      await Address.create({ zipCode, state, city, neighborhood, street, agencyId: req.user.agencyId })
 
       res.status(200).json({ state, city, neighborhood, street })
     } catch (err) {
@@ -22,7 +22,7 @@ module.exports = {
 
       await Address.update({ number, complement }, {
         where: {
-          id: req.params.addressId
+          id: req.params.id
         }
       })
 
@@ -33,16 +33,12 @@ module.exports = {
   },
 
   async destroy (req, res) {
-    try {
-      await Address.destroy({
-        where: {
-          id: req.params.addressId
-        }
-      })
+    await Address.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
 
-      res.status(200).json()
-    } catch (err) {
-      res.status(400).json(err)
-    }
+    res.status(200).json()
   }
 }

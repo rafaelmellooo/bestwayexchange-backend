@@ -5,7 +5,6 @@ module.exports = {
     try {
       const { page = 1, exchangeTypes, city, languages, housingTypes } = req.query
 
-      console.log(languages)
       const options = {
         page,
         paginate: 10,
@@ -97,13 +96,15 @@ module.exports = {
 
   async store (req, res) {
     try {
-      const { languagesId, housingTypesId, ...data } = req.body
+      const { filename } = req.file
 
-      const exchange = await Exchange.create(data)
+      const { languages, housingTypes, ...data } = req.body
 
-      await exchange.setLanguages(languagesId)
+      const exchange = await Exchange.create({ ...data, filename })
 
-      await exchange.setHousingTypes(housingTypesId)
+      await exchange.setLanguages(languages)
+
+      await exchange.setHousingTypes(housingTypes)
 
       res.status(200).json()
     } catch (err) {
