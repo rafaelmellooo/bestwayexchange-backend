@@ -14,37 +14,40 @@ const NotificationController = require('../app/controllers/NotificationControlle
 const RateController = require('../app/controllers/RateController')
 const UserController = require('../app/controllers/UserController')
 const RankingController = require('../app/controllers/RankingController')
+const BackgroundController = require('../app/controllers/BackgroundController')
+const CityController = require('../app/controllers/CityController')
+const CountryController = require('../app/controllers/CountryController')
 
 const routes = express.Router()
 const upload = multer(uploadConfig)
 
 const only = {
   admin (req, res, next) {
-    if (req.user.typeId === 3) return next()
+    if (req.user.type === 3) { return next() }
 
     res.status(401).json()
   },
 
   adminAndEmployee (req, res, next) {
-    if (req.user.typeId === 1) return res.status(401).json()
+    if (req.user.type === 1) { return res.status(401).json() }
 
     next()
   },
 
   user (req, res, next) {
-    if (req.user.typeId === 1) return next()
+    if (req.user.type === 1) { return next() }
 
     res.status(401).json()
   },
 
   employeeAndUser (req, res, next) {
-    if (req.user.typeId === 3) return res.status(401).json()
+    if (req.user.type === 3) { return res.status(401).json() }
 
     next()
   },
 
   employee (req, res, next) {
-    if (req.user.typeId === 2) return next()
+    if (req.user.type === 2) { return next() }
 
     res.status(401).json()
   }
@@ -96,5 +99,11 @@ routes.route('adresses/:id', only.admin)
 
 routes.get('/agencies/:agencyId/logs', only.admin, LogController.show)
 routes.get('/rankings', only.admin, RankingController.show)
+
+routes.get('/backgrounds', only.admin, BackgroundController.index)
+
+routes.post('/countries', only.admin, CountryController.store)
+
+routes.post('/countries/:countryId/cities', only.admin, CityController.store)
 
 module.exports = routes

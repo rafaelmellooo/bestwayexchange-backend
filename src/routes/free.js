@@ -34,7 +34,7 @@ routes.get('/housing_types', HousingTypeController.index)
 
 routes.get('/countries', CountryController.index)
 
-routes.get('/countries/:id/cities', CityController.index)
+routes.get('/countries/:countryId/cities', CityController.index)
 
 routes.get('/agencies/:id/grades', AgencyGradeController.index)
 

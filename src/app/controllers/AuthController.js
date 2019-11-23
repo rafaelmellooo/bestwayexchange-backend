@@ -47,11 +47,11 @@ module.exports = {
 
     if (!user.isActive) return res.status(401).json()
 
-    const { id, type, agency } = user
+    const { id, typeId, agencyId } = user
 
     const token = jwt.sign({
       user: {
-        id, type, agency
+        id, type: typeId, agency: agencyId
       }
     }, authConfig.secret, {
       expiresIn: 86400
