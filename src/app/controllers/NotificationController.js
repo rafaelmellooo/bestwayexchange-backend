@@ -12,7 +12,7 @@ module.exports = {
       page,
       paginate: 5,
       order: [
-        ['createdAt', 'desc']
+        ['createdAt', 'DESC']
       ],
       where: {
         from: {
@@ -27,7 +27,7 @@ module.exports = {
       page,
       paginate: 5,
       order: [
-        ['createdAt', 'desc']
+        ['createdAt', 'DESC']
       ],
       where: {
         userId,

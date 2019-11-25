@@ -2,12 +2,14 @@ const AgencyGrade = require('../models/AgencyGrade')
 
 module.exports = {
   async index (req, res) {
+    const { agencyId } = req.params
+
     const grades = await AgencyGrade.findAll({
       order: [
         ['createdAt', 'DESC']
       ],
       where: {
-        agencyId: req.params.id
+        agencyId
       },
       attributes: ['createdAt'],
       include: [

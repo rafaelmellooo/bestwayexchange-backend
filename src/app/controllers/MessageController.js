@@ -63,10 +63,12 @@ module.exports = {
 
     if (!chat) { return res.status(401).json() }
 
+    const { filename } = req.file
     const { body } = req.body
 
     await Message.create({
       body,
+      filename,
       chatId,
       from: userId
     })

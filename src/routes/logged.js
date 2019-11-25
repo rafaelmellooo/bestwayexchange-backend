@@ -55,9 +55,9 @@ const only = {
 
 routes.post('/exchanges', only.adminAndEmployee, upload.single('thumbnail'), ExchangeController.store)
 
-routes.route('/exchanges/:id', only.adminAndEmployee)
-  .put(ExchangeController.update)
-  .delete(ExchangeController.destroy)
+routes.route('/exchanges/:id')
+  .put(only.adminAndEmployee, ExchangeController.update)
+  .delete(only.adminAndEmployee, ExchangeController.destroy)
 
 routes.route('/users/:id')
   .put(UserController.update)
@@ -65,9 +65,9 @@ routes.route('/users/:id')
 
 routes.get('/favorites', only.user, FavoriteController.index)
 
-routes.route('/exchanges/:exchangeId/favorites', only.user)
-  .post(FavoriteController.store)
-  .delete(FavoriteController.destroy)
+routes.route('/exchanges/:exchangeId/favorites')
+  .post(only.user, FavoriteController.store)
+  .delete(only.user, FavoriteController.destroy)
 
 routes.route('/exchanges/:exchangeId/rates')
   .post(only.employee, RateController.store)
@@ -77,25 +77,25 @@ routes.route('/exchanges/:exchangeId/rates')
 routes.get('/chats', only.employeeAndUser, ChatController.index)
 routes.post('/chats', only.user, ChatController.store)
 routes.get('/chats/:id', only.employeeAndUser, MessageController.index)
-routes.post('/chats/:id', only.employeeAndUser, MessageController.store)
+routes.post('/chats/:id', only.employeeAndUser, upload.single('filename'), MessageController.store)
 
-routes.route('/agencies/:id/grades', only.user)
-  .post(AgencyGradeController.store)
-  .delete(AgencyGradeController.destroy)
+routes.route('/agencies/:agencyId/grades')
+  .post(only.user, AgencyGradeController.store)
+  .delete(only.user, AgencyGradeController.destroy)
 
 routes.get('/notifications', only.employeeAndUser, NotificationController.index)
 
 routes.post('/agencies', only.admin, upload.single('logo'), AgencyController.store)
 
-routes.route('/agencies/:id', only.admin)
-  .put(AgencyController.update)
-  .delete(AgencyController.destroy)
+routes.route('/agencies/:id')
+  .put(only.admin, AgencyController.update)
+  .delete(only.admin, AgencyController.destroy)
 
 routes.post('/adresses', only.admin, AddressController.store)
 
-routes.route('adresses/:id', only.admin)
-  .put(AddressController.update)
-  .delete(AddressController.destroy)
+routes.route('adresses/:id')
+  .put(only.admin, AddressController.update)
+  .delete(only.admin, AddressController.destroy)
 
 routes.get('/agencies/:agencyId/logs', only.admin, LogController.show)
 routes.get('/rankings', only.admin, RankingController.show)

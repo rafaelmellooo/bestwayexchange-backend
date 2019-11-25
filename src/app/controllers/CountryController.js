@@ -1,9 +1,24 @@
 const Country = require('../models/Country')
-const https = require('https')
 const path = require('path')
-const fs = require('fs')
+const download = require('image-downloader')
 const algorithmia = require('algorithmia')
 const algorithmiaApiKey = require('../../config/algorithmia').apiKey
+const { google } = require('googleapis')
+const customSearch = google.customsearch('v1')
+
+const googleSearchCredentials = require('../../config/googleapis')
+
+async function fetchGoogleAndReturnImageLink (q) {
+  const { data } = await customSearch.cse.list({
+    auth: googleSearchCredentials.apiKey,
+    cx: googleSearchCredentials.searchEngineId,
+    q,
+    searchType: 'image',
+    num: 1
+  })
+
+  return data.items[0].link
+}
 
 async function fetchContentFromWikipedia (articleName) {
   const algorithmiaAuthenticated = algorithmia(algorithmiaApiKey)
@@ -61,18 +76,18 @@ module.exports = {
   async store (req, res) {
     const { name } = req.body
 
-    // const description = await fetchContentFromWikipedia(name)
+    const description = await fetchContentFromWikipedia(name)
 
-    const description = 'Lorem ipsung atalçta dikrhrr'
+    const link = await fetchGoogleAndReturnImageLink(name)
 
-    const filename = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRCU-Z0OJXjEHZCObPtOmcIbJ96HY3_Yp1bc6l5tO4QK2WXddq2'
+    const filename = `${name}-${Date.now()}.jpg`
 
-    const file = fs.createWriteStream(path.resolve(__dirname, '..', '..', '..', 'uploads', 'banana.png'))
+    const pathname = path.resolve(__dirname, '..', '..', '..', 'uploads', filename)
 
-    https.get(filename, response => {
-      response.pipe(file)
+    await download.image({ url: link, dest: pathname })
 
-      res.status(200).json({ name, description, file })
-    })
+    const country = await Country.create({ name, description, filename })
+
+    res.status(200).json(country)
   }
 }

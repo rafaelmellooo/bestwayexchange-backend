@@ -9,7 +9,7 @@ const sequelize = require('sequelize')
 
 module.exports = {
   async register (req, res) {
-    const { filename } = req.file
+    const filename = req.file ? req.file.filename : undefined
     const { type, agency, name, email, password, dateOfBirth } = req.body
 
     if (type === 2) {
@@ -19,11 +19,9 @@ module.exports = {
     }
 
     try {
-      const user = await User.create({
-        type, agency, filename, name, password, email, dateOfBirth
+      await User.create({
+        typeId: type, agencyId: agency, filename, name, password, email, dateOfBirth
       })
-
-      res.status(200).json(user)
     } catch (err) {
       res.status(400).json(err)
     }

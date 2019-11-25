@@ -1,20 +1,52 @@
 const Exchange = require('../models/Exchange')
+const City = require('../models/City')
 
 module.exports = {
   async index (req, res) {
-    const { page = 1, exchangeTypes, city, languages, housingTypes } = req.query
+    const { page = 1, order = 'price', country, exchangeTypes, languages, housingTypes } = req.query
+
+    let { city } = req.query
+
+    if (country && !city) {
+      let cities = await City.findAll({
+        attributes: ['id'],
+        include: [
+          {
+            association: 'country',
+            where: {
+              id: country
+            },
+            attributes: []
+          }
+        ]
+      })
+
+      if (cities) {
+        cities = cities.map(({ id }) => {
+          return id
+        })
+
+        city = cities.join(',')
+      }
+    }
+
+    const orders = {
+      price: ['price'],
+      createdAt: ['createdAt', 'DESC'],
+      time: ['time']
+    }
 
     const options = {
       page,
       paginate: 10,
       order: [
-        'id'
+        orders[order]
       ],
       where: {
         exchangeTypeId: exchangeTypes ? exchangeTypes.split(',') : undefined,
-        cityId: city
+        cityId: city ? city.split(',') : undefined
       },
-      attributes: ['id', 'name', 'description', 'price'],
+      attributes: ['id', 'name', 'description', 'price', 'filename'],
       include: [
         {
           where: {
@@ -117,10 +149,10 @@ module.exports = {
   async update (req, res) {
     const agency = req.user.agency
 
-    const { name, description, city, price, time, exchangeType } = req.body
+    const { name, description, city, price, time, exchangeType, languages, housingTypes } = req.body
 
     try {
-      await Exchange.update({
+      const exchange = await Exchange.update({
         name,
         description,
         cityId: city,
@@ -133,6 +165,10 @@ module.exports = {
           id: req.params.id
         }
       })
+
+      await exchange.setLanguages(languages)
+
+      await exchange.setHousingTypes(housingTypes)
 
       res.status(200).json()
     } catch (err) {

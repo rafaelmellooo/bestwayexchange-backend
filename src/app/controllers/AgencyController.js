@@ -5,16 +5,7 @@ const sequelize = require('sequelize')
 module.exports = {
   async show (req, res) {
     const agency = await Agency.findByPk(req.params.id, {
-      order: [
-        'name'
-      ],
-      attributes: ['name, description, filename, background'],
-      include: [
-        {
-          association: 'adresses',
-          attributes: ['zipCode', 'street', 'neighborhood', 'number', 'complement', 'city', 'state']
-        }
-      ]
+      attributes: ['name, description, filename, background', 'filename']
     })
 
     const rate = await AgencyGrade.findAll({

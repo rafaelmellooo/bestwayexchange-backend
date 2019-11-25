@@ -2,6 +2,18 @@ const Address = require('../models/Address')
 const cep = require('cep-promise')
 
 module.exports = {
+  async index (req, res) {
+    const { agencyId } = req.params
+
+    const addresses = await Address.findAll({
+      where: {
+        agencyId
+      }
+    })
+
+    res.status(200).json(addresses)
+  },
+
   async store (req, res) {
     const { zipCode } = req.body
 

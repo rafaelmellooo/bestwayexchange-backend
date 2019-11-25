@@ -42,7 +42,7 @@ class Agency extends Model {
 
     this.hasMany(models.Address, {
       foreignKey: 'agencyId',
-      as: 'adresses'
+      as: 'addresses'
     })
 
     this.hasMany(models.Exchange, {

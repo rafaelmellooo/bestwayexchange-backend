@@ -19,23 +19,4 @@ app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads')))
 
 app.use(routes)
 
-// const { google } = require('googleapis')
-// const customSearch = google.customsearch('v1')
-
-// const googleSearchCredentials = require('./config/googleapis')
-
-// async function search () {
-//   const { data } = await customSearch.cse.list({
-//     auth: googleSearchCredentials.apiKey,
-//     cx: googleSearchCredentials.searchEngineId,
-//     q: 'França',
-//     searchType: 'image',
-//     num: 1
-//   })
-
-//   console.log(data.items)
-// }
-
-// search()
-
 app.listen(3333)

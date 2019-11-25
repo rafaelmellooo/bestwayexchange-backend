@@ -3,10 +3,27 @@ const { Model, DataTypes } = require('sequelize')
 class Address extends Model {
   static init (sequelize) {
     super.init({
-      zipCode: DataTypes.STRING(8),
+      zipCode: {
+        type: DataTypes.STRING(8),
+        validate: {
+          notEmpty: {
+            msg: 'O CEP não deve ser nulo'
+          }
+        }
+      },
       street: DataTypes.STRING,
       neighborhood: DataTypes.STRING,
-      number: DataTypes.NUMBER,
+      number: {
+        type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            msg: 'O número não deve ser nulo'
+          },
+          isInt: {
+            msg: 'O número deve ser numérico'
+          }
+        }
+      },
       complement: DataTypes.STRING,
       city: DataTypes.STRING,
       state: DataTypes.STRING
