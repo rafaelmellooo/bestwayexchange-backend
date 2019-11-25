@@ -19,7 +19,7 @@ module.exports = {
   },
 
   async store (req, res) {
-    const { filename } = req.file
+    const filename = req.file ? req.file.filename : undefined
     const { name, description, background } = req.body
 
     try {

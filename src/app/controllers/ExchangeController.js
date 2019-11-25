@@ -84,7 +84,7 @@ module.exports = {
 
   async show (req, res) {
     const exchange = await Exchange.findByPk(req.params.id, {
-      attributes: ['name', 'description'],
+      attributes: ['name', 'description', 'price', 'time'],
       include: [
         {
           association: 'housingTypes',
@@ -119,7 +119,7 @@ module.exports = {
   },
 
   async store (req, res) {
-    const { filename } = req.file
+    const filename = req.file ? req.file.filename : undefined
     const agency = req.user.agency
 
     const { languages, housingTypes, name, description, city, price, time, exchangeType } = req.body
@@ -136,9 +136,9 @@ module.exports = {
         exchangeTypeId: exchangeType
       })
 
-      await exchange.setLanguages(languages)
+      await exchange.setLanguages(languages ? languages.split(',') : [])
 
-      await exchange.setHousingTypes(housingTypes)
+      await exchange.setHousingTypes(housingTypes ? housingTypes.split(',') : [])
 
       res.status(200).json()
     } catch (err) {

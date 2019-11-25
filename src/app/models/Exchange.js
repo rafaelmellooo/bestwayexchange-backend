@@ -36,6 +36,9 @@ class Exchange extends Model {
         validate: {
           notEmpty: {
             msg: 'A duração não deve ser nula'
+          },
+          isInt: {
+            msg: 'A duração deve ser numérica'
           }
         }
       }
