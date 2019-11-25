@@ -3,6 +3,7 @@ const multer = require('multer')
 const uploadConfig = require('../config/upload')
 
 const AgencyController = require('../app/controllers/AgencyController')
+const EmployeeController = require('../app/controllers/EmployeeController')
 const AgencyGradeController = require('../app/controllers/AgencyGradeController')
 const AuthController = require('../app/controllers/AuthController')
 const CityController = require('../app/controllers/CityController')
@@ -50,6 +51,8 @@ routes.get('/exchanges', ExchangeController.index)
 routes.get('/exchanges/:id', ExchangeController.show)
 
 routes.get('/agencies/:id', AgencyController.show)
+
+routes.get('/agencies/:agencyId/employees', EmployeeController.index)
 
 routes.get('/users/:id', UserController.show)
 
