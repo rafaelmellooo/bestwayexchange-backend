@@ -4,6 +4,7 @@ class Chat extends Model {
   static init (sequelize) {
     super.init({ }, {
       sequelize,
+      tableName: 'chats',
       updatedAt: false
     })
   }

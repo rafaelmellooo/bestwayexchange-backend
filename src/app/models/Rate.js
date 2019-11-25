@@ -9,7 +9,8 @@ class Rate extends Model {
         defaultValue: false
       }
     }, {
-      sequelize
+      sequelize,
+      tableName: 'rates'
     })
 
     require('sequelize-paginate').paginate(this)

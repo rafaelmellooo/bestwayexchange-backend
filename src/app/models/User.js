@@ -55,6 +55,7 @@ class User extends Model {
       filename: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'users',
       timestamps: false,
       hooks: {
         beforeCreate: async user => {

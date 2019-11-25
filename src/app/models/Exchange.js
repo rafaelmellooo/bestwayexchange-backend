@@ -41,6 +41,7 @@ class Exchange extends Model {
       }
     }, {
       sequelize,
+      tableName: 'exchanges',
       updatedAt: false
     })
 

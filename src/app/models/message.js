@@ -11,6 +11,7 @@ class Message extends Model {
       }
     }, {
       sequelize,
+      tableName: 'messages',
       updatedAt: false
     })
 

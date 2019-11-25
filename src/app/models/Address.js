@@ -12,6 +12,7 @@ class Address extends Model {
       state: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'addresses',
       timestamps: false
     })
   }

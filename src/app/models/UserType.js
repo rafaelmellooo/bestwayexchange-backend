@@ -6,6 +6,7 @@ class UserType extends Model {
       name: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'user_types',
       timestamps: false
     })
   }

@@ -23,6 +23,7 @@ class Agency extends Model {
       background: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'agencies',
       timestamps: false
     })
   }

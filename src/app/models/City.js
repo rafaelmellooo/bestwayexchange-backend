@@ -6,6 +6,7 @@ class City extends Model {
       name: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'cities',
       timestamps: false
     })
   }

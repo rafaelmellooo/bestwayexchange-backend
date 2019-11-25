@@ -6,6 +6,7 @@ class Language extends Model {
       name: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'languages',
       timestamps: false
     })
   }

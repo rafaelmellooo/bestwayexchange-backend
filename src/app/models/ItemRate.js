@@ -4,6 +4,7 @@ class ItemRate extends Model {
   static init (sequelize) {
     super.init({ }, {
       sequelize,
+      tableName: 'item_rates',
       timestamps: false
     })
   }

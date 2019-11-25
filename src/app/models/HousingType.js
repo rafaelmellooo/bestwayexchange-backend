@@ -7,6 +7,7 @@ class HousingType extends Model {
       description: DataTypes.TEXT
     }, {
       sequelize,
+      tableName: 'housing_types',
       timestamps: false
     })
   }

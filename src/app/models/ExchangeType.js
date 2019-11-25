@@ -7,6 +7,7 @@ class ExchangeType extends Model {
       description: DataTypes.TEXT
     }, {
       sequelize,
+      tableName: 'exchange_types',
       timestamps: false
     })
   }

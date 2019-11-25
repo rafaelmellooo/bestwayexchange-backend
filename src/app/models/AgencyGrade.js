@@ -4,6 +4,7 @@ class AgencyGrade extends Model {
   static init (sequelize) {
     super.init({ }, {
       sequelize,
+      tableName: 'agency_grades',
       updatedAt: false
     })
   }

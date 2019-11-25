@@ -6,6 +6,7 @@ class Item extends Model {
       name: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'items',
       timestamps: false
     })
   }

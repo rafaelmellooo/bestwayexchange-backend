@@ -7,6 +7,7 @@ class Country extends Model {
       description: DataTypes.TEXT
     }, {
       sequelize,
+      tableName: 'countries',
       timestamps: false
     })
   }

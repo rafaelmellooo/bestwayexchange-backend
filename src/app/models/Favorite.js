@@ -4,6 +4,7 @@ class Favorite extends Model {
   static init (sequelize) {
     super.init({ }, {
       sequelize,
+      tableName: 'favorites',
       updatedAt: false
     })
 

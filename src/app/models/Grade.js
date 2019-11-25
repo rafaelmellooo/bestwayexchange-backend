@@ -6,6 +6,7 @@ class Grade extends Model {
       name: DataTypes.STRING
     }, {
       sequelize,
+      tableName: 'grades',
       timestamps: false
     })
   }

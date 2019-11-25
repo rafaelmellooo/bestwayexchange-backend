@@ -1,4 +1,7 @@
 const Country = require('../models/Country')
+const https = require('https')
+const path = require('path')
+const fs = require('fs')
 const algorithmia = require('algorithmia')
 const algorithmiaApiKey = require('../../config/algorithmia').apiKey
 
@@ -58,8 +61,18 @@ module.exports = {
   async store (req, res) {
     const { name } = req.body
 
-    const description = await fetchContentFromWikipedia(name)
+    // const description = await fetchContentFromWikipedia(name)
 
-    res.status(200).json({ name, description })
+    const description = 'Lorem ipsung atalçta dikrhrr'
+
+    const filename = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRCU-Z0OJXjEHZCObPtOmcIbJ96HY3_Yp1bc6l5tO4QK2WXddq2'
+
+    const file = fs.createWriteStream(path.resolve(__dirname, '..', '..', '..', 'uploads', 'banana.png'))
+
+    https.get(filename, response => {
+      response.pipe(file)
+
+      res.status(200).json({ name, description, file })
+    })
   }
 }
