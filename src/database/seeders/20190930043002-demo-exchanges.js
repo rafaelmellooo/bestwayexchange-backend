@@ -41,7 +41,7 @@ module.exports = {
           agencyId: i + 1,
           price: faker.commerce.price(),
           createdAt: new Date(),
-          filename: filenames[Math.floor(Math.random(filenames.length))],
+          filename: filenames[Math.floor(Math.random() * filenames.length)],
           time: Math.floor((Math.random() * 12) + 1)
         })
       }

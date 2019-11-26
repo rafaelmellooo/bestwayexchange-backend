@@ -58,7 +58,7 @@ module.exports = {
         expiresIn: '2019-10-05 00:49:52',
         isActive: true,
         dateOfBirth: '2001-07-15',
-        filename: filenames[Math.floor(Math.random(filenames.length))]
+        filename: filenames[Math.floor(Math.random() * filenames.length)]
       })
     }
 

@@ -33,7 +33,7 @@ module.exports = {
         id: i + 1,
         name: faker.company.companyName(),
         description: faker.lorem.paragraph(),
-        filename: filenames[Math.floor(Math.random(filenames.length))],
+        filename: filenames[Math.floor(Math.random() * filenames.length)],
         background: backgrounds[i]
       })
     }
