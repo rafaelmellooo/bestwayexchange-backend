@@ -1,4 +1,3 @@
-const { Op } = require('sequelize')
 const Exchange = require('../models/Exchange')
 const Chat = require('../models/Chat')
 
@@ -6,18 +5,35 @@ module.exports = {
   async index (req, res) {
     const userId = req.user.id
 
+    const type = {
+      1: {
+        where: { userId },
+        association: 'employee'
+      },
+      2: {
+        where: { employeeId: userId },
+        association: 'user'
+      }
+    }
+
     const chats = await Chat.findAll({
+      attributes: ['id'],
       order: [
         [
           'createdAt', 'DESC'
         ]
       ],
-      where: {
-        [Op.or]: [
-          { employeeId: userId },
-          { userId }
-        ]
-      }
+      where: type[req.user.type].where,
+      include: [
+        {
+          association: 'exchange',
+          attributes: ['id', 'name', 'filename']
+        },
+        {
+          association: type[req.user.type].association,
+          attributes: ['id', 'name', 'filename']
+        }
+      ]
     })
 
     res.status(200).json(chats)
