@@ -36,7 +36,7 @@ module.exports = {
 
   async store (req, res) {
     const { exchangeId } = req.params
-    const userId = req.user.id
+    const userId = req.body.user
 
     await Rate.create({
       userId, exchangeId
@@ -46,13 +46,13 @@ module.exports = {
   },
 
   async update (req, res) {
-    const { exchangeId } = req.params
+    const { id } = req.params
     const userId = req.user.id
-    const { description, items } = req.body
+    const { comment, items } = req.body
 
     const rate = await Rate.findOne({
       where: {
-        userId, exchangeId
+        id, userId
       },
       attributes: ['id', 'isRated']
     })
@@ -60,7 +60,7 @@ module.exports = {
     if (rate.isRated) { return res.status(401).json() }
 
     try {
-      await rate.update({ description, isRated: true })
+      await rate.update({ comment, isRated: true })
 
       await Promise.all(items.map(async ({ itemId, gradeId }) => {
         await rate.addItem(itemId, {
@@ -75,15 +75,17 @@ module.exports = {
   },
 
   async destroy (req, res) {
-    const { exchangeId } = req.params
+    const { id } = req.params
     const userId = req.user.id
 
-    await Rate.destroy({
+    const rate = await Rate.findOne({
       where: {
-        userId,
-        exchangeId
+        id,
+        userId
       }
     })
+
+    await rate.destroy()
 
     res.status(200).json()
   }

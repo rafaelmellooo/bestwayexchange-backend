@@ -1,5 +1,6 @@
 const Exchange = require('../models/Exchange')
 const Chat = require('../models/Chat')
+const Message = require('../models/Message')
 
 module.exports = {
   async index (req, res) {
@@ -35,6 +36,23 @@ module.exports = {
         }
       ]
     })
+
+    await Promise.all(chats.map(async chat => {
+      const unseenMessages = await Message.count({
+        where: {
+          chatId: chat.id,
+          isVisualized: false
+        }
+      })
+
+      chat.dataValues.unseenMessages = unseenMessages
+
+      const user = chat.dataValues[type[req.user.type].association]
+
+      delete chat.dataValues[type[req.user.type].association]
+
+      chat.dataValues.user = user
+    }))
 
     res.status(200).json(chats)
   },

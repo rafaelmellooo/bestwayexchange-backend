@@ -7,13 +7,15 @@ module.exports = {
     const chatId = req.params.id
     const userId = req.user.id
 
+    const type = {
+      1: { userId },
+      2: { employeeId: userId }
+    }
+
     const chat = await Chat.findOne({
       where: {
-        [Op.or]: [
-          { employeeId: userId },
-          { userId }
-        ],
-        id: chatId
+        id: chatId,
+        ...type[req.user.type]
       }
     })
 
@@ -51,26 +53,71 @@ module.exports = {
     const chatId = req.params.id
     const userId = req.user.id
 
+    const type = {
+      1: {
+        where: { userId },
+        attributes: 'employeeId'
+      },
+      2: {
+        where: { employeeId: userId },
+        attributes: 'userId'
+      }
+    }
+
     const chat = await Chat.findOne({
+      attributes: ['id', [type[req.user.type].attributes, 'user']],
       where: {
-        [Op.or]: [
-          { employeeId: userId },
-          { userId }
-        ],
-        id: chatId
+        id: chatId,
+        ...type[req.user.type].where
       }
     })
 
     if (!chat) { return res.status(401).json() }
 
-    const { filename } = req.file
+    const filename = req.file ? req.file.filename : undefined
     const { body } = req.body
 
-    await Message.create({
+    const message = await Message.create({
       body,
       filename,
       chatId,
       from: userId
+    })
+
+    const receiver = req.connectedUsers[chat.user]
+
+    receiver && req.io.to(receiver).emit('response', { chat: chat.id, message })
+
+    res.status(200).json(message)
+  },
+
+  async update (req, res) {
+    const chatId = req.params.id
+    const userId = req.user.id
+
+    const type = {
+      1: { userId },
+      2: { employeeId: userId }
+    }
+
+    const chat = await Chat.findOne({
+      where: {
+        id: chatId,
+        ...type[req.user.type]
+      }
+    })
+
+    if (!chat) { return res.status(401).json() }
+
+    await Message.update({
+      isVisualized: true
+    }, {
+      where: {
+        chatId,
+        from: {
+          [Op.ne]: userId
+        }
+      }
     })
 
     res.status(200).json()

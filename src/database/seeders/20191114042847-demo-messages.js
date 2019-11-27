@@ -53,17 +53,17 @@ module.exports = {
     }
 
     for (let i = 0; i < 120; i++) {
-      if (i % 2 === 0) { continue }
+      if (i % 3 !== 0) { continue }
 
       for (let j = 0; j < 10; j++) {
-        if (j % 2 === 0) { continue }
+        if (j % 3 !== 0) { continue }
 
         const agency = agencies[j]
 
         for (let k = 0; k < 20; k++) {
-          if (k % 2 === 0) { continue }
+          if (k % 3 !== 0) { continue }
 
-          const employeeId = k % 2 === 0 ? agency.employees[1] : (k % 3 === 0 ? agency.employees[2] : agency.employees[3])
+          const employeeId = k % 2 === 0 ? agency.employees[1] : (k % 5 === 0 ? agency.employees[2] : agency.employees[3])
 
           chatId++
 

@@ -17,6 +17,7 @@ const RankingController = require('../app/controllers/RankingController')
 const BackgroundController = require('../app/controllers/BackgroundController')
 const CityController = require('../app/controllers/CityController')
 const CountryController = require('../app/controllers/CountryController')
+const DashboardController = require('../app/controllers/DashboardController');
 
 const routes = express.Router()
 const upload = multer(uploadConfig)
@@ -71,13 +72,19 @@ routes.route('/exchanges/:exchangeId/favorites')
 
 routes.route('/exchanges/:exchangeId/rates')
   .post(only.employee, RateController.store)
-  .put(only.user, RateController.update)
-  .delete(RateController.destroy)
 
-routes.get('/chats', only.employeeAndUser, ChatController.index)
-routes.post('/chats', only.user, ChatController.store)
-routes.get('/chats/:id', only.employeeAndUser, MessageController.index)
-routes.post('/chats/:id', only.employeeAndUser, upload.single('filename'), MessageController.store)
+routes.route('/rates/:id')
+  .put(only.user, RateController.update)
+  .delete(only.user, RateController.destroy)
+
+routes.route('/chats')
+  .get(only.employeeAndUser, ChatController.index)
+  .post(only.user, ChatController.store)
+
+routes.route('/chats/:id')
+  .get(only.employeeAndUser, MessageController.index)
+  .post(only.employeeAndUser, upload.single('filename'), MessageController.store)
+  .put(only.employeeAndUser, MessageController.update)
 
 routes.route('/agencies/:agencyId/grades')
   .post(only.user, AgencyGradeController.store)
@@ -105,5 +112,7 @@ routes.get('/backgrounds', only.admin, BackgroundController.index)
 routes.post('/countries', only.admin, CountryController.store)
 
 routes.post('/countries/:countryId/cities', only.admin, CityController.store)
+
+routes.get('/dashboard', DashboardController.show)
 
 module.exports = routes

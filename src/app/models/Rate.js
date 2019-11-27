@@ -3,7 +3,14 @@ const { Model, DataTypes } = require('sequelize')
 class Rate extends Model {
   static init (sequelize) {
     super.init({
-      comment: DataTypes.TEXT('long'),
+      comment: {
+        type: DataTypes.TEXT('long'),
+        validate: {
+          notEmpty: {
+            msg: 'A descrição não deve ser nula'
+          }
+        }
+      },
       isRated: {
         type: DataTypes.BOOLEAN,
         defaultValue: false

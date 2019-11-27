@@ -15,7 +15,6 @@ const HousingTypeController = require('../app/controllers/HousingTypeController'
 const ItemController = require('../app/controllers/ItemController')
 const LanguageController = require('../app/controllers/LanguageController')
 const RateController = require('../app/controllers/RateController')
-const UserController = require('../app/controllers/UserController')
 const AddressController = require('../app/controllers/AddressController')
 
 const routes = express.Router()
@@ -44,7 +43,7 @@ routes.get('/agencies/:agencyId/grades', AgencyGradeController.index)
 
 routes.get('/grades', GradeController.index)
 
-routes.get('/items/:id', ItemController.show)
+routes.get('/items', ItemController.index)
 
 routes.get('/exchanges', ExchangeController.index)
 
@@ -53,7 +52,5 @@ routes.get('/exchanges/:id', ExchangeController.show)
 routes.get('/agencies/:id', AgencyController.show)
 
 routes.get('/agencies/:agencyId/employees', EmployeeController.index)
-
-routes.get('/users/:id', UserController.show)
 
 module.exports = routes

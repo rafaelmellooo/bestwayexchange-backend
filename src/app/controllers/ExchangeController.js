@@ -3,32 +3,7 @@ const City = require('../models/City')
 
 module.exports = {
   async index (req, res) {
-    const { page = 1, order = 'price', country, exchangeTypes, languages, housingTypes } = req.query
-
-    let { city } = req.query
-
-    if (country && !city) {
-      let cities = await City.findAll({
-        attributes: ['id'],
-        include: [
-          {
-            association: 'country',
-            where: {
-              id: country
-            },
-            attributes: []
-          }
-        ]
-      })
-
-      if (cities) {
-        cities = cities.map(({ id }) => {
-          return id
-        })
-
-        city = cities.join(',')
-      }
-    }
+    const { page = 1, order = 'price', cities, exchangeTypes, languages, housingTypes } = req.query
 
     const orders = {
       price: ['price'],
@@ -44,9 +19,9 @@ module.exports = {
       ],
       where: {
         exchangeTypeId: exchangeTypes ? exchangeTypes.split(',') : undefined,
-        cityId: city ? city.split(',') : undefined
+        cityId: cities ? cities.split(',') : undefined
       },
-      attributes: ['id', 'name', 'description', 'price', 'filename'],
+      attributes: ['id', 'name', 'createdAt', 'time', 'description', 'price', 'filename'],
       include: [
         {
           where: {
@@ -84,7 +59,7 @@ module.exports = {
 
   async show (req, res) {
     const exchange = await Exchange.findByPk(req.params.id, {
-      attributes: ['name', 'description', 'price', 'time'],
+      attributes: ['name', 'description', 'createdAt', 'price', 'time'],
       include: [
         {
           association: 'housingTypes',
