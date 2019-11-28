@@ -21,7 +21,7 @@ const connectedUsers = {}
 io.on('connection', socket => {
   const { userId } = socket.handshake.query
 
-  connectedUsers[userId] = socket.io
+  connectedUsers[userId] = socket.id
 })
 
 app.use((req, res, next) => {

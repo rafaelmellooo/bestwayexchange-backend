@@ -17,7 +17,7 @@ const RankingController = require('../app/controllers/RankingController')
 const BackgroundController = require('../app/controllers/BackgroundController')
 const CityController = require('../app/controllers/CityController')
 const CountryController = require('../app/controllers/CountryController')
-const DashboardController = require('../app/controllers/DashboardController');
+const DashboardController = require('../app/controllers/DashboardController')
 
 const routes = express.Router()
 const upload = multer(uploadConfig)
@@ -67,6 +67,7 @@ routes.route('/users/:id')
 routes.get('/favorites', only.user, FavoriteController.index)
 
 routes.route('/exchanges/:exchangeId/favorites')
+  .get(only.user, FavoriteController.show)
   .post(only.user, FavoriteController.store)
   .delete(only.user, FavoriteController.destroy)
 
@@ -81,7 +82,9 @@ routes.route('/chats')
   .get(only.employeeAndUser, ChatController.index)
   .post(only.user, ChatController.store)
 
-routes.route('/chats/:id')
+routes.get('/chats/:id', only.employeeAndUser, ChatController.show)
+
+routes.route('/chats/:chatId/messages')
   .get(only.employeeAndUser, MessageController.index)
   .post(only.employeeAndUser, upload.single('filename'), MessageController.store)
   .put(only.employeeAndUser, MessageController.update)

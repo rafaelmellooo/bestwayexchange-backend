@@ -58,8 +58,8 @@ module.exports = {
   },
 
   async show (req, res) {
-    const exchange = await Exchange.findByPk(req.params.id, {
-      attributes: ['name', 'description', 'createdAt', 'price', 'time'],
+    const options = {
+      attributes: ['name', 'description', 'filename', 'createdAt', 'price', 'time'],
       include: [
         {
           association: 'housingTypes',
@@ -88,7 +88,9 @@ module.exports = {
           }
         }
       ]
-    })
+    }
+
+    const exchange = await Exchange.findByPk(req.params.id, options)
 
     res.status(200).json(exchange)
   },

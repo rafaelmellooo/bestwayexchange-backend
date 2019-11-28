@@ -4,7 +4,7 @@ const { Op } = require('sequelize')
 
 module.exports = {
   async index (req, res) {
-    const chatId = req.params.id
+    const { chatId } = req.params
     const userId = req.user.id
 
     const type = {
@@ -50,7 +50,7 @@ module.exports = {
   },
 
   async store (req, res) {
-    const chatId = req.params.id
+    const { chatId } = req.params
     const userId = req.user.id
 
     const type = {
@@ -84,15 +84,17 @@ module.exports = {
       from: userId
     })
 
-    const receiver = req.connectedUsers[chat.user]
+    const receiver = req.connectedUsers[chat.dataValues.user]
 
-    receiver && req.io.to(receiver).emit('response', { chat: chat.id, message })
+    if (receiver) {
+      req.io.to(receiver).emit('response', message)
+    }
 
     res.status(200).json(message)
   },
 
   async update (req, res) {
-    const chatId = req.params.id
+    const { chatId } = req.params
     const userId = req.user.id
 
     const type = {

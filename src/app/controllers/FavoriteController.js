@@ -13,12 +13,25 @@ module.exports = {
       include: [
         {
           association: 'exchange',
-          attributes: ['id', 'name', 'description']
+          attributes: ['id', 'name', 'filename', 'description']
         }
       ]
     })
 
     res.status(200).json(exchanges)
+  },
+
+  async show (req, res) {
+    const { exchangeId } = req.params
+
+    const favorite = await Favorite.findOne({
+      where: {
+        exchangeId,
+        userId: req.user.id
+      }
+    })
+
+    res.status(200).json(!!favorite)
   },
 
   async store (req, res) {

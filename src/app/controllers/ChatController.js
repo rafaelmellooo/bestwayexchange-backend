@@ -1,6 +1,7 @@
 const Exchange = require('../models/Exchange')
 const Chat = require('../models/Chat')
 const Message = require('../models/Message')
+const Rate = require('../models/Rate')
 
 module.exports = {
   async index (req, res) {
@@ -57,6 +58,38 @@ module.exports = {
     res.status(200).json(chats)
   },
 
+  async show (req, res) {
+    const type = {
+      1: 'employee',
+      2: 'user'
+    }
+
+    const chat = await Chat.findByPk(req.params.id, {
+      attributes: ['id'],
+      include: [
+        {
+          association: type[req.user.type],
+          attributes: ['id', 'name', 'filename', 'dateOfBirth', 'email']
+        },
+        {
+          association: 'exchange',
+          attributes: ['id', 'name', 'filename', 'description']
+        }
+      ]
+    })
+
+    const rate = await Rate.findOne({
+      where: {
+        userId: chat.dataValues[type[req.user.type]].id,
+        exchangeId: chat.dataValues.exchange.id
+      }
+    })
+
+    const alreadyBought = !!rate
+
+    res.status(200).json({ chat, alreadyBought })
+  },
+
   async store (req, res) {
     const { exchangeId } = req.body
     const userId = req.user.id
@@ -78,10 +111,10 @@ module.exports = {
 
     const employeeId = response.agency.users[Math.floor(Math.random() * response.agency.users.length)].id
 
-    await Chat.create({
+    const chat = await Chat.create({
       exchangeId, userId, employeeId
     })
 
-    res.status(200).json()
+    res.status(200).json(chat.id)
   }
 }
