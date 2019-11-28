@@ -18,17 +18,28 @@ module.exports = {
       include: [
         {
           association: 'users',
-          attributes: ['name']
+          attributes: ['filename', 'name']
         },
         {
           association: 'items',
-          attributes: ['name'],
+          attributes: ['id'],
           through: {
             as: 'pivot',
             attributes: ['gradeId']
           }
         }
       ]
+    })
+
+    rates.docs.map((rate) => {
+      const grades = rate.dataValues.items.map(item => {
+        return item.dataValues.pivot.dataValues.gradeId
+      })
+
+      const sum = grades.reduce((a, b) => a + b)
+
+      rate.dataValues.avg = sum / grades.length
+      delete rate.dataValues.items
     })
 
     res.status(200).json(rates)

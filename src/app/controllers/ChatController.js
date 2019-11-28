@@ -99,6 +99,16 @@ module.exports = {
   async store (req, res) {
     const { exchangeId } = req.body
     const userId = req.user.id
+
+    let chat = await Chat.findOne({
+      attributes: ['id'],
+      where: {
+        exchangeId, userId
+      }
+    })
+
+    if (chat) { return res.status(200).json(chat.id) }
+
     const response = await Exchange.findByPk(exchangeId, {
       attributes: [],
       include: [
@@ -117,7 +127,7 @@ module.exports = {
 
     const employeeId = response.agency.users[Math.floor(Math.random() * response.agency.users.length)].id
 
-    const chat = await Chat.create({
+    chat = await Chat.create({
       exchangeId, userId, employeeId
     })
 
