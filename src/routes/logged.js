@@ -13,7 +13,6 @@ const MessageController = require('../app/controllers/MessageController')
 const NotificationController = require('../app/controllers/NotificationController')
 const RateController = require('../app/controllers/RateController')
 const UserController = require('../app/controllers/UserController')
-const RankingController = require('../app/controllers/RankingController')
 const BackgroundController = require('../app/controllers/BackgroundController')
 const CityController = require('../app/controllers/CityController')
 const CountryController = require('../app/controllers/CountryController')
@@ -108,7 +107,6 @@ routes.route('adresses/:id')
   .delete(only.admin, AddressController.destroy)
 
 routes.get('/agencies/:agencyId/logs', only.admin, LogController.show)
-routes.get('/rankings', only.admin, RankingController.show)
 
 routes.get('/backgrounds', only.admin, BackgroundController.index)
 

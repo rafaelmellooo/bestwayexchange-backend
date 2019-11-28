@@ -16,6 +16,7 @@ const ItemController = require('../app/controllers/ItemController')
 const LanguageController = require('../app/controllers/LanguageController')
 const RateController = require('../app/controllers/RateController')
 const AddressController = require('../app/controllers/AddressController')
+const RankingController = require('../app/controllers/RankingController')
 
 const routes = express.Router()
 const upload = multer(uploadConfig)
@@ -52,5 +53,7 @@ routes.get('/exchanges/:id', ExchangeController.show)
 routes.get('/agencies/:id', AgencyController.show)
 
 routes.get('/agencies/:agencyId/employees', EmployeeController.index)
+
+routes.get('/ranking', RankingController.show)
 
 module.exports = routes
