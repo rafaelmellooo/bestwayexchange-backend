@@ -63,7 +63,7 @@ module.exports = {
       include: [
         {
           association: 'housingTypes',
-          attributes: ['name', 'description'],
+          attributes: ['id', 'name', 'description'],
           through: {
             attributes: []
           }
@@ -82,7 +82,7 @@ module.exports = {
         },
         {
           association: 'languages',
-          attributes: ['name'],
+          attributes: ['id', 'name'],
           through: {
             attributes: []
           }

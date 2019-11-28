@@ -10,7 +10,7 @@ module.exports = {
 
     const messages = await Message.paginate({
       page,
-      paginate: 5,
+      paginate: 2,
       order: [
         ['createdAt', 'DESC']
       ],
@@ -25,7 +25,7 @@ module.exports = {
 
     const rates = await Rate.paginate({
       page,
-      paginate: 5,
+      paginate: 2,
       order: [
         ['createdAt', 'DESC']
       ],

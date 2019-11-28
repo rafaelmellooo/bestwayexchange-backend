@@ -78,9 +78,15 @@ module.exports = {
       ]
     })
 
+    const user = chat.dataValues[type[req.user.type]]
+
+    delete chat.dataValues[type[req.user.type]]
+
+    chat.dataValues.user = user
+
     const rate = await Rate.findOne({
       where: {
-        userId: chat.dataValues[type[req.user.type]].id,
+        userId: chat.dataValues.user.id,
         exchangeId: chat.dataValues.exchange.id
       }
     })
