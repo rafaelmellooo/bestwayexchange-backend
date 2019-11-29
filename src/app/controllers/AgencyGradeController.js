@@ -15,7 +15,7 @@ module.exports = {
       include: [
         {
           association: 'user',
-          attributes: ['email', 'name']
+          attributes: ['email', 'name', 'filename']
         },
         {
           association: 'grade',

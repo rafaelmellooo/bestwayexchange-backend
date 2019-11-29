@@ -9,6 +9,7 @@ module.exports = {
     const { page = 1 } = req.query
 
     const messages = await Message.paginate({
+      attributes: ['createdAt', 'body', 'filename', 'chatId'],
       page,
       paginate: 2,
       order: [
@@ -20,7 +21,12 @@ module.exports = {
         },
         isVisualized: false
       },
-      attributes: ['body', 'filename', 'chatId', 'from']
+      include: [
+        {
+          association: 'user',
+          attributes: ['id', 'name', 'filename']
+        }
+      ]
     })
 
     const rates = await Rate.paginate({
@@ -33,7 +39,13 @@ module.exports = {
         userId,
         isRated: false
       },
-      attributes: ['exchangeId', 'createdAt']
+      attributes: ['createdAt'],
+      include: [
+        {
+          association: 'exchanges',
+          attributes: ['id', 'name', 'filename']
+        }
+      ]
     })
 
     res.status(200).json({ messages, rates })

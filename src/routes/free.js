@@ -40,7 +40,7 @@ routes.get('/countries/:countryId/cities', CityController.index)
 
 routes.get('/agencies/:agencyId/addresses', AddressController.index)
 
-routes.get('/agencies/:agencyId/grades', AgencyGradeController.index)
+routes.get('/agencies/:agencyId/rates', AgencyGradeController.index)
 
 routes.get('/grades', GradeController.index)
 
