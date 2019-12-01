@@ -5,14 +5,14 @@ module.exports = {
     const data = []
     const exchangeLanguages = []
 
-    for (let i = 0; i < 975; i++) {
-      let exchangeId = Math.floor((Math.random() * 150) + 1)
+    for (let i = 0; i < 735; i++) {
+      let exchangeId = Math.floor((Math.random() * 100) + 1)
       let languageId = Math.floor((Math.random() * 10) + 1)
 
       while (
         exchangeLanguages.some(([_exchangeId, _languageId]) => _exchangeId === exchangeId && _languageId === languageId)
       ) {
-        exchangeId = Math.floor((Math.random() * 150) + 1)
+        exchangeId = Math.floor((Math.random() * 100) + 1)
         languageId = Math.floor((Math.random() * 10) + 1)
       }
 

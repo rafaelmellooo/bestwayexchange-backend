@@ -7,11 +7,11 @@ module.exports = {
       include: [
         {
           association: 'type',
-          attributes: ['name']
+          attributes: ['id', 'name']
         },
         {
           association: 'agency',
-          attributes: ['name', 'filename']
+          attributes: ['id', 'name', 'filename']
         }
       ]
     })

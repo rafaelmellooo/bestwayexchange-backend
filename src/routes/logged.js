@@ -106,7 +106,7 @@ routes.route('adresses/:id')
   .put(only.admin, AddressController.update)
   .delete(only.admin, AddressController.destroy)
 
-routes.get('/agencies/:agencyId/logs', only.admin, LogController.show)
+routes.get('/log', only.admin, LogController.show)
 
 routes.get('/backgrounds', only.admin, BackgroundController.index)
 

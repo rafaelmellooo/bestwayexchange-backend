@@ -21,7 +21,7 @@ module.exports = {
         employees.push(tmp.employee)
       }
 
-      for (let j = 0; j < 20; j++) {
+      for (let j = 0; j < 10; j++) {
         tmp.exchange++
         exchanges.push(tmp.exchange)
       }
@@ -60,10 +60,16 @@ module.exports = {
 
         const agency = agencies[j]
 
-        for (let k = 0; k < 20; k++) {
-          if (k % 5 !== 0) { continue }
+        const employees = {
+          0: agency.employees[1],
+          4: agency.employees[2],
+          8: agency.employees[3]
+        }
 
-          const employeeId = k % 2 === 0 ? agency.employees[1] : (k % 3 === 0 ? agency.employees[2] : agency.employees[3])
+        for (let k = 0; k < 10; k++) {
+          if (k % 4 !== 0) { continue }
+
+          const employeeId = employees[k]
 
           chatId++
 

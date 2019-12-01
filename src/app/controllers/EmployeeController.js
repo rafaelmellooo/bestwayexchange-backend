@@ -5,7 +5,7 @@ module.exports = {
     const { agencyId } = req.params
 
     const employees = await User.findAll({
-      where: { agencyId },
+      where: { agencyId, typeId: 2 },
       attributes: ['name', 'email', 'filename', 'dateOfBirth']
     })
 

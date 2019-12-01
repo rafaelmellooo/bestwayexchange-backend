@@ -13,7 +13,23 @@ module.exports = {
       include: [
         {
           association: 'exchange',
-          attributes: ['id', 'name', 'filename', 'description']
+          attributes: ['id', 'name', 'filename', 'time', 'price'],
+          include: [
+            {
+              association: 'exchangeType',
+              attributes: ['name']
+            },
+            {
+              association: 'city',
+              attributes: ['name'],
+              include: [
+                {
+                  association: 'country',
+                  attributes: ['name']
+                }
+              ]
+            }
+          ]
         }
       ]
     })

@@ -3,7 +3,7 @@ const Rate = require('../models/Rate')
 
 module.exports = {
   async show (req, res) {
-    const { limit } = req.query
+    const { limit = 10 } = req.query
 
     const ranking = await Rate.findAll({
       order: [

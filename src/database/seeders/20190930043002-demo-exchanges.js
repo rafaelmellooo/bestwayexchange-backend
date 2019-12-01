@@ -30,7 +30,7 @@ module.exports = {
     let id = 0
 
     for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 20; j++) {
+      for (let j = 0; j < 10; j++) {
         id++
         data.push({
           id,
