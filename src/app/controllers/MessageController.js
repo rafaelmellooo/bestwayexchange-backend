@@ -28,7 +28,8 @@ module.exports = {
         chatId,
         from: {
           [Op.ne]: userId
-        }
+        },
+        isVisualized: false
       }
     })
 

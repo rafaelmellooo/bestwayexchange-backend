@@ -12,16 +12,12 @@ module.exports = {
     const filename = req.file ? req.file.filename : undefined
     const { type, agency, name, email, password, dateOfBirth } = req.body
 
-    if (type === 2) {
-      if (req.user.type !== 3) { return res.status(401).json() }
-
-      if (agency !== req.user.agency) { return res.status(401).json() }
-    }
-
     try {
       await User.create({
         typeId: type, agencyId: agency, filename, name, password, email, dateOfBirth
       })
+
+      res.status(200).json();
     } catch (err) {
       res.status(400).json(err)
     }
@@ -92,11 +88,13 @@ module.exports = {
       context: {
         name,
         dateOfBirth,
-        type: type.name
+        type: type.name,
+        email,
+        token
       },
       attachments: [
         {
-          filename: 'logo.jpg',
+          filename: 'logo.png',
           path: path.resolve(__dirname, '..', 'views', 'emails', 'attachments', 'logo.jpg'),
           cid: 'logo' // same cid value as in the html img src
         }

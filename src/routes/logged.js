@@ -100,9 +100,9 @@ routes.route('/agencies/:id')
   .put(only.admin, AgencyController.update)
   .delete(only.admin, AgencyController.destroy)
 
-routes.post('/adresses', only.admin, AddressController.store)
+routes.post('/agencies/:agencyId/addresses', only.admin, AddressController.store)
 
-routes.route('adresses/:id')
+routes.route('/addresses/:id')
   .put(only.admin, AddressController.update)
   .delete(only.admin, AddressController.destroy)
 

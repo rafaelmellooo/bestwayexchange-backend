@@ -1,5 +1,4 @@
 const Exchange = require('../models/Exchange')
-const City = require('../models/City')
 
 module.exports = {
   async index (req, res) {
@@ -86,6 +85,10 @@ module.exports = {
           through: {
             attributes: []
           }
+        },
+        {
+          association: 'agency',
+          attributes: ['id', 'name', 'filename']
         }
       ]
     }

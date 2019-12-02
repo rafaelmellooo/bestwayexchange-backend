@@ -20,9 +20,9 @@ module.exports = {
     try {
       const { state, city, neighborhood, street } = await cep(zipCode)
 
-      await Address.create({ zipCode, state, city, neighborhood, street, agencyId: req.user.agency })
+      const address = await Address.create({ zipCode, state, city, neighborhood, street, agencyId: req.user.agency })
 
-      res.status(200).json({ state, city, neighborhood, street })
+      res.status(200).json(address)
     } catch (err) {
       res.status(400).json(err)
     }

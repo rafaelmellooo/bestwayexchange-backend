@@ -21,12 +21,14 @@ module.exports = {
         userId, exchangeId
       ])
 
+      const isRated = faker.random.boolean();
+
       data.push({
         id: i + 1,
         userId,
         exchangeId,
-        comment: faker.lorem.paragraph(),
-        isRated: faker.random.boolean(),
+        comment: isRated ? faker.lorem.paragraph() : null,
+        isRated,
         createdAt: new Date(),
         updatedAt: new Date()
       })
