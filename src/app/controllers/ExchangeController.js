@@ -20,7 +20,7 @@ module.exports = {
         exchangeTypeId: exchangeTypes ? exchangeTypes.split(',') : undefined,
         cityId: cities ? cities.split(',') : undefined
       },
-      attributes: ['id', 'name', 'createdAt', 'time', 'description', 'price', 'filename'],
+      attributes: ['id', 'name', 'createdAt', 'time', 'price', 'filename'],
       include: [
         {
           where: {
@@ -49,6 +49,22 @@ module.exports = {
 
     options.include.map(association => {
       Object.keys(association.where).forEach(key => association.where[key] === undefined && delete association.where[key])
+    })
+
+    options.include.push({
+      association: 'exchangeType',
+      attributes: ['name']
+    })
+
+    options.include.push({
+      association: 'city',
+      attributes: ['name'],
+      include: [
+        {
+          association: 'country',
+          attributes: ['name']
+        }
+      ]
     })
 
     const exchanges = await Exchange.paginate(options)

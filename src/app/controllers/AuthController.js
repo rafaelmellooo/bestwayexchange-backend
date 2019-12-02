@@ -95,12 +95,13 @@ module.exports = {
       attachments: [
         {
           filename: 'logo.png',
-          path: path.resolve(__dirname, '..', 'views', 'emails', 'attachments', 'logo.jpg'),
+          path: path.resolve(__dirname, '..', 'views', 'emails', 'attachments', 'logo.png'),
           cid: 'logo' // same cid value as in the html img src
         }
       ]
     }, err => {
-      if (err) { return res.status(400).json('Erro ao enviar e-mail') }
+      console.log(err);
+      if (err) { return res.status(400).json({ error: 'Erro ao enviar e-mail' }) }
 
       res.status(200).json()
     })

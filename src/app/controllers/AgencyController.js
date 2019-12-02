@@ -1,4 +1,5 @@
 const Agency = require('../models/Agency')
+const User = require('../models/User')
 const AgencyGrade = require('../models/AgencyGrade')
 const sequelize = require('sequelize')
 
@@ -9,7 +10,7 @@ module.exports = {
       include: [
         {
           association: 'exchanges',
-          attributes: ['id', 'name', 'filename', 'time', 'price'],
+          attributes: ['id', 'name', 'filename', 'createdAt', 'time', 'price'],
           include: [
             {
               association: 'exchangeType',
@@ -45,7 +46,15 @@ module.exports = {
     const { name, description, background } = req.body
 
     try {
-      await Agency.create({ name, description, background, filename })
+      const agency = await Agency.create({ name, description, background, filename })
+
+      await User.update({
+        agencyId: agency.id
+      }, {
+        where: {
+          id: req.user.id
+        }
+      })
 
       res.status(200).json()
     } catch (err) {
